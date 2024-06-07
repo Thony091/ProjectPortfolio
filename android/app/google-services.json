@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "217586613826",
+    "project_id": "portfolioproject-57fd8",
+    "storage_bucket": "portfolioproject-57fd8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217586613826:android:75f9d653aa749cd8a2f7db",
+        "android_client_info": {
+          "package_name": "com.duoc.portfolio_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNGeQe9A6jVghrch1jjkSx59has53BHcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
