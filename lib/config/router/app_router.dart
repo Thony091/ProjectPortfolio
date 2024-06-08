@@ -169,6 +169,15 @@ final goRouterProvider = Provider( (ref) {
           name: ContactTicketsPage.name,
           builder: (context, state) => const ContactTicketsPage(),
         ),
+
+        //* ReservaionPage
+        GoRoute(
+          path: '/reservas-config',
+          name: ConfigReservationsPage.name,
+          builder: (context, state) => const ConfigReservationsPage(),
+        ),
+
+
         
       ],
 

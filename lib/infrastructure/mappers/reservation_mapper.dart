@@ -8,8 +8,11 @@ class ReservationMapper {
     name: json['name'] ?? '',
     rut: json['rut'] ?? '',
     email: json['email'] ?? '',
-    reservationDate: json['reservationDate'] ?? DateTime.now(),
-    reservationTime: json['reservationTime'] ?? DateTime.now(),
+    reservationDate: json['reservationDate']  ?? '',
+    reservationTime: json['reservationTime']  ?? '',
+    // reservationDate: DateTime.parse(json['reservationDate'])  ?? DateTime.now(),
+    // reservationTime: _processTimeString(json['reservationTime']) ,
     serviceName: json['serviceName'] ?? '',
   );
+
 }

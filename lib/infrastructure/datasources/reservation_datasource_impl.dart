@@ -54,15 +54,51 @@ class ReservationDatasourceImpl extends ReservationDatasource {
   }
 
   @override
-  Future<Reservation> getReservationById(String id) {
-    // TODO: implement getReservationById
-    throw UnimplementedError();
+  Future<Reservation> getReservationById(String id) async {
+    try {
+      final response = await dio.get('/reservation/$id');
+      Reservation reservation = Reservation(
+        id: '', name: '', rut: '', email: '', reservationDate: '', reservationTime: '', serviceName: ''
+      );
+      if ( response.statusCode == 200 ) {
+        var data = response.data;
+        if (data is Map<String, dynamic> && data.containsKey('data') ){
+          reservation = ReservationMapper.jsonToEntity(data['data']);
+        }
+      }
+      return reservation;
+    } on DioException catch (e) {
+      if ( e.response!.statusCode == 404) throw ServiceNotFound();
+      throw e;
+    } catch (e) {
+      throw e;
+    }
   }
 
   @override
-  Future<List<Reservation>> getReservations() {
-    // TODO: implement getReservations
-    throw UnimplementedError();
+  Future<List<Reservation>> getReservations() async {
+    
+    try {
+      
+      final response = await dio.get('/reservation');
+      final List<Reservation> reservations = [];
+
+      if( response.statusCode == 200 ){
+        var data = response.data;
+        if ( data is Map<String, dynamic> && data.containsKey('data') ){
+          var reservationsData = data['data'];
+          if ( reservationsData is List) {
+            for ( final reservation in reservationsData ){
+              reservations.add( ReservationMapper.jsonToEntity(reservation) );
+            }
+          }
+        }
+      }
+      return reservations;
+    } catch (e) {
+      throw Exception('Error al obtener las reservas');
+    }
+
   }
 
 }

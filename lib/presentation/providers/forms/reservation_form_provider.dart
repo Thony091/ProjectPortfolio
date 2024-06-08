@@ -68,53 +68,7 @@ class ReservationFormNotifier extends StateNotifier<ReservationFormState>{
     state = state.copyWith(
       serviceName: value
     );
-    // _updateTimeOptions();
   }
-
-
-
-
-  // void _updateTimeOptions() {
-  //   if (state.serviceName.isEmpty) {
-  //     state = state.copyWith(timeOptions: []);
-  //     return;
-  //   }
-
-  //   int duration;
-  //   switch (state.serviceName) {
-  //     case 'Opción 1':
-  //       duration = 60;
-  //       break;
-  //     case 'Opción 2':
-  //       duration = 30;
-  //       break;
-  //     case 'Opción 3':
-  //       duration = 120;
-  //       break;
-  //     default:
-  //       duration = 0;
-  //   }
-
-  //   final List<String> timeOptions = [];
-  //   for (int hour = 9; hour <= 17; hour++) {
-  //     for (int minute = 0; minute <= 30; minute += 30) {
-  //       final startTime = TimeOfDay(hour: hour, minute: minute);
-  //       final endTime = startTime.replacing(
-  //         hour: (minute == 0) ? hour : hour + 1,
-  //         minute: (minute == 0) ? duration : duration - 30
-  //       );
-  //       if (endTime.hour < 18 || (endTime.hour == 18 && endTime.minute == 0)) {
-  //         // Formatear manualmente la hora
-  //         final formattedTime = "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}";
-  //         timeOptions.add(formattedTime);
-  //       }
-  //     }
-  //   }
-
-  //   state = state.copyWith(timeOptions: timeOptions);
-  // }
-
-
 
   Future<bool> createReservation() async {
 

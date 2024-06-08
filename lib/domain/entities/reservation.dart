@@ -4,8 +4,8 @@ class Reservation{
   final String name;
   final String rut;
   final String email;
-  final DateTime reservationDate;
-  final DateTime reservationTime;
+  final String reservationDate;
+  final String reservationTime;
   final String serviceName;
 
   Reservation({

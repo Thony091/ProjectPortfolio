@@ -75,9 +75,9 @@ class _HomeBodyPage extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
           
-                const SizedBox(height: 30,),
-                const Text('Home Admin Page'),
-                const SizedBox(height: 35,),
+                const SizedBox(height: 20,),
+                const Text('Home Admin Page', style: TextStyle(fontSize: 25)),
+                const SizedBox(height: 20,),
               
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +98,7 @@ class _HomeBodyPage extends ConsumerWidget {
                       onPressed: () => context.push('/our-works'),
                       icon: Icons.workspace_premium_outlined,
                     ),
-                    const SizedBox(height: 30,),
+                    const SizedBox(height: 20,),
                     CustomFilledButton(
                       height: 60,
                       width: 270,
@@ -114,7 +114,7 @@ class _HomeBodyPage extends ConsumerWidget {
                       onPressed: () => context.push('/services'),
                       icon: Icons.car_repair_outlined,
                     ),
-                    const SizedBox(height: 30,),
+                    const SizedBox(height: 20,),
                     CustomFilledButton(
                       height: 60,
                       width: 270,
@@ -130,7 +130,23 @@ class _HomeBodyPage extends ConsumerWidget {
                       onPressed: () => context.push('/messages'),
                       icon: Icons.message_outlined,
                     ),
-                    const SizedBox(height: 30,),
+                    const SizedBox(height: 20,),
+                    CustomFilledButton(
+                      height: 60,
+                      width: 270,
+                      padding: const EdgeInsets.only(top: 3, bottom: 3,),
+                      fontSize: 14,
+                      radius: const Radius.circular(40),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      text: ' Gest. de Reservas',
+                      textColor: Colors.black54,
+                      buttonColor: const Color.fromARGB(255, 20, 140, 238).withOpacity(0.9),
+                      shadowColor: Colors.black45,
+                      onPressed: () => context.push('/reservas-config'),
+                      icon: Icons.message_outlined,
+                    ),
+                    const SizedBox(height: 20,),
                     CustomFilledButton(
                       height: 60,
                       width: 270,
@@ -146,7 +162,7 @@ class _HomeBodyPage extends ConsumerWidget {
                       onPressed: () {},
                       icon: Icons.production_quantity_limits_outlined,
                     ),
-                    const SizedBox(height: 30,),
+                    const SizedBox(height: 20,),
 
                   ],
                 ),
