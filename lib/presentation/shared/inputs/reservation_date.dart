@@ -8,7 +8,8 @@ enum ReservationDateError { empty, format, futureDate }
 class ReservationDate extends FormzInput<String, ReservationDateError> {
 
   static final RegExp reservationDayRegExp = RegExp(
-    r'^(0[1-9]|[12][0-9]|3[01])([-/])(0[1-9]|1[012])\2\d{4}$',
+    r'^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$',
+    // r'^(0[1-9]|[12][0-9]|3[01])([-/])(0[1-9]|1[012])\2\d{4}$',
   );
 
   // Call super.pure to represent an unmodified form input.
@@ -24,9 +25,9 @@ class ReservationDate extends FormzInput<String, ReservationDateError> {
       case ReservationDateError.empty:
         return 'El campo es requerido';
       case ReservationDateError.format:
-        return 'Error en el formato, debe ser dd-mm-yyyy';
+        return 'Error en el formato, debe ser yyyy-mm-dd';
       case ReservationDateError.futureDate:
-        return 'La fecha no puede ser futura';
+        return 'La fecha debe ser futura';
       default:
         return null;
     }
@@ -41,10 +42,10 @@ class ReservationDate extends FormzInput<String, ReservationDateError> {
 
     // Intenta convertir la cadena a DateTime para verificar su validez
     try {
-      DateFormat format = DateFormat('dd-MM-yyyy');
+      DateFormat format = DateFormat('yyyy-MM-dd');
       DateTime parsedDate = format.parseStrict(value);
       // Verifica si la fecha es futura
-      if (parsedDate.isAfter(DateTime.now())) {
+      if (!parsedDate.isAfter(DateTime.now())) {
         return ReservationDateError.futureDate;
       }
     } catch (_) {

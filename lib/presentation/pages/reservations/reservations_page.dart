@@ -67,44 +67,48 @@ class _ReservationFormBody extends ConsumerWidget {
       ref.read(reservationFormProvider.notifier).onReservationDate(pickedDate);
     }
   }
+
   Future<void> _selectTime( BuildContext context, WidgetRef ref ) async {
-    final state = ref.read(reservationFormProvider);
-    final List<String> timeOptions = state.timeOptions;
+    // final state = ref.read(reservationFormProvider);
+    // final List<String> timeOptions = state.timeOptions;
+    final List<String> timeOptions = [];
+    for (int hour = 9; hour <= 18; hour++) {
+      timeOptions.add('$hour:00');
+      timeOptions.add('$hour:30');
+    }
 
     if ( timeOptions.isEmpty ) return;
 
-        final String? pickedTime = await showModalBottomSheet<String>(
+    final String? pickedTime = await showModalBottomSheet<String>(
       context: context,
       builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: timeOptions.map((time) {
-            return ListTile(
-              title: Text(time),
-              onTap: () {
-                Navigator.of(context).pop(time);
-              },
-            );
-          }).toList(),
+        return SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: timeOptions.map((time) {
+              return ListTile(
+                title: Text(time),
+                onTap: () {
+                  Navigator.of(context).pop(time);
+                },
+              );
+            }).toList(),
+          ),
         );
       },
     );
-
-
     if (pickedTime != null) {
-      final TimeOfDay parsedTime = TimeOfDay(
-        hour: int.parse(pickedTime.split(':')[0]),
-        minute: int.parse(pickedTime.split(':')[1]),
-      );
-      ref.read(reservationFormProvider.notifier).onReservationTime(parsedTime);
+      ref.read(reservationFormProvider.notifier).onReservationTime(pickedTime);
     }
+
   }
 
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     
-    List<String> opciones = ['Opción 1', 'Opción 2', 'Opción 3'];
+    final servicios =  ref.watch( servicesProvider);
+    final opciones = servicios.services.map((e) => e.name).toList();
     final size = MediaQuery.of(context).size;
     final state = ref.watch(reservationFormProvider);
 
@@ -191,9 +195,12 @@ class _ReservationFormBody extends ConsumerWidget {
               CustomProductField(
                 isBottomField: true,
                 isTopField: true,
-                label: "Fecha de Reserva",
+                label: state.date.value.isNotEmpty ? state.date.value : "Fecha de Reserva",
                 // initialValue: state.date.value,
-                hint: state.date.value,
+                hint: state.date.value.isNotEmpty ? state.date.value : "Fecha de Reserva",
+                onChanged: (value) {
+                  ref.read( reservationFormProvider.notifier ).onReservationDate(DateTime.parse(value));
+                },
                 onTap: () {
                   if (state.serviceName.isNotEmpty) {
                     _selectDate(context, ref);
@@ -207,51 +214,29 @@ class _ReservationFormBody extends ConsumerWidget {
               ),
 
               const SizedBox(height: 10.0),
-
-              CustomProductField(
-                isBottomField: true,
-                isTopField: true,
-                label: "Hora",
-                initialValue: state.time.value,
-                hint: state.time.value,
-                onTap: () {
-                  if (state.date.value.isNotEmpty) {
-                    _selectTime(context, ref);
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Primero selecciona una fecha'))
-                    );
-                  }
-                },
-                readOnly: true,
-              ),
+              if ( state.date.value.isNotEmpty)
+                CustomProductField(
+                  isBottomField: true,
+                  isTopField: true,
+                  label: "Hora",
+                  // initialValue: state.time.value.isNotEmpty ? state.time.value : "Hora de Reserva",
+                  hint: state.time.value.isNotEmpty ? state.time.value : "",
+                  onTap: () {
+                    if (state.date.value.isNotEmpty) {
+                      _selectTime(context, ref);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Primero selecciona una fecha'))
+                      );
+                    }
+                  },
+                  onChanged: (value) {
+                    ref.read( reservationFormProvider.notifier ).onReservationTime(value);
+                  },
+                  readOnly: true,
+                ),
       
             const SizedBox(height: 10.0),
-
-      
-            // SizedBox(
-            //   width: double.infinity,
-            //   height: 80.0 ,
-            //   child: DropdownButton<String>(
-            //     hint: const Text("Seleccione una opción"), // Opcional: texto de sugerencia
-            //     items: opciones.map((String value) {
-            //       return DropdownMenuItem<String>(
-            //         value: value,
-            //         child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //           children: [
-            //             Text(value), // Muestra el texto de la opción
-            //             Icon(Icons.arrow_forward_ios, size: 24, color: Colors.grey[700]), // Flecha para indicar más opciones
-            //           ],
-            //         ),
-            //       );
-            //     }).toList(),
-            //     onChanged: (String? newValue) {
-            //       // Acción a realizar cuando se selecciona una opción
-            //       print(newValue);
-            //     },
-            //   )
-            // ),
             
             const SizedBox(height: 20.0),
             CustomFilledButton(
@@ -277,7 +262,7 @@ class _ReservationFormBody extends ConsumerWidget {
                           backgroundColor: Colors.green,
                         )
                       );
-                      context.push('/reservations');
+                      context.push('/');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                          SnackBar(

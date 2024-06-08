@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:intl/intl.dart';
@@ -41,14 +40,14 @@ class ReservationFormNotifier extends StateNotifier<ReservationFormState>{
   }
 
   onReservationDate( DateTime value ) {
-    final newDate = ReservationDate.dirty(DateFormat('dd-MM-yyyy').format(value));    
+    final newDate = ReservationDate.dirty(DateFormat('yyyy-MM-dd').format(value));    
     state = state.copyWith(
       date: newDate,
       isValid: Formz.validate([newDate, state.date])
   );
 }
 
-  onReservationTime( TimeOfDay value) {
+  onReservationTime( String value) {
     final newTime = ReservationTime.dirty(value.toString());
     // final newTime = ReservationTime.dirty(value.toString());
     state = state.copyWith(
@@ -69,51 +68,51 @@ class ReservationFormNotifier extends StateNotifier<ReservationFormState>{
     state = state.copyWith(
       serviceName: value
     );
-    _updateTimeOptions();
+    // _updateTimeOptions();
   }
 
 
 
 
-  void _updateTimeOptions() {
-    if (state.serviceName.isEmpty) {
-      state = state.copyWith(timeOptions: []);
-      return;
-    }
+  // void _updateTimeOptions() {
+  //   if (state.serviceName.isEmpty) {
+  //     state = state.copyWith(timeOptions: []);
+  //     return;
+  //   }
 
-    int duration;
-    switch (state.serviceName) {
-      case 'Opción 1':
-        duration = 60;
-        break;
-      case 'Opción 2':
-        duration = 30;
-        break;
-      case 'Opción 3':
-        duration = 120;
-        break;
-      default:
-        duration = 0;
-    }
+  //   int duration;
+  //   switch (state.serviceName) {
+  //     case 'Opción 1':
+  //       duration = 60;
+  //       break;
+  //     case 'Opción 2':
+  //       duration = 30;
+  //       break;
+  //     case 'Opción 3':
+  //       duration = 120;
+  //       break;
+  //     default:
+  //       duration = 0;
+  //   }
 
-    final List<String> timeOptions = [];
-    for (int hour = 9; hour <= 17; hour++) {
-      for (int minute = 0; minute <= 30; minute += 30) {
-        final startTime = TimeOfDay(hour: hour, minute: minute);
-        final endTime = startTime.replacing(
-          hour: (minute == 0) ? hour : hour + 1,
-          minute: (minute == 0) ? duration : duration - 30
-        );
-        if (endTime.hour < 18 || (endTime.hour == 18 && endTime.minute == 0)) {
-          // Formatear manualmente la hora
-          final formattedTime = "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}";
-          timeOptions.add(formattedTime);
-        }
-      }
-    }
+  //   final List<String> timeOptions = [];
+  //   for (int hour = 9; hour <= 17; hour++) {
+  //     for (int minute = 0; minute <= 30; minute += 30) {
+  //       final startTime = TimeOfDay(hour: hour, minute: minute);
+  //       final endTime = startTime.replacing(
+  //         hour: (minute == 0) ? hour : hour + 1,
+  //         minute: (minute == 0) ? duration : duration - 30
+  //       );
+  //       if (endTime.hour < 18 || (endTime.hour == 18 && endTime.minute == 0)) {
+  //         // Formatear manualmente la hora
+  //         final formattedTime = "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}";
+  //         timeOptions.add(formattedTime);
+  //       }
+  //     }
+  //   }
 
-    state = state.copyWith(timeOptions: timeOptions);
-  }
+  //   state = state.copyWith(timeOptions: timeOptions);
+  // }
 
 
 
@@ -140,7 +139,7 @@ class ReservationFormNotifier extends StateNotifier<ReservationFormState>{
         state.serviceName
       );
 
-      state = state.copyWith( isFormPosted: true );
+      state = state.copyWith( isPosting: false );
 
       return true;
 
@@ -157,7 +156,14 @@ class ReservationFormNotifier extends StateNotifier<ReservationFormState>{
       rut: Rut.dirty(state.rut.value),
       date: ReservationDate.dirty(state.date.value),
       time: ReservationTime.dirty(state.time.value),
-      serviceName: state.serviceName
+      serviceName: state.serviceName,
+      isValid: Formz.validate([
+        Name.dirty(state.name.value),
+        Email.dirty(state.email.value),
+        Rut.dirty(state.rut.value),
+        ReservationDate.dirty(state.date.value),
+        ReservationTime.dirty(state.time.value),
+      ])
     );
   }
 
