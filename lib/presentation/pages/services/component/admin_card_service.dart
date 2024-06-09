@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../config/config.dart';
 import '../../../../domain/domain.dart';
 import '../../../shared/shared.dart';
 
@@ -111,7 +112,7 @@ class _ImageViewer extends StatelessWidget {
                       ),
                       const SizedBox( height: 10 ),
                       Text(
-                        'Desde: \$${minPrice.toStringAsFixed(2)} - ${maxPrice.toStringAsFixed(2)} ',
+                        'Desde: \$${Formats.formatPriceNumber(minPrice).toString()} - ${Formats.formatPriceNumber(maxPrice).toString()} ',
                         style: const TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.bold
@@ -157,7 +158,7 @@ class _ImageViewer extends StatelessWidget {
       child: FadeInImage(
         fit: BoxFit.cover,
         height: 250,
-        width: size.width * 0.93,
+        width: size.width * 0.33,
         fadeOutDuration: const Duration(milliseconds: 100),
         fadeInDuration: const Duration(milliseconds: 200),
         image: NetworkImage( images.first ),

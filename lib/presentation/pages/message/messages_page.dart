@@ -33,9 +33,7 @@ class MessagesPage extends StatelessWidget {
 }
 
 class _MessageAdminPage extends ConsumerStatefulWidget {
-  const _MessageAdminPage({
-    super.key,
-  });
+  const _MessageAdminPage();
 
   @override
   _MessageAdminPageState createState() => _MessageAdminPageState();
@@ -45,7 +43,7 @@ class _MessageAdminPageState extends ConsumerState {
   @override
   Widget build(BuildContext context) {
 
-    final messageState = ref.watch( messageProvider );
+    final messageState = ref.watch( messagesProvider );
     
     return Padding(
       padding: const EdgeInsets.only( left: 20, top: 10),
@@ -56,9 +54,9 @@ class _MessageAdminPageState extends ConsumerState {
           return Column(
             children:
               [
-                MessageCard( 
+                MessageCard(
                   message: message,
-                  onTapdResponse: () => context.push('/message-edit/${message.id}'),
+                  onTapdResponse: () => context.push('/message-response/${message.id}'),
                   onTapDelete: () {
                     showDialog(
                       context: context, 
@@ -66,7 +64,7 @@ class _MessageAdminPageState extends ConsumerState {
                         return PopUpPreguntaWidget(
                           pregunta: '¿Estas seguro de eliminar el mensaje?', 
                           // confirmar: () {},
-                          confirmar: () => ref.read(servicesProvider.notifier).deleteService(message.id).then((value) => context.pop()), 
+                          confirmar: () => ref.read(messagesProvider.notifier).deleteMessage(message.id).then((value) => context.pop()), 
                           cancelar: () => context.pop()
                         );
                       }

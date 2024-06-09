@@ -20,10 +20,10 @@ class MessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        _ImageViewer( 
-          title: message.name,
-          recivedMessage: message.message,
+        _CardViewer( 
+          name: message.name,
           email: message.email,
+          recivedMessage: message.message,
           onTapdResponse: onTapdResponse,
           onTapDelete: onTapDelete,
         ),
@@ -32,16 +32,16 @@ class MessageCard extends StatelessWidget {
   }
 }
 
-class _ImageViewer extends StatelessWidget {
+class _CardViewer extends StatelessWidget {
   
-  final String title;
+  final String name;
   final String email;
   final String recivedMessage;
   final Function()? onTapdResponse;
   final Function()? onTapDelete;
 
-  const _ImageViewer({
-    this.title = '', 
+  const _CardViewer({
+    this.name = '', 
     this.recivedMessage = '',
     this.onTapdResponse,
     this.onTapDelete, 
@@ -55,31 +55,26 @@ class _ImageViewer extends StatelessWidget {
   
       return ClipRRect(
         borderRadius: BorderRadius.circular(10),
-        child: Container(width: size.width * 0.93,
+        child: Container(
+          width: size.width * 0.93,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             boxShadow: const [
               BoxShadow(
-                color: Colors.white,
+                color: Color.fromARGB(255, 247, 207, 207),
                 blurRadius: 5,
                 offset: Offset(0, 3)
               ),
             ]
           ),
           child: Padding(
-            padding: const EdgeInsets.only(right: 5),
+            padding: const EdgeInsets.only(right: 7, left: 5),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-            
-                Image.asset('assets/images/no-image.jpg', 
-                  fit: BoxFit.cover,
-                  height: 110,
-                  width: size.width * 0.23,
-                ),
                 Container(
-                  width: size.width * 0.50,
+                  width: size.width * 0.60,
                   padding: const EdgeInsets.only( left: 5, top: 5),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,13 +82,20 @@ class _ImageViewer extends StatelessWidget {
                     children: [
             
                       Text(
-                        title,
+                        'Remitente : $name\nCorreo       : $email',
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox( height: 10 ),
+                      const Text(
+                        'Mensaje Enviado:',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       Text(
                         maxLines: 4,
                         recivedMessage,
@@ -109,10 +111,9 @@ class _ImageViewer extends StatelessWidget {
 
                 Row( children:
                   [
-
                     const SizedBox( width: 10 ),
                     CustomIconButton(
-                      onTap: onTapdResponse ?? () {}, 
+                      onTap: onTapdResponse ?? () {},
                       icon: Icons.mail_outline_outlined,
                       size: 22,
                       color: Colors.blueGrey,
@@ -124,12 +125,9 @@ class _ImageViewer extends StatelessWidget {
                       size: 22,
                       color: Colors.redAccent,
                     ),
-
                   ]
                 ),
-               
-            
-            
+
               ],
             ),
           ),

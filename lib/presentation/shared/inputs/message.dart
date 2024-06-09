@@ -33,7 +33,7 @@ class Messages extends FormzInput<String, MessagesError> {
   MessagesError? validator(String value) {
     
     if ( value.isEmpty || value.trim().isEmpty ) return MessagesError.empty;
-    if ( messageRegExp.hasMatch(value)) return MessagesError.format;
+    if ( !messageRegExp.hasMatch(value)) return MessagesError.format;
     if ( value.length >= 350 ) return MessagesError.length;
 
     return null;

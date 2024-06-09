@@ -17,6 +17,7 @@ class OurWorksPage extends ConsumerWidget {
 
     final color = AppTheme().getTheme().colorScheme;
     final authState   = ref.watch( authProvider );
+    final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
       appBar: AppBar(
@@ -41,13 +42,14 @@ class OurWorksPage extends ConsumerWidget {
         : ( authState.userData!.isAdmin ) 
           ? 
             FloatingActionButton.extended(
-              label: const Text('Nuevo Servicio'),
+              label: const Text('Crear Trabajo'),
               icon: const Icon( Icons.add ),
               onPressed: () {
-                // context.push('/product/new');
+                context.pushReplacement('/work/new');
               },
             )
           : null,
+      drawer: SideMenu(scaffoldKey: scaffoldKey),
     );
   }
 }
@@ -101,7 +103,7 @@ class _OurWorksAdminBodyPageState extends ConsumerState {
   @override
   Widget build(BuildContext context) {
 
-    final worksState = ref.watch( worksProvider);
+    final worksState = ref.watch( worksProvider );
     
     return Padding(
       padding: const EdgeInsets.only( left: 20, top: 10),

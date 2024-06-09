@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:marquee/marquee.dart';
 
+import '../../../../config/config.dart';
 import '../../../../domain/domain.dart';
 
 
@@ -129,7 +130,7 @@ class _ImageViewer extends StatelessWidget {
                     SizedBox(
                       height: 15,
                       child: Marquee(
-                        text: 'Desde: \$${minPrice.toStringAsFixed(2)} - ${maxPrice.toStringAsFixed(2)} ',
+                        text: 'Desde: \$${Formats.formatPriceNumber(minPrice).toString()} - ${Formats.formatPriceNumber(maxPrice).toString()} ',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold

@@ -17,6 +17,7 @@ class CustomProductField extends StatelessWidget {
   final Function()? onTap;
   final String? Function(String?)? validator;
   final bool readOnly;
+  final Color color;
 
   const CustomProductField({
     super.key, 
@@ -34,6 +35,7 @@ class CustomProductField extends StatelessWidget {
     this.validator,
     this.readOnly = false,
     this.onTap,
+    this.color = Colors.white,
   });
 
   @override
@@ -51,7 +53,7 @@ class CustomProductField extends StatelessWidget {
     return Container(
       // padding: const EdgeInsets.only(bottom: 0, top: 15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: color,
         borderRadius: BorderRadius.only(
           topLeft: isTopField ? borderRadius : Radius.zero, 
           topRight: isTopField ? borderRadius : Radius.zero, 

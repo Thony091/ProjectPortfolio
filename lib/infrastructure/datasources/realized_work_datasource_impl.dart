@@ -58,14 +58,15 @@ class RealizedWorkDatasourceImpl extends RealizedWorkDatasource {
     
     try {
       
-      final String? serviceId = worksSimilar['id'];
-      final String method = (serviceId == null) ? 'POST' : 'PUT';
-      final String url = (serviceId == null) ? '/example' : '/example';
+      final String? workId = worksSimilar['id'];
+      final String method = (workId == null) ? 'POST' : 'PUT';
+      final String url = (workId == null) ? '/example' : '/example/$workId';
       // final String url = (serviceId == null) ? '/crear-servicio' : '/actualizar-servicio/$serviceId';
 
-      // worksSimilar.remove('id');
-      worksSimilar['images'] = await _uploadPhotos( worksSimilar['images'] );
+      worksSimilar.remove('id');
+      // worksSimilar['image'] = await _uploadPhotos( worksSimilar['image'] );
 
+      Works work = Works( id: '0', name: 'No encontrado', description: 'No encontrado', image: "");
 
       final response = await dio.request(
         url,
@@ -74,8 +75,17 @@ class RealizedWorkDatasourceImpl extends RealizedWorkDatasource {
           method: method
         )
       );
+      final data = response.data;
 
-      final work = RealizedWorksMapper.jsonToEntity(response.data);
+      if ( data is Map<String, dynamic> && data.containsKey('data') ){
+        var workData = data['data'];
+
+        if ( workData is Map<String, dynamic> ){
+          final work = RealizedWorksMapper.jsonToEntity(workData);
+          return work;
+        }
+      }
+
       return work;
 
     } catch (e) {

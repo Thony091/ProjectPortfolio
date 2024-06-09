@@ -3,21 +3,21 @@ import 'package:formz/formz.dart';
 
 import '../../presentation_container.dart';
 
-final messageFormProvider = StateNotifierProvider.autoDispose<MessafeFormNotifier, MessageFormState>((ref) {
+final messageFormProvider = StateNotifierProvider.autoDispose<MessageFormNotifier, MessageFormState>((ref) {
 
-  final postMessageCallback = ref.watch( messageProvider.notifier ).postMessage;
+  final postMessageCallback = ref.watch( messagesProvider.notifier ).postMessage;
 
-  return MessafeFormNotifier(
+  return MessageFormNotifier(
     postMessageCallback: postMessageCallback
   );
 });
 
 
-class MessafeFormNotifier extends StateNotifier<MessageFormState>{
+class MessageFormNotifier extends StateNotifier<MessageFormState>{
 
   final Function(String, String, String) postMessageCallback;
 
-  MessafeFormNotifier({
+  MessageFormNotifier({
     required this.postMessageCallback,
   }): super( MessageFormState() );
 
@@ -45,6 +45,14 @@ class MessafeFormNotifier extends StateNotifier<MessageFormState>{
     );
   }
 
+  onResponseChange( String value ) {
+    final newResponse = Messages.dirty(value);
+    state = state.copyWith(
+      reply: newResponse,
+      isValid: Formz.validate([ newResponse, state.reply ])
+    );
+  }
+
   Future<bool> postMessage() async {
 
     try {
@@ -60,7 +68,7 @@ class MessafeFormNotifier extends StateNotifier<MessageFormState>{
          state.email.value,
          state.message.value
       );
-
+      if (!mounted) return false;  // Verifica si el StateNotifier está montado
       state = state.copyWith( isPosting: false, );
       
       return true;
@@ -79,10 +87,10 @@ class MessafeFormNotifier extends StateNotifier<MessageFormState>{
 
     state = state.copyWith(
       isFormPosted: true,
-      name: name,
-      email: email,
-      message: message,
-      isValid: Formz.validate([ 
+      name    : name,
+      email   : email,
+      message : message,
+      isValid : Formz.validate([ 
         name, 
         email, 
         message
@@ -93,13 +101,14 @@ class MessafeFormNotifier extends StateNotifier<MessageFormState>{
 }
 
 class MessageFormState{
-
+  
   final bool isPosting;
   final bool isFormPosted;
   final bool isValid;
   final Name name;
   final Email email;
   final Messages message;
+  final Messages reply;
 
   MessageFormState({
     this.isPosting      = false,
@@ -107,7 +116,8 @@ class MessageFormState{
     this.isValid        = false,
     this.name           = const Name.pure(),
     this.email          = const Email.pure(),
-    this.message        = const Messages.pure()
+    this.message        = const Messages.pure(),
+    this.reply          = const Messages.pure()
   });
 
   MessageFormState copyWith({
@@ -117,6 +127,7 @@ class MessageFormState{
     Name?       name,
     Email?      email,
     Messages?    message,
+    Messages?    reply,
   }) => MessageFormState(
     isPosting: isPosting ?? this.isPosting,
     isFormPosted: isFormPosted ?? this.isFormPosted,
@@ -124,6 +135,7 @@ class MessageFormState{
     name: name ?? this.name,
     email: email ?? this.email,
     message: message ?? this.message,
+    reply: reply ?? this.reply,
   );
 
 }

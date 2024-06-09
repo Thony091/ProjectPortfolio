@@ -70,7 +70,7 @@ class OurWorkEditPage extends ConsumerWidget{
             .then((value) {
               if ( !value ) return;
               showSnackbar(context);
-              context.push('/services');
+              context.pushReplacement('/');
             });
           },
         )

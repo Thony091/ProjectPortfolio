@@ -34,6 +34,9 @@ dependencies:
   intl: ^0.18.1
   image_picker: ^1.0.8
   marquee: ^2.2.3
+  mailto: ^2.0.0
+  url_launcher: ^6.3.0
+  mailer: ^6.1.0
 
 dev_dependencies:
   flutter_test:

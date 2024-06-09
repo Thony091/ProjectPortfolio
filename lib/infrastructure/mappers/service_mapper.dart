@@ -1,5 +1,4 @@
 
-import '../../config/config.dart';
 import '../../domain/domain.dart';
 
 class ServiceMapper {
@@ -12,9 +11,9 @@ class ServiceMapper {
     maxPrice: _parseInt(json['maxPrice'], defaultValue: 0), 
     images: json['images'] != null 
       ? List<String>.from(json['images'].map(
-        (image) => image.startsWith('http')
-          ? image 
-          : '${Enviroment.baseUrl}/service/$image'
+          (image) => (image.startsWith('http') || image.startsWith('https'))
+            ? image
+            : 'https://ar-detailing.images.prod.s3.amazonaws.com/$image'
         ))
       : [], 
     isActive: json['isActive'] ?? false,

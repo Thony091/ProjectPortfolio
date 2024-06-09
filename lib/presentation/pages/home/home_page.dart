@@ -477,8 +477,8 @@ class _ContactUsForm extends ConsumerWidget {
                 // obscureText: true,
                 onChanged: ref.read( messageFormProvider.notifier ).onMessageChange,
                 errorMessage: messageForm.isFormPosted
-                ? messageForm.message.errorMessage
-                : null,
+                  ? messageForm.message.errorMessage
+                  : null,
               ),
               const SizedBox( height: 15,),
               ElevatedButton(

@@ -1,95 +1,73 @@
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../domain/domain.dart';
 import '../../infrastructure/infrastructure.dart';
 
-final messageProvider = StateNotifierProvider.autoDispose<MessageNotifier, MessageState>((ref) {
+final messageProvider = StateNotifierProvider.family<MessageNotifier, MessageState, String>(
+  (ref, messageId) {
 
-  final messageRepository = MessageRepositoryImpl();
+    final messageRepository = MessageRepositoryImpl();
 
-  return MessageNotifier(
-    messageRepository: messageRepository
-  );
-});
-
+    return MessageNotifier(
+      messageRepository: messageRepository,
+      messageId: messageId
+    );
+  }
+);
 
 class MessageNotifier extends StateNotifier<MessageState>{
 
   final MessageRepository messageRepository;
 
   MessageNotifier({
-    required this.messageRepository
-  }): super(MessageState()){
-    getMessages();
+    required this.messageRepository,
+    required String messageId,
+  }) : super( MessageState( id: messageId )){
+    getService();
   }
 
-  Future<void> postMessage(String name, String email, String message) async{
+  Future<void> getService() async {
 
     try {
-
-      final messsage = await messageRepository.createUpdateMessage(name, email, message);
-
-      state = state.copyWith(
-        message: messsage
-      );
-
-    } on CustomError catch(e){
-      state = state.copyWith(
-        errorMessage: e.message
-      );
-    }
-  }
-
-    Future<void> getMessages() async {
-    
-    state = state.copyWith(isLoading: true);
-
-    try {
-      
-      final messages = await messageRepository.getMessagesByPage();
+        
+      final message = await messageRepository.getMessageById(state.id);
       
       state = state.copyWith(
-        messages: messages,
+        message: message,
         isLoading: false
-      );
+      );  
 
     } catch (e) {
-      
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: 'Error al obtener los servicios'
-      );
-
+      print('Error al obtener el mensaje: $e');
     }
   }
+  
 
 }
 
-class MessageState{
+class MessageState {
 
-  final bool isLoading;
+  final String id;
   final Message? message;
-  final List<Message> messages;
-  final String errorMessage;
+  final bool isLoading;
+  final bool isSaving;
 
   MessageState({
-    this.messages = const [],
-    this.isLoading = false,
+    required this.id,
     this.message,
-    this.errorMessage = ''
+    this.isLoading = true,
+    this.isSaving = false,
   });
 
   MessageState copyWith({
-    List<Message>? messages,
-    bool? isLoading,
+    String? id,
     Message? message,
-    String? errorMessage
+    bool? isLoading,
+    bool? isSaving,
   }) => MessageState(
-    messages: messages ?? this.messages,
-    isLoading: isLoading ?? this.isLoading,
-    message: message ?? this.message,
-    errorMessage: errorMessage ?? this.errorMessage
-  );
-
+      id: id ?? this.id,
+      message: message ?? this.message,
+      isLoading: isLoading ?? this.isLoading,
+      isSaving: isSaving ?? this.isSaving,
+    );
+  
 }

@@ -142,7 +142,7 @@ final goRouterProvider = Provider( (ref) {
         ),
         //* ConfigMessagesResponsePage
         GoRoute(
-          path: '/messages',
+          path: '/message-response/:id',
           name:  MessageResponsePage.name,
           builder: (context, state) =>  MessageResponsePage(
             messageId: state.params['id'] ?? 'no-id'

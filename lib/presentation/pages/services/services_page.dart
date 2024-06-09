@@ -129,7 +129,7 @@ class _ServiceAdminBodyPageState extends ConsumerState {
                       context: context, 
                       builder: (context){
                         return PopUpPreguntaWidget(
-                          pregunta: '¿Estas seguro de eliminar el servicio?', 
+                          pregunta: '¿Estas seguro de eliminar el servicio?',
                           // confirmar: () {},
                           confirmar: () => ref.read(servicesProvider.notifier).deleteService(service.id).then((value) => context.pop()), 
                           cancelar: () => context.pop()

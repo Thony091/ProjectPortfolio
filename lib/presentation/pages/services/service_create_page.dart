@@ -46,7 +46,6 @@ class ServiceCreatePage extends ConsumerWidget{
       )
     );
   }
-
 }
 
 class _ServiceDetailBodyPage extends ConsumerWidget {
