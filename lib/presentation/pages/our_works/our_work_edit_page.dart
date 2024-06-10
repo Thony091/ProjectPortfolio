@@ -42,7 +42,7 @@ class OurWorkEditPage extends ConsumerWidget{
             IconButton(onPressed: () async {
               final photoPath = await CameraGalleryServiceImpl().selectPhoto();
               if ( photoPath == null ) return;
-
+              
               ref.read( workFormProvider(workState.work!).notifier )
                 .updateWorkImage(photoPath);
     
@@ -61,7 +61,13 @@ class OurWorkEditPage extends ConsumerWidget{
         ),
         body: workState.isLoading
           ? const FullScreenLoader()
-          : BackgroundImageWidget(opacity: 0.1, child: _WorkDetailBodyPage( work: workState.work! )),
+          : BackgroundImageWidget(
+              opacity: 0.1,
+              image: workState.work?.image, 
+              child: _WorkDetailBodyPage(
+                work: workState.work! 
+              )
+            ),
         floatingActionButton: FloatingActionButton.extended(
           label: const Text( 'Guardar' ),
           icon: const Icon( Icons.save_outlined, ),
@@ -96,10 +102,11 @@ class _WorkDetailBodyPage extends ConsumerWidget {
 
     return ListView(
       children: [
+        const SizedBox( height: 15 ),
 
         SizedBox(
           height: 250,
-          width: 600,
+          width: 550,
           child: CustomImageGallery(image: workForm.image),
         ),
 

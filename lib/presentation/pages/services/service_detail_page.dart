@@ -37,28 +37,6 @@ class ServiceDetailPage extends ConsumerWidget{
             ? Text( serviceState.service?.name ?? ' Cargando...')
             : const Text( 'Nuevo Servicio'),
           backgroundColor: color.primary,
-          actions: serviceState.service?.id != 'new'
-            ? null
-            : [
-            IconButton(onPressed: () async {
-              final photoPath = await CameraGalleryServiceImpl().selectPhoto();
-              if ( photoPath == null ) return;
-
-              ref.read( serviceFormProvider(serviceState.service!).notifier )
-                .updateServiceImage(photoPath);
-              }, 
-              icon: const Icon( Icons.photo_library_outlined )
-            ),
-
-            IconButton(onPressed: () async{
-              final photoPath = await CameraGalleryServiceImpl().takePhoto();
-              if ( photoPath == null ) return;
-
-              ref.read( serviceFormProvider( serviceState.service!).notifier )
-                .updateServiceImage(photoPath);
-            }, 
-            icon: const Icon( Icons.camera_alt_outlined ))
-          ],
         ),
         body: serviceState.isLoading
           ? const FullScreenLoader()

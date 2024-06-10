@@ -69,7 +69,7 @@ class _ImageViewer extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
             boxShadow: const [
               BoxShadow(
-                color: Colors.white,
+                color: Color.fromARGB(255, 202, 238, 209),
                 blurRadius: 5,
                 offset: Offset(0, 3)
               ),

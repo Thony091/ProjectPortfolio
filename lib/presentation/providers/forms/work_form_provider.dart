@@ -59,6 +59,7 @@ class WorkFormNotifier extends StateNotifier<WorkFormState>{
       image: value 
     );
   }
+  
   _tochedEverything(){
     state = state.copyWith(
       isFormValid: Formz.validate([ 
