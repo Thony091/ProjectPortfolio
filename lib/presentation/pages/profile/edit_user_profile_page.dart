@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 // import 'package:go_router/go_router.dart';
 
 import '../../presentation_container.dart';
@@ -32,10 +35,9 @@ class _EditProfileBodyPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    //TODO: Implementar provider de edición de datos del usuario
-    // Aqui
     final textStyles = Theme.of(context).textTheme;
     final authState = ref.watch( authProvider ).userData!;
+    final upForm = ref.watch( updateFormProvider );
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -57,22 +59,35 @@ class _EditProfileBodyPage extends ConsumerWidget {
               ],
             ),
             const SizedBox( height: 20 ),
+
+            CustomProfileField( 
+              hint: authState.email,
+              readOnly: true,
+              isTopField: true,
+              isBottomField: true,
+              label: 'Correo Electronico',
+              // keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              // initialValue: authState.nombre,
+            ),
+        
+            const CustomProfileField( 
+              readOnly: true,
+              hint: 'Escribir contraseña',
+              obscureText: true,
+              isTopField: true,
+              isBottomField: true,
+              label: 'Contraseña',
+              // keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              // initialValue: authState.nombre,
+            ),
+            const SizedBox( height: 20 ),
         
             CustomProfileField( 
               hint: authState.nombre,
               isTopField: true,
               isBottomField: true,
               label: 'Nombre',
-              // keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              // initialValue: authState.nombre,
-            ),
-            const SizedBox( height: 20 ),
-            
-            CustomProfileField( 
-              hint: authState.email,
-              isTopField: true,
-              isBottomField: true,
-              label: 'Correo',
+              onChanged: ref.read( updateFormProvider.notifier ).onNameChange,
               // keyboardType: const TextInputType.numberWithOptions(decimal: true),
               // initialValue: authState.nombre,
             ),
@@ -83,39 +98,22 @@ class _EditProfileBodyPage extends ConsumerWidget {
               isTopField: true,
               isBottomField: true,
               label: 'Numero de Telefono',
-              // keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              // initialValue: authState.nombre,
-            ),
-            const SizedBox( height: 20 ),
-        
-            const CustomProfileField( 
-              hint: 'Escribir contraseña',
-              obscureText: true,
-              isTopField: true,
-              isBottomField: true,
-              label: 'Contraseña',
+              onChanged: ref.read( updateFormProvider.notifier ).onPhoneChange,
               // keyboardType: const TextInputType.numberWithOptions(decimal: true),
               // initialValue: authState.nombre,
             ),
             const SizedBox( height: 20 ),
 
-            const CustomProfileField(
+            CustomProfileField(
               hint: 'Escribir biografia',
               maxLines: 4,
               isTopField: true,
               isBottomField: true,
               label: 'Biografia',
+              onChanged: ref.read( updateFormProvider.notifier ).onBioChange,
               // keyboardType: const TextInputType.numberWithOptions(decimal: true),
             ),
-            
-            // CustomTextFormField(
-            //   label: 'Biografia',
-            //   obscureText: true,
-            //   onChanged: ref.read( registerFormProvider.notifier ).onPasswordChanged,
-            //   errorMessage: registerForm.isFormPosted
-            //     ? registerForm.password.errorMessage
-            //     : null,
-            // ),
+
             const SizedBox( height: 40 ),
             SizedBox(
               width: double.infinity,
@@ -124,11 +122,26 @@ class _EditProfileBodyPage extends ConsumerWidget {
                 text: 'Editar',
                 buttonColor: Colors.blueAccent.shade400,
                 onPressed: (){ 
-                  // registerForm.isPosting
-                  // ? null
-                  // : ref.read( registerFormProvider.notifier ).onFormSubmit().then((value) {
-                  //     if( registerForm.isValid && value == true ) context.push('/profile-user');
-                  // });
+                  upForm.isPosting
+                  ? null
+                  : ref.read( updateFormProvider.notifier )
+                    .onFormSubmit()
+                    .then((value) {
+                      if( value == true ) {
+                        context.push('/profile-user');
+                        showDialog(
+                          context: context, 
+                          builder: (context) => const PopUpMensajeFinalWidget(text: 'El Perfil se ha Actualizado Exitosamente!'),
+                        );
+                      }
+                      else {
+                        showDialog(
+                          context: context, 
+                          builder: (context) => const PopUpMensajeFinalWidget(text: 'El Perfil no se ha Actualizado. Intente de Nuevo!'),
+                        );
+                      }
+                    }
+                  );
                 }, 
               )
             ),
