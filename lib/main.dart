@@ -8,6 +8,7 @@ void main() async {
   await Enviroment.initEnvironment();
   
   WidgetsFlutterBinding.ensureInitialized();
+  await Future.delayed(Duration(milliseconds: 100), () => HttpOverrides.global = new MyHttpOverrides());
   
   /// Initialize Firebase
   await FirebaseService.init();
@@ -30,5 +31,13 @@ class MainApp extends ConsumerWidget {
       routerConfig: appRouter,
       
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
