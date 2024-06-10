@@ -45,7 +45,7 @@ class OurWorksPage extends ConsumerWidget {
               label: const Text('Crear Trabajo'),
               icon: const Icon( Icons.add ),
               onPressed: () {
-                context.pushReplacement('/work/new');
+                context.pushReplacement('/work-edit/new');
               },
             )
           : null,

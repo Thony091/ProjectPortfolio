@@ -62,7 +62,7 @@ class ServiceDetailPage extends ConsumerWidget{
         ),
         body: serviceState.isLoading
           ? const FullScreenLoader()
-          : _ServiceDetailBodyPage( service: serviceState.service! ),
+          : BackgroundImageWidget(opacity: 0.1, child: _ServiceDetailBodyPage( service: serviceState.service! )),
         floatingActionButton:  ( authState.authStatus != AuthStatus.authenticated)
           ? null 
           : (authState.userData!.isAdmin) 
@@ -123,7 +123,6 @@ class _ServiceDetailBodyPage extends ConsumerWidget {
   }
 }
 
-
 class _ServiceInformation extends ConsumerWidget {
 
   final Services service;
@@ -133,90 +132,38 @@ class _ServiceInformation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref ) {
 
-    final serviceForm = ref.watch( serviceFormProvider( service ) );
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       
-      child: service.id != 'new'
-      ? Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Generales'),
-            const SizedBox(height: 15 ),
-            CustomProductField(
-              readOnly: true,
-              isTopField: true,
-              label: 'Nombre',
-              initialValue: service.name,
-            ),
-
-            CustomProductField( 
-              readOnly: true,
-              isBottomField: true,
-              label: 'Precio',
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              initialValue: 'Entre ${service.minPrice.toString()} - ${service.maxPrice.toString()}',
-            ),
-
-            const SizedBox(height: 15 ),
-
-            CustomProductField( 
-              readOnly: true,
-              maxLines: 6,
-              label: 'Descripción',
-              keyboardType: TextInputType.multiline,
-              initialValue: service.description,
-            ),
-
-            const SizedBox(height: 30 ),
-          ],
-        )
-      
-      : Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('Generales'),
           const SizedBox(height: 15 ),
           CustomProductField(
+            readOnly: true,
             isTopField: true,
             label: 'Nombre',
-            initialValue: serviceForm.name.value,
-            onChanged: ref.read( serviceFormProvider( service ).notifier ).onNameChange,
-          ),
-
-          CustomProductField( 
-            isTopField: true,
-            label: 'Precio Minimo',
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            initialValue: serviceForm.minPrice.value.toString(),
-            onChanged: (value) => ref.read( serviceFormProvider( service ).notifier )
-              .onMinPriceChange( int.parse(value) ?? -1),
-            errorMessage: serviceForm.minPrice.errorMessage,
+            initialValue: service.name,
           ),
           CustomProductField( 
+            readOnly: true,
             isBottomField: true,
-            label: 'Precio Maximo',
+            label: 'Precio',
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            initialValue: serviceForm.maxPrice.value.toString(),
-            onChanged: (value) => ref.read( serviceFormProvider( service ).notifier )
-              .onMaxPriceChange( int.parse(value) ?? -1 ),
-            errorMessage: serviceForm.minPrice.errorMessage,
+            initialValue: 'Entre ${service.minPrice.toString()} - ${service.maxPrice.toString()}',
           ),
           const SizedBox(height: 15 ),
-          
-          CustomProductField(
+          CustomProductField( 
+            readOnly: true,
             maxLines: 6,
             label: 'Descripción',
             keyboardType: TextInputType.multiline,
-            initialValue: serviceForm.description.value,
-            onChanged: ref.read( serviceFormProvider( service ).notifier ).onDescriptionChange,
-            hint: 'Descripción del servicio',
+            initialValue: service.description,
           ),
-
           const SizedBox(height: 30 ),
         ],
-      ),
+      )
     );
   }
 }

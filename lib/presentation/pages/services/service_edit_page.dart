@@ -35,7 +35,10 @@ class ServiceEditPage extends ConsumerWidget{
       onTap: () => FocusScope.of( context ).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text( serviceState.service?.name ?? ' Cargando...'),
+          title: Text(  serviceState.service?.id == 'new'
+              ? 'Nuevo servicio'
+              : serviceState.service?.name ?? ' Cargando...'
+          ),
           backgroundColor: color.primary,
           actions: [
             IconButton(onPressed: () async {
@@ -60,7 +63,7 @@ class ServiceEditPage extends ConsumerWidget{
         ),
         body: serviceState.isLoading
           ? const FullScreenLoader()
-          : _ServiceDetailBodyPage( service: serviceState.service! ),
+          : BackgroundImageWidget(opacity: 0.1, child: _ServiceDetailBodyPage( service: serviceState.service! )),
         floatingActionButton: FloatingActionButton.extended(
           label: const Text( 'Guardar' ),
           icon: const Icon( Icons.save_outlined, ),
@@ -72,7 +75,7 @@ class ServiceEditPage extends ConsumerWidget{
             .then((value) {
               if ( !value ) return;
               showSnackbar(context);
-              context.pushReplacement('/');
+              context.pop();
             });
           },
         )
@@ -133,51 +136,98 @@ class _ServiceInformation extends ConsumerWidget {
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Container(
           height: MediaQuery.of(context).size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Generales'),
-              const SizedBox(height: 15 ),
-              CustomProductField(
-                isTopField: true,
-                label: 'Nombre',
-                initialValue: serviceForm.name.value,
-                onChanged: ref.read( serviceFormProvider( service ).notifier ).onNameChange,
-                errorMessage: serviceForm.name.errorMessage,
+          child: service.id != 'new'
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Generales'),
+                  const SizedBox(height: 15 ),
+                  CustomProductField(
+                    isTopField: true,
+                    label: 'Nombre',
+                    initialValue: serviceForm.name.value,
+                    onChanged: ref.read( serviceFormProvider( service ).notifier ).onNameChange,
+                    errorMessage: serviceForm.name.errorMessage,
+                  ),
+                  CustomProductField( 
+                    isTopField: true,
+                    label: 'Precio Minimo',
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    // initialValue: serviceForm.minPrice.value.toString(),
+                    hint: serviceForm.minPrice.value.toString(),
+                    onChanged: (value) => ref.read( serviceFormProvider( service ).notifier )
+                      .onMinPriceChange( int.parse(value) ),
+                    errorMessage: serviceForm.minPrice.errorMessage,
+                  ),
+                  CustomProductField( 
+                    isBottomField: true,
+                    label: 'Precio Maximo',
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    // initialValue: serviceForm.maxPrice.value.toString(),
+                    hint: serviceForm.maxPrice.value.toString(),
+                    onChanged: (value) => ref.read( serviceFormProvider( service ).notifier )
+                      .onMaxPriceChange( int.parse(value) ),
+                    errorMessage: serviceForm.minPrice.errorMessage,
+                  ),
+              
+                  const SizedBox(height: 15 ),
+              
+                  CustomProductField(
+                    maxLines: 6,
+                    label: 'Descripción',
+                    keyboardType: TextInputType.multiline,
+                    initialValue: serviceForm.description.value,
+                    onChanged: ref.read( serviceFormProvider( service ).notifier ).onDescriptionChange,
+                    errorMessage: serviceForm.description.errorMessage,
+                  ),
+              
+                  const SizedBox(height: 30 ),
+                ],
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Generales'),
+                  const SizedBox(height: 15 ),
+                  CustomProductField(
+                    isTopField: true,
+                    label: 'Nombre',
+                    initialValue: serviceForm.name.value,
+                    onChanged: ref.read( serviceFormProvider( service ).notifier ).onNameChange,
+                  ),
+
+                  CustomProductField( 
+                    isTopField: true,
+                    label: 'Precio Minimo',
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    initialValue: serviceForm.minPrice.value.toString(),
+                    onChanged: (value) => ref.read( serviceFormProvider( service ).notifier )
+                      .onMinPriceChange( int.parse(value)),
+                    errorMessage: serviceForm.minPrice.errorMessage,
+                  ),
+                  CustomProductField( 
+                    isBottomField: true,
+                    label: 'Precio Maximo',
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    initialValue: serviceForm.maxPrice.value.toString(),
+                    onChanged: (value) => ref.read( serviceFormProvider( service ).notifier )
+                      .onMaxPriceChange( int.parse(value) ),
+                    errorMessage: serviceForm.minPrice.errorMessage,
+                  ),
+                  const SizedBox(height: 15 ),
+                  
+                  CustomProductField(
+                    maxLines: 6,
+                    label: 'Descripción',
+                    keyboardType: TextInputType.multiline,
+                    initialValue: serviceForm.description.value,
+                    onChanged: ref.read( serviceFormProvider( service ).notifier ).onDescriptionChange,
+                    hint: 'Descripción del servicio',
+                  ),
+
+                  const SizedBox(height: 30 ),
+                ],
               ),
-              CustomProductField( 
-                isTopField: true,
-                label: 'Precio Minimo',
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                initialValue: serviceForm.minPrice.value.toString(),
-                onChanged: (value) => ref.read( serviceFormProvider( service ).notifier )
-                  .onMinPriceChange( int.parse(value) ?? 0 ),
-                errorMessage: serviceForm.minPrice.errorMessage,
-              ),
-              CustomProductField( 
-                isBottomField: true,
-                label: 'Precio Maximo',
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                initialValue: serviceForm.maxPrice.value.toString(),
-                onChanged: (value) => ref.read( serviceFormProvider( service ).notifier )
-                  .onMaxPriceChange( int.parse(value) ?? 0),
-                errorMessage: serviceForm.minPrice.errorMessage,
-              ),
-          
-              const SizedBox(height: 15 ),
-          
-              CustomProductField(
-                maxLines: 6,
-                label: 'Descripción',
-                keyboardType: TextInputType.multiline,
-                initialValue: serviceForm.description.value,
-                onChanged: ref.read( serviceFormProvider( service ).notifier ).onDescriptionChange,
-                errorMessage: serviceForm.description.errorMessage,
-              ),
-          
-              const SizedBox(height: 30 ),
-            ],
-          ),
         ),
       ),
     );

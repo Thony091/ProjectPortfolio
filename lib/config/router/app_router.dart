@@ -186,6 +186,11 @@ final goRouterProvider = Provider( (ref) {
       final isGoingTo = state.subloc;
       final authStatus = goRouterNotifier.authStatus;
 
+      // Permitir acceso a la página de detalles del servicio sin autenticación
+      if (isGoingTo.startsWith('/service/')  && authStatus != AuthStatus.authenticated) {
+        return null; // No redirigir, permitir el acceso
+      }
+
       if ( isGoingTo == '/splash' && authStatus == AuthStatus.checking ) return null;
 
       if ( authStatus == AuthStatus.notAuthenticated ) {

@@ -16,7 +16,6 @@ class ServicesPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final scaffoldKey = GlobalKey<ScaffoldState>();
     final color = AppTheme().getTheme().colorScheme;
     final authState = ref.watch(authProvider);
     
@@ -46,12 +45,12 @@ class ServicesPage extends ConsumerWidget {
               label: const Text('Crear Servicio'),
               icon: const Icon( Icons.add ),
               onPressed: () {
-                context.pushReplacement('/service/new');
+                context.pushReplacement('/service-edit/new');
               },
             )
           : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      drawer: SideMenu(scaffoldKey: scaffoldKey),
+      // drawer: SideMenu(scaffoldKey: scaffoldKey),
     );
   }
 }

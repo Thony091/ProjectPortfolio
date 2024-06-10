@@ -19,7 +19,10 @@ class OurWorkEditPage extends ConsumerWidget{
   void showSnackbar( BuildContext context ) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Trabajo Actualizado'))
+      SnackBar(content: workId == 'new'
+        ? const Text('Trabajo Creado')
+        : const Text('Trabajo Actualizado')
+      )
     );
   }
 
@@ -58,7 +61,7 @@ class OurWorkEditPage extends ConsumerWidget{
         ),
         body: workState.isLoading
           ? const FullScreenLoader()
-          : _WorkDetailBodyPage( work: workState.work! ),
+          : BackgroundImageWidget(opacity: 0.1, child: _WorkDetailBodyPage( work: workState.work! )),
         floatingActionButton: FloatingActionButton.extended(
           label: const Text( 'Guardar' ),
           icon: const Icon( Icons.save_outlined, ),
@@ -70,7 +73,7 @@ class OurWorkEditPage extends ConsumerWidget{
             .then((value) {
               if ( !value ) return;
               showSnackbar(context);
-              context.pushReplacement('/');
+              context.pop();
             });
           },
         )
@@ -127,34 +130,61 @@ class _WorkInformation extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Generales'),
-          const SizedBox(height: 15 ),
-          CustomProductField(
-            isTopField: true,
-            label: 'Nombre',
-            initialValue: workForm.name.value,
-            onChanged: ref.read( workFormProvider( work ).notifier ).onNameChange,
-            errorMessage: workForm.name.errorMessage,
-          ),
+      child: work.id != 'new'
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Generales'),
+              const SizedBox(height: 15 ),
+              CustomProductField(
+                isTopField: true,
+                label: 'Nombre',
+                hint: 'Nombre del trabajo',
+                initialValue: workForm.name.value,
+                onChanged: ref.read( workFormProvider( work ).notifier ).onNameChange,
+                errorMessage: workForm.name.errorMessage,
+              ),
 
-          const SizedBox(height: 15 ),
+              const SizedBox(height: 15 ),
 
-          CustomProductField(
-            maxLines: 6,
-            label: 'Descripción',
-            keyboardType: TextInputType.multiline,
-            initialValue: workForm.description.value,
-            onChanged: ref.read( workFormProvider( work ).notifier ).onDescriptionChange,
-            errorMessage: workForm.description.errorMessage,
-          ),
+              CustomProductField(
+                maxLines: 6,
+                label: 'Descripción',
+                keyboardType: TextInputType.multiline,
+                hint: 'Descripción del trabajo',
+                initialValue: workForm.description.value,
+                onChanged: ref.read( workFormProvider( work ).notifier ).onDescriptionChange,
+                errorMessage: workForm.description.errorMessage,
+              ),
+              const SizedBox(height: 30 ),
+            ],
+          )
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Generales'),
+              const SizedBox(height: 15 ),
+              CustomProductField(
+                isTopField: true,
+                label: 'Nombre',
+                hint: 'Nombre del trabajo',
+                onChanged: ref.read( workFormProvider( work ).notifier ).onNameChange,
+                errorMessage: workForm.name.errorMessage,
+              ),
 
+              const SizedBox(height: 15 ),
 
-          const SizedBox(height: 30 ),
-        ],
-      ),
+              CustomProductField(
+                maxLines: 6,
+                label: 'Descripción',
+                keyboardType: TextInputType.multiline,
+                hint: 'Descripción del trabajo',
+                onChanged: ref.read( workFormProvider( work ).notifier ).onDescriptionChange,
+                errorMessage: workForm.description.errorMessage,
+              ),
+              const SizedBox(height: 30 ),
+            ],
+          )
     );
   }
 }
