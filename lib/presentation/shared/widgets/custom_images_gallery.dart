@@ -17,10 +17,14 @@ class CustomImagesGallery extends StatelessWidget {
         viewportFraction: 0.7
       ),
       children: images.isEmpty
-        ? [ ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            child: Image.asset('assets/images/no-image.jpg', fit: BoxFit.cover )) 
-        ]
+        ? [ 
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              child: Image.asset('assets/images/no-image.jpg', 
+                fit: BoxFit.cover 
+              )
+            ) 
+          ]
         : images.map((image){
 
           late ImageProvider imageProvider;
@@ -33,7 +37,7 @@ class CustomImagesGallery extends StatelessWidget {
           return ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(20)),
             child: FadeInImage(
-              placeholder: const AssetImage('assets/images/loader.gif'),
+              placeholder: const AssetImage('assets/loaders/loader2.gif'),
               image: imageProvider,
               fit: BoxFit.cover,
             )
