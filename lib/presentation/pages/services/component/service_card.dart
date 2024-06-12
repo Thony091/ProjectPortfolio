@@ -191,7 +191,6 @@ class _ImageViewer extends StatelessWidget {
                     //   ),
                     //   blankSpace: 20,
                     //   velocity: 50,
-
                     // ),
                     SizedBox(
                       height: 20,
