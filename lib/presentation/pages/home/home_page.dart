@@ -76,8 +76,8 @@ class _HomeBodyPage extends ConsumerWidget {
               children: [
           
                 const SizedBox(height: 20,),
-                const Text('Home Admin Page', style: TextStyle(fontSize: 25)),
-                const SizedBox(height: 20,),
+                const Text('Home Admin Page', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black87)),
+                const SizedBox(height: 30,),
               
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +98,7 @@ class _HomeBodyPage extends ConsumerWidget {
                       onPressed: () => context.push('/our-works'),
                       icon: Icons.workspace_premium_outlined,
                     ),
-                    const SizedBox(height: 20,),
+                    const SizedBox(height: 25,),
                     CustomFilledButton(
                       height: 60,
                       width: 270,
@@ -114,7 +114,7 @@ class _HomeBodyPage extends ConsumerWidget {
                       onPressed: () => context.push('/services'),
                       icon: Icons.car_repair_outlined,
                     ),
-                    const SizedBox(height: 20,),
+                    const SizedBox(height: 25,),
                     CustomFilledButton(
                       height: 60,
                       width: 270,
@@ -130,7 +130,7 @@ class _HomeBodyPage extends ConsumerWidget {
                       onPressed: () => context.push('/messages'),
                       icon: Icons.message_outlined,
                     ),
-                    const SizedBox(height: 20,),
+                    const SizedBox(height: 25,),
                     CustomFilledButton(
                       height: 60,
                       width: 270,
@@ -147,22 +147,22 @@ class _HomeBodyPage extends ConsumerWidget {
                       icon: Icons.message_outlined,
                     ),
                     const SizedBox(height: 20,),
-                    CustomFilledButton(
-                      height: 60,
-                      width: 270,
-                      padding: const EdgeInsets.only(top: 3, bottom: 3,),
-                      fontSize: 14,
-                      radius: const Radius.circular(40),
-                      spreadRadius: 2,
-                      blurRadius: 4,
-                      text: 'Gest. de Productos(Desarrollo)',
-                      textColor: Colors.white60,
-                      buttonColor: Colors.black45,
-                      shadowColor: Colors.black45,
-                      onPressed: () {},
-                      icon: Icons.production_quantity_limits_outlined,
-                    ),
-                    const SizedBox(height: 20,),
+                    // CustomFilledButton(
+                    //   height: 60,
+                    //   width: 270,
+                    //   padding: const EdgeInsets.only(top: 3, bottom: 3,),
+                    //   fontSize: 14,
+                    //   radius: const Radius.circular(40),
+                    //   spreadRadius: 2,
+                    //   blurRadius: 4,
+                    //   text: 'Gest. de Productos(Desarrollo)',
+                    //   textColor: Colors.white60,
+                    //   buttonColor: Colors.black45,
+                    //   shadowColor: Colors.black45,
+                    //   onPressed: () {},
+                    //   icon: Icons.production_quantity_limits_outlined,
+                    // ),
+                    // const SizedBox(height: 20,),
 
                   ],
                 ),
