@@ -29,7 +29,8 @@ class SideMenuState extends ConsumerState<SideMenu> {
   @override
   Widget build(BuildContext context) {
     
-    final authStatus = ref.read( authProvider ).authStatus;
+    final authStatus = ref.watch( authProvider ).authStatus;
+    final authStateProvider = ref.watch( authProvider );
     
     return NavigationDrawer(
       selectedIndex: navDrawerIndex,
@@ -161,8 +162,9 @@ class SideMenuState extends ConsumerState<SideMenu> {
                 fontSize: 18
               ),
             ),
-            onTap: () {
-              context.push('/reservations');
+            onTap: () { ( authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin )
+              ? context.push('/reservas-config')
+              : context.push('/reservations');
             },
           ),
 

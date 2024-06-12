@@ -40,7 +40,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<User> updateUser(Map<String, dynamic> userSimilar, User user) async {
-    return await datasource.updateUser(userSimilar, user);
+  Future<User> updateUser(Map<String, dynamic> userSimilar, String uid) async {
+    return await datasource.updateUser(userSimilar, uid);
   }
 }

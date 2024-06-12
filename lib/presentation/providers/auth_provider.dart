@@ -109,6 +109,31 @@ class AuthNotifier extends StateNotifier<AuthState>{
     return value;
   }
 
+  Future<bool> updateDataToFirestore ( Map<String, dynamic> userSimilar ) async {
+
+    // final userData = await keyValueStorageService.getValue('userData');
+
+    try {
+      final user = await FirebaseAuthService.auth.signInWithEmailAndPassword(
+        email: state.userData!.email, 
+        password: state.userData!.password
+      );
+      
+      final userData = await authRepository.updateUser( userSimilar, user.user!.uid );
+
+      state = state.copyWith(
+        userData: userData
+      );
+
+      return true;
+    } catch (e) {
+      Exception("Error en actualizacion: ${e.toString()}");
+      print(e);
+      return false;
+    }
+
+  }
+
   /// Método privado para establecer el usuario autenticado. 
   void _setLoggedUser (firebase_auth.UserCredential user, User userData) async {
 
@@ -133,6 +158,23 @@ class AuthNotifier extends StateNotifier<AuthState>{
       userData: userData,
       token: tokenId,
     );
+    // await keyValueStorageService.setKeyValue('userData', state.userData);
+
+  }
+
+  Future<void> updateUser( Map<String, dynamic> userSimilar,  ) async {
+
+    final userData = await keyValueStorageService.getValue('userData');
+    try {
+      final user = await authRepository.updateUser(userSimilar, userData );
+
+      state = state.copyWith(
+        userData: user
+      );
+      
+    } catch (e) {
+      Exception("Error en actualizacion: ${e.toString()}");
+    }
   }
 
   /// Método para cerrar sesión del usuario.
@@ -190,11 +232,11 @@ class AuthState {
     User? userData,
     String? token,
   }) => AuthState(
-      authStatus: authStatus ?? this.authStatus,
-      user: user ?? this.user,
-      errorMessage: errorMessage ?? this.errorMessage,
-      userData: userData ?? this.userData,
-      token: token ?? this.token
+    authStatus: authStatus ?? this.authStatus,
+    user: user ?? this.user,
+    errorMessage: errorMessage ?? this.errorMessage,
+    userData: userData ?? this.userData,
+    token: token ?? this.token
   );
 
   @override

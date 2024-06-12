@@ -84,11 +84,11 @@ class UserDatasourceImpl extends UserDatasource {
   }
   
   @override
-  Future<User> updateUser( Map<String, dynamic> userSimilar, User user) async {
+  Future<User> updateUser( Map<String, dynamic> userSimilar, String uid ) async {
     
     try {
 
-      final updatesUser = await FirestoreService().updateDataToFirestore(userSimilar, 'users', user.uid);
+      final updatesUser = await FirestoreService().updateDataToFirestore(userSimilar, 'users', uid);
 
       final newUserDataFirestore = UserFirestoreResponse.fromJson(updatesUser);
 

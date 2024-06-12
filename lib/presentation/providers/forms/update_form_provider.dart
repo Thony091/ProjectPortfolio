@@ -5,12 +5,12 @@ import 'package:formz/formz.dart';
 
 import '../../presentation_container.dart';
 
-final updateFormProvider = StateNotifierProvider.autoDispose.family<UpdateFormNotifier,UpdateFormState>((ref, userSimilar) {
+final updateFormProvider = StateNotifierProvider.autoDispose<UpdateFormNotifier,UpdateFormState>(
+  (ref) {
 
   final updateUserCallback = ref.watch( authProvider.notifier ).updateDataToFirestore;
 
   return UpdateFormNotifier(
-    userSimilar: userSimilar,
     updateUserCallback: updateUserCallback,
   );
 });
@@ -21,14 +21,8 @@ class UpdateFormNotifier extends StateNotifier<UpdateFormState> {
 
   UpdateFormNotifier({
     this.updateUserCallback,
-    required Map<String, String> userSimilar
   }): super( 
-    UpdateFormState(
-      name: Name.dirty(userSimilar['name'] ?? ''),
-      birthday: Birthday.dirty(userSimilar['birthday'] ?? ''),
-      phone: Phone.dirty(userSimilar['phone'] ?? ''),
-      bio: Description.dirty(userSimilar['bio'] ?? ''),
-    ) 
+    UpdateFormState() 
   );
   
   onNameChange( String value ) {
@@ -77,51 +71,51 @@ class UpdateFormNotifier extends StateNotifier<UpdateFormState> {
       'ProfileImage': '',
     };
     try {
-      return await updateUserCallback( userSimilar );
+      return await updateUserCallback!( userSimilar );
     } catch (e) {
       throw Exception("Error en actualizacion: ${e.toString()}");
     }
 
   }
 
-  Future<bool> onFormSubmit() async {
+  // Future<bool> onFormSubmit() async {
 
-    try {
+  //   try {
       
-      _touchEveryField();
+  //     _touchEveryField();
 
-      if ( !state.isValid ) return false;
+  //     if ( !state.isValid ) return false;
 
-      state = state.copyWith(isPosting: true);
+  //     state = state.copyWith(isPosting: true);
 
 
-      state = state.copyWith(isPosting: false);
+  //     state = state.copyWith(isPosting: false);
 
-      return true;
+  //     return true;
 
-    } catch (e) {
-      e.toString();
-      return false;
-    }
-  }
+  //   } catch (e) {
+  //     e.toString();
+  //     return false;
+  //   }
+  // }
 
   _touchEveryField() {
 
     final name     = Name.dirty(state.name.value);
-    final rut      = Rut.dirty(state.rut.value);
-    final birthday = Birthday.dirty(state.birthday.value);
+    // final rut      = Rut.dirty(state.rut.value);
+    // final birthday = Birthday.dirty(state.birthday.value);
     final phone    = Phone.dirty(state.phone.value);
 
     state = state.copyWith(
       isFormPosted: true,
       name: name,
-      rut: rut,
-      birthday: birthday,
+      // rut: rut,
+      // birthday: birthday,
       phone: phone,
       isValid: Formz.validate([ 
         name, 
-        rut, 
-        birthday, 
+        // rut, 
+        // birthday, 
         phone, 
       ])
     );

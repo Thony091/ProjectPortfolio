@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -61,24 +60,21 @@ class _EditProfileBodyPage extends ConsumerWidget {
             const SizedBox( height: 20 ),
 
             CustomProfileField( 
-              hint: authState.email,
               readOnly: true,
               isTopField: true,
               isBottomField: true,
               label: 'Correo Electronico',
-              // keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              // initialValue: authState.nombre,
+              initialValue: authState.email,
             ),
+            const SizedBox( height: 20 ),
         
-            const CustomProfileField( 
+            CustomProfileField( 
               readOnly: true,
-              hint: 'Escribir contraseña',
               obscureText: true,
               isTopField: true,
               isBottomField: true,
               label: 'Contraseña',
-              // keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              // initialValue: authState.nombre,
+              initialValue: authState.password,
             ),
             const SizedBox( height: 20 ),
         
@@ -114,18 +110,20 @@ class _EditProfileBodyPage extends ConsumerWidget {
               // keyboardType: const TextInputType.numberWithOptions(decimal: true),
             ),
 
-            const SizedBox( height: 40 ),
+            const SizedBox( height: 30 ),
             SizedBox(
               width: double.infinity,
               height: 60,
               child: CustomFilledButton(
+                radius: const Radius.circular(20),
+                icon: Icons.save,
                 text: 'Editar',
                 buttonColor: Colors.blueAccent.shade400,
                 onPressed: (){ 
                   upForm.isPosting
                   ? null
                   : ref.read( updateFormProvider.notifier )
-                    .onFormSubmit()
+                    .onUpdateFormSubmit()
                     .then((value) {
                       if( value == true ) {
                         context.push('/profile-user');

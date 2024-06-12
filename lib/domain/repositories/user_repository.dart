@@ -10,7 +10,7 @@ abstract class UserRepository {
 
   Future<bool> register(String email, String password, String name, String rut, String birthday, String phone, String uid);
 
-  Future<User> updateUser( Map<String, dynamic> userSimilar, User user);
+  Future<User> updateUser( Map<String, dynamic> userSimilar, String uid);
 
   Future<void> deleteUser();
 
