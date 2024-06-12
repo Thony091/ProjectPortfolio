@@ -25,53 +25,62 @@ class AdminCardService extends StatefulWidget {
 class _AdminCardServiceState extends State<AdminCardService> {
 
   //TODO revisar el uso de Dismissible aqui
+  bool _isDismissed = false;
   bool isVisible = true;
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: isVisible,
-      child: Dismissible(
-        key:  Key(widget.service.id),
-        direction: DismissDirection.horizontal,
-        background: Container(
-          color: Colors.blueAccent[100],
-          child:  const Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Icon(Icons.edit, color: Colors.white, size: 35,),
-            ),
+    if(_isDismissed){
+      return Container();
+    }
+    return Dismissible(
+      key: Key(widget.service.id),
+      direction: DismissDirection.horizontal,
+      background: Container(
+        color: Colors.blueAccent[100],
+        child: const Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Icon(Icons.edit, color: Colors.white, size: 35),
           ),
         ),
-        secondaryBackground: Container(
-          color: Colors.red,
-          child:  const Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Icon(Icons.delete, color: Colors.white, size: 35,),
-            ),
+      ),
+      secondaryBackground: Container(
+        color: Colors.red,
+        child: const Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: Icon(Icons.delete, color: Colors.white, size: 35),
           ),
         ),
-        onDismissed: (direction) {
-          if ( isVisible){
+      ),
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.startToEnd) {
+          // Acción cuando se desliza de izquierda a derecha (editar)
+          widget.onTapdEdit?.call();
+          context.push('/service-edit/${widget.service.id}');
+          // No confirmar el deslizamiento para no eliminar la tarjeta
+          return false;
+        } else if (direction == DismissDirection.endToStart) {
+          // Acción cuando se desliza de derecha a izquierda (eliminar)
+          // final shouldDelete = await widget.onTapDelete?.call() ?? false;
+          final shouldDelete = await _showConfirmationDialog(context);
+          if (shouldDelete) {
+            widget.onTapDelete?.call();
             setState(() {
-              isVisible = false;
-
-              if (direction == DismissDirection.startToEnd) {
-                // Acción cuando se desliza de izquierda a derecha (editar)
-                context.push('/service-edit/${widget.service.id}');
-              } else if (direction == DismissDirection.endToStart) {
-                // Acción cuando se desliza de derecha a izquierda (eliminar)
-                // onTapDelete(service);
-              }
-
+              _isDismissed = true;
             });
           }
-        },
+          return shouldDelete;
+        }
+        return false;
+      },
+      child: Hero(
+        tag: 'service-${widget.service.id}',
         child: Row(
           children: [
-            _ImageViewer( 
+            _ImageViewer(
               images: widget.service.images,
               title: widget.service.name,
               description: widget.service.description,
@@ -86,6 +95,26 @@ class _AdminCardServiceState extends State<AdminCardService> {
     );
   }
 }
+
+Future<bool> _showConfirmationDialog(BuildContext context) async {
+    return await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirmar eliminación'),
+        content: Text('¿Estás seguro de que deseas eliminar este servicio?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text('Eliminar'),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
 
 
 class _ImageViewer extends StatelessWidget {
