@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../config/config.dart';
 import '../../../../domain/domain.dart';
 import '../../../shared/shared.dart';
 
-class AdminCardService extends StatelessWidget {
+class AdminCardService extends StatefulWidget {
 
   final Services service;
   final Function()? onTapdEdit;
@@ -18,19 +19,70 @@ class AdminCardService extends StatelessWidget {
   });
 
   @override
+  State<AdminCardService> createState() => _AdminCardServiceState();
+}
+
+class _AdminCardServiceState extends State<AdminCardService> {
+
+  //TODO revisar el uso de Dismissible aqui
+  bool isVisible = true;
+  @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        _ImageViewer( 
-          images: service.images,
-          title: service.name,
-          description: service.description,
-          minPrice: service.minPrice,
-          maxPrice: service.maxPrice,
-          onTapdEdit: onTapdEdit,
-          onTapDelete: onTapDelete,
+    return Visibility(
+      visible: isVisible,
+      child: Dismissible(
+        key:  Key(widget.service.id),
+        direction: DismissDirection.horizontal,
+        background: Container(
+          color: Colors.blueAccent[100],
+          child:  const Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: Icon(Icons.edit, color: Colors.white, size: 35,),
+            ),
+          ),
         ),
-      ],
+        secondaryBackground: Container(
+          color: Colors.red,
+          child:  const Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Icon(Icons.delete, color: Colors.white, size: 35,),
+            ),
+          ),
+        ),
+        onDismissed: (direction) {
+          if ( isVisible){
+            setState(() {
+              isVisible = false;
+
+              if (direction == DismissDirection.startToEnd) {
+                // Acción cuando se desliza de izquierda a derecha (editar)
+                context.push('/service-edit/${widget.service.id}');
+              } else if (direction == DismissDirection.endToStart) {
+                // Acción cuando se desliza de derecha a izquierda (eliminar)
+                // onTapDelete(service);
+              }
+
+            });
+          }
+        },
+        child: Row(
+          children: [
+            _ImageViewer( 
+              images: widget.service.images,
+              title: widget.service.name,
+              description: widget.service.description,
+              minPrice: widget.service.minPrice,
+              maxPrice: widget.service.maxPrice,
+              onTapdEdit: widget.onTapdEdit,
+              onTapDelete: widget.onTapDelete,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
