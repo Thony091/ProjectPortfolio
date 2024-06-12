@@ -49,7 +49,8 @@ class ServiceEditPage extends ConsumerWidget{
                 .updateServiceImage(photoPath);
     
             }, 
-            icon: const Icon( Icons.photo_library_outlined )),
+              icon: const Icon( Icons.photo_library_outlined )
+            ),
 
             IconButton(onPressed: () async{
               final photoPath = await CameraGalleryServiceImpl().takePhoto();

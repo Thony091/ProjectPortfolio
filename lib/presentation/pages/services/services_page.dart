@@ -79,7 +79,7 @@ class _ServiceBodyPageState extends ConsumerState {
     final servicesState = ref.watch(servicesProvider);
     
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child:  MasonryGridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 5,

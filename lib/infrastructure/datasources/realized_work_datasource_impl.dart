@@ -1,4 +1,7 @@
 
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:portafolio_project/infrastructure/infrastructure.dart';
 
@@ -22,22 +25,34 @@ class RealizedWorkDatasourceImpl extends RealizedWorkDatasource {
     )
   );
 
-  Future<String> _uploadFile( String path ) async {
+ Future<String> _uploadFile( String path ) async {
 
     try {
+    // Leer el archivo de imagen como bytes
+    final fileBytes = File(path).readAsBytesSync();
 
-      final fileName = path.split('/').last;
-      final FormData data = FormData.fromMap({
-        'file': MultipartFile.fromFileSync(path, filename: fileName)
-      });
+    // Codificar los bytes a Base64
+    final base64Image = base64Encode(fileBytes);
 
-      final respose = await dio.post('/files/product', data: data );
+    // Devolver la cadena Base64 de la imagen
+    return base64Image;
+  } catch (e) {
+    throw Exception('Error al convertir la imagen a Base64: $e');
+  }
+    // try {
 
-      return respose.data['image'];
+    //   final fileName = path.split('/').last;
+    //   final FormData data = FormData.fromMap({
+    //     'file': MultipartFile.fromFileSync(path, filename: fileName)
+    //   });
 
-    } catch (e) {
-      throw Exception();
-    }
+    //   final respose = await dio.post('/files/product', data: data );
+
+    //   return respose.data['image'];
+
+    // } catch (e) {
+    //   throw Exception();
+    // }
 
   }
 
@@ -65,7 +80,7 @@ class RealizedWorkDatasourceImpl extends RealizedWorkDatasource {
       // final String url = (serviceId == null) ? '/crear-servicio' : '/actualizar-servicio/$serviceId';
 
       worksSimilar.remove('id');
-      // worksSimilar['image'] = await _uploadPhotos( worksSimilar['image'] );
+      worksSimilar['image'] = await _uploadFile( worksSimilar['image'] );
 
       Works work = Works( id: '0', name: 'No encontrado', description: 'No encontrado', image: "");
 

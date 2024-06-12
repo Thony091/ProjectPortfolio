@@ -110,22 +110,22 @@ class UpdateFormNotifier extends StateNotifier<UpdateFormState> {
 
   _touchEveryField() {
 
-    final name     = Name.dirty(state.name.value);
+    // final name     = Name.dirty(state.name.value);
     // final rut      = Rut.dirty(state.rut.value);
     // final birthday = Birthday.dirty(state.birthday.value);
-    final phone    = Phone.dirty(state.phone.value);
+    // final phone    = Phone.dirty(state.phone.value);
 
     state = state.copyWith(
       isFormPosted: true,
-      name: name,
+      // name: name,
       // rut: rut,
       // birthday: birthday,
-      phone: phone,
+      // phone: phone,
       isValid: Formz.validate([ 
-        name, 
+        // name, 
         // rut, 
         // birthday, 
-        phone, 
+        // phone, 
       ])
     );
 

@@ -1,5 +1,3 @@
-
-
 // import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
@@ -27,31 +25,25 @@ class UserDatasourceImpl extends UserDatasource {
   Future<User> getUser(String collectionName, String uid) async {
 
     try {
-
       final data = await FirestoreService().getUserDataFromFirestore('users', uid);
-
       final userDataFirestore = UserFirestoreResponse.fromJson(data);
-
       final userData = UserMapper.userDbToEntity(userDataFirestore);
-
       return userData;
-
     } catch (e) {
       throw CustomError("Errrrror getUser(): ${e.toString()}");
     }
+
   }
   
   @override
-  Future<bool> register(String email, String password, String name, String rut, String birthday, String phone, String uid) async {
-    
+  Future<bool> register(
+    String email, String password, String name, String rut, String birthday, String phone, String uid) async {
 
-    try {
-      
+    try {  
       final user = await FirebaseAuthService.auth.createUserWithEmailAndPassword(
         email: email, 
         password: password
       );
-
       final data = {
         'email': email,
         'password': password,
@@ -64,20 +56,9 @@ class UserDatasourceImpl extends UserDatasource {
         'bio': '',
         'ProfileImage': '',
         'isAdmin': false,
-        'creditCard': [
-          // {
-          //   'number': '',
-          //   'expirationDate': '',
-          //   'cvv': '',
-          //   'name': '',
-          // }
-        ]
       };
-
       await FirestoreService().addDataToFirestore(data, 'users', user.user!.uid);
-
       return true;
-
     } catch (e) {
       throw CustomError("Errrrror: ${e.toString()}");
     }
@@ -87,17 +68,9 @@ class UserDatasourceImpl extends UserDatasource {
   Future<User> updateUser( Map<String, dynamic> userSimilar, String uid ) async {
     
     try {
-
       await FirestoreService().updateDataToFirestore( userSimilar, 'users', uid);
-      
       final newUserData = await getUser('users', uid);
-
-      // final newUserDataFirestore = UserFirestoreResponse.fromJson(updatesUser);
-
-      // final newUserData = UserMapper.userDbToEntity(newUserDataFirestore);
-
       return newUserData;
-
     } catch (e) {
       throw Exception(e);
     }
@@ -108,22 +81,15 @@ class UserDatasourceImpl extends UserDatasource {
   Future<firebase_auth.UserCredential> login(String email, String password) async {
 
     try {
-      
       final user = await FirebaseAuthService.auth.signInWithEmailAndPassword(
         email: email, 
         password: password
       );
-
       return user;
-
     } catch (e) {
       throw CustomError("Errrrror: ${e.toString()}");
     }
 
   }
-
-
-
-
 
 }

@@ -159,11 +159,11 @@ class AuthNotifier extends StateNotifier<AuthState>{
       token: tokenId,
     );
     
-    if (state.userData != null) {
+    // if (state.userData != null) {
 
-      await keyValueStorageService.setKeyValue('userData', state.userData);
+    //   await keyValueStorageService.setKeyValue('userData', state.userData);
 
-    }
+    // }
 
   }
 
