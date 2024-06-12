@@ -143,9 +143,6 @@ class _ImageViewer extends StatelessWidget {
 
                   ]
                 ),
-               
-            
-            
               ],
             ),
           ),
@@ -154,17 +151,108 @@ class _ImageViewer extends StatelessWidget {
     }
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(5),
-      child: FadeInImage(
-        fit: BoxFit.cover,
-        height: 250,
-        width: size.width * 0.33,
-        fadeOutDuration: const Duration(milliseconds: 100),
-        fadeInDuration: const Duration(milliseconds: 200),
-        image: NetworkImage( images.first ),
-        placeholder: const AssetImage('assets/loaders/loader2.gif'),
-      ),
-    );
+        borderRadius: BorderRadius.circular(10),
+        child: Container(width: size.width * 0.93,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.white,
+                blurRadius: 5,
+                offset: Offset(0, 3)
+              ),
+            ]
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+            
+                FadeInImage(
+                  fit: BoxFit.cover,
+                  height: 110,
+                  width: size.width * 0.23,
+                  fadeOutDuration: const Duration(milliseconds: 100),
+                  fadeInDuration: const Duration(milliseconds: 200),
+                  image: NetworkImage( images.first ),
+                  placeholder: const AssetImage('assets/loaders/loader2.gif'),
+                ),
+                Container(
+                  width: size.width * 0.50,
+                  padding: const EdgeInsets.only( left: 5, top: 5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+            
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox( height: 10 ),
+                      Text(
+                        maxLines: 3,
+                        description,
+                        style: const TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                      const SizedBox( height: 10 ),
+                      Text(
+                        'Desde: \$${minPrice.toStringAsFixed(2)} - ${maxPrice.toStringAsFixed(2)} ',
+                        style: const TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold
+                        ),
+                        textAlign: TextAlign.end,
+                      ),
+                    ],
+                  ),
+                ),
+
+                Row( children:
+                  [
+
+                    const SizedBox( width: 10 ),
+                    CustomIconButton(
+                      onTap: onTapdEdit ?? () {}, 
+                      icon: Icons.edit,
+                      size: 22,
+                      color: Colors.blueGrey,
+                    ),
+                    const SizedBox( width: 10 ),
+                    CustomIconButton(
+                      onTap: onTapDelete ?? () {}, 
+                      icon: Icons.delete,
+                      size: 22,
+                      color: Colors.redAccent,
+                    ),
+
+                  ]
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
+    // return ClipRRect(
+    //   borderRadius: BorderRadius.circular(5),
+    //   child: FadeInImage(
+    //     fit: BoxFit.cover,
+    //     height: 250,
+    //     width: size.width * 0.33,
+    //     fadeOutDuration: const Duration(milliseconds: 100),
+    //     fadeInDuration: const Duration(milliseconds: 200),
+    //     image: NetworkImage( images.first ),
+    //     placeholder: const AssetImage('assets/loaders/loader2.gif'),
+    //   ),
+    // );
 
   }
 }
