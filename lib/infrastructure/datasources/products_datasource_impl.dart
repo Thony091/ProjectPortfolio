@@ -15,6 +15,7 @@ class ProductsDatasourceImpl extends ProductsDatasource {
     BaseOptions(
       baseUrl: '${Enviroment.baseUrl}/product-rest',
       headers: {
+        'x-api-key': 'ZvHNth6qgZ6LNnwtXwJX75Jk8YlXEZxX2AZvOFSW',
         'Authorization': 'Bearer $accessToken'
       }
     )

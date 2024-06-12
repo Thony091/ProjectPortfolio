@@ -81,7 +81,7 @@ class _ServiceDetailBodyPage extends ConsumerWidget {
 
     return ListView(
       children: [
-
+        const SizedBox( height: 20 ),
         SizedBox(
           height: 250,
           width: 600,

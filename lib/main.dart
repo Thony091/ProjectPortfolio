@@ -10,7 +10,7 @@ void main() async {
   await Enviroment.initEnvironment();
   
   WidgetsFlutterBinding.ensureInitialized();
-  await Future.delayed(Duration(milliseconds: 100), () => HttpOverrides.global = new MyHttpOverrides());
+  await Future.delayed(const Duration(milliseconds: 100), () => HttpOverrides.global = new MyHttpOverrides());
   
   /// Initialize Firebase
   await FirebaseService.init();

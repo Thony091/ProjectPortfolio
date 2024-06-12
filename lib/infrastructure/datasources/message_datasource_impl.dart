@@ -17,6 +17,7 @@ class MessageDatasourceImpl extends MessageDatasource{
     BaseOptions(
       baseUrl: Enviroment.baseUrl,
       headers: {
+        'x-api-key': 'ZvHNth6qgZ6LNnwtXwJX75Jk8YlXEZxX2AZvOFSW',
         // 'Authorization': 'Bearer $accessToken'
       }
     )

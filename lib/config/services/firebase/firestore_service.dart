@@ -33,9 +33,9 @@ class FirestoreService extends FirestoreServiceRepository {
       await _firestore
       .collection(collectionName)
       .doc(docName)
-      .update(data);
-      // .then((value) => print('Data updated'))
-      // .catchError((error) => print('Failed to update data: $error'));
+      .update(data)
+      .then((value) => print('Data updated'))
+      .catchError((error) => print('Failed to update data: $error'));
 
     } catch (e) {
       print(e);

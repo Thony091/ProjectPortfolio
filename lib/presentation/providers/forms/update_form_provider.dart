@@ -57,6 +57,15 @@ class UpdateFormNotifier extends StateNotifier<UpdateFormState> {
     );
   }
 
+  onRutChange( String value ) {
+    final newRut = Rut.dirty(value);
+    state = state.copyWith(
+      rut: newRut,
+      isValid: Formz.validate([ newRut, state.rut ])
+    );
+  }
+  
+
 
   Future<bool> onUpdateFormSubmit ( ) async {
     

@@ -88,11 +88,13 @@ class UserDatasourceImpl extends UserDatasource {
     
     try {
 
-      final updatesUser = await FirestoreService().updateDataToFirestore(userSimilar, 'users', uid);
+      await FirestoreService().updateDataToFirestore( userSimilar, 'users', uid);
+      
+      final newUserData = await getUser('users', uid);
 
-      final newUserDataFirestore = UserFirestoreResponse.fromJson(updatesUser);
+      // final newUserDataFirestore = UserFirestoreResponse.fromJson(updatesUser);
 
-      final newUserData = UserMapper.userDbToEntity(newUserDataFirestore);
+      // final newUserData = UserMapper.userDbToEntity(newUserDataFirestore);
 
       return newUserData;
 

@@ -79,29 +79,53 @@ class _EditProfileBodyPage extends ConsumerWidget {
             const SizedBox( height: 20 ),
         
             CustomProfileField( 
-              hint: authState.nombre,
+              initialValue: authState.nombre,
               isTopField: true,
               isBottomField: true,
               label: 'Nombre',
               onChanged: ref.read( updateFormProvider.notifier ).onNameChange,
               // keyboardType: const TextInputType.numberWithOptions(decimal: true),
               // initialValue: authState.nombre,
+              errorMessage: upForm.isFormPosted
+                ? upForm.name.errorMessage
+                : null,
+            ),
+            const SizedBox( height: 20 ),
+
+            CustomProfileField(
+              initialValue: authState.rut.isEmpty ? '' : authState.rut,
+              isTopField: true,
+              isBottomField: true,
+              label: 'Rut',
+              onChanged: ref.read( updateFormProvider.notifier ).onRutChange,
+            ),
+            const SizedBox( height: 20 ),
+
+            CustomProfileField(
+              hint: authState.fechaNacimiento.isEmpty ? 'Escribir Fecha de Nacimiento' : authState.fechaNacimiento, 
+              isTopField: true,
+              isBottomField: true,
+              label: 'Fecha de Nacimiento',
+              onChanged: ref.read( updateFormProvider.notifier ).onBirthayChange,
             ),
             const SizedBox( height: 20 ),
         
             CustomProfileField( 
-              hint: authState.telefono,
+              initialValue: authState.telefono.isEmpty ? '' : authState.telefono,
               isTopField: true,
               isBottomField: true,
               label: 'Numero de Telefono',
               onChanged: ref.read( updateFormProvider.notifier ).onPhoneChange,
               // keyboardType: const TextInputType.numberWithOptions(decimal: true),
               // initialValue: authState.nombre,
+              errorMessage: upForm.isFormPosted
+                ? upForm.phone.errorMessage
+                : null,
             ),
             const SizedBox( height: 20 ),
 
             CustomProfileField(
-              hint: 'Escribir biografia',
+              hint: authState.bio.isEmpty ? 'Escribir biografia' : authState.bio,
               maxLines: 4,
               isTopField: true,
               isBottomField: true,
@@ -117,7 +141,7 @@ class _EditProfileBodyPage extends ConsumerWidget {
               child: CustomFilledButton(
                 radius: const Radius.circular(20),
                 icon: Icons.save,
-                text: 'Editar',
+                text: '     Editar',
                 buttonColor: Colors.blueAccent.shade400,
                 onPressed: (){ 
                   upForm.isPosting
