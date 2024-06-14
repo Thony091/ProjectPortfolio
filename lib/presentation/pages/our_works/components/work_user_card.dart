@@ -167,18 +167,5 @@ class _ImageViewer extends StatelessWidget {
         ),
       );
 
-    // return ClipRRect(
-    //   borderRadius: BorderRadius.circular(5),
-    //   child: FadeInImage(
-    //     fit: BoxFit.cover,
-    //     height: 250,
-    //     width: size.width * 0.93,
-    //     fadeOutDuration: const Duration(milliseconds: 100),
-    //     fadeInDuration: const Duration(milliseconds: 200),
-    //     image: NetworkImage( image ),
-    //     placeholder: const AssetImage('assets/loaders/loader2.gif'),
-    //   ),
-    // );
-
   }
 }

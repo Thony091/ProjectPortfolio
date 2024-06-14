@@ -136,6 +136,13 @@ class _ServiceAdminBodyPageState extends ConsumerState {
   Widget build(BuildContext context) {
 
     final servicesState = ref.watch(servicesProvider);
+    void showDeleteSnackbar( BuildContext context ) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Servicio Eliminado')
+        )
+      );
+    }
     
     return Padding(
       padding: const EdgeInsets.only( left: 20, top: 10),
@@ -157,7 +164,12 @@ class _ServiceAdminBodyPageState extends ConsumerState {
                           return PopUpPreguntaWidget(
                             pregunta: '¿Estas seguro de eliminar el servicio?',
                             // confirmar: () {},
-                            confirmar: () => ref.read(servicesProvider.notifier).deleteService(service.id).then((value) => context.pop()), 
+                            confirmar: () => ref.read(servicesProvider.notifier)
+                              .deleteService(service.id)
+                              .then((value) {
+                                showDeleteSnackbar(context);
+                                context.pop();
+                              }), 
                             cancelar: () => context.pop()
                           );
                         }

@@ -127,6 +127,13 @@ class _OurWorksAdminBodyPageState extends ConsumerState {
   Widget build(BuildContext context) {
 
     final worksState = ref.watch( worksProvider );
+    void showDeleteSnackbar( BuildContext context ) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Trabajo Eliminado')
+        )
+      );
+    }
     
     return Padding(
       padding: const EdgeInsets.only( left: 20, top: 10),
@@ -148,7 +155,12 @@ class _OurWorksAdminBodyPageState extends ConsumerState {
                           return PopUpPreguntaWidget(
                             pregunta: '¿Estas seguro de eliminar el Trabajo?', 
                             // confirmar: () {},
-                            confirmar: () => ref.read( worksProvider.notifier ).deleteWork(work.id).then((value) => context.pop()), 
+                            confirmar: () => ref.read( worksProvider.notifier )
+                              .deleteWork(work.id)
+                              .then((value) { 
+                                showDeleteSnackbar( context );
+                                context.pop();
+                              }), 
                             cancelar: () => context.pop()
                           );
                         }

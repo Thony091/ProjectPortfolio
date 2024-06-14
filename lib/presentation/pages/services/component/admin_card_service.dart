@@ -30,6 +30,14 @@ class _AdminCardServiceState extends ConsumerState<AdminCardService> {
 
   bool _isDismissed = false;
   bool isVisible = true;
+  void showDeleteSnackbar( BuildContext context ) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Servicio Eliminado')
+      )
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     if(_isDismissed){
@@ -81,7 +89,12 @@ class _AdminCardServiceState extends ConsumerState<AdminCardService> {
               return PopUpPreguntaWidget(
                 pregunta: '¿Estas seguro de eliminar el servicio?',
                 // confirmar: () {},
-                confirmar: () => ref.read(servicesProvider.notifier).deleteService(widget.service.id).then((value) => context.pop()), 
+                confirmar: () => ref.read(servicesProvider.notifier)
+                  .deleteService(widget.service.id)
+                  .then((value) {
+                    showDeleteSnackbar(context);
+                    context.pop();
+                  }), 
                 cancelar: () => context.pop()
               );
             }

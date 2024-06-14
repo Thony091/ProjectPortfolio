@@ -30,7 +30,18 @@ class OurWorkEditPage extends ConsumerWidget{
   Widget build(BuildContext context, WidgetRef ref) {
 
     final workState = ref.watch( workProvider( workId ) );
+    final workForm = ref.watch( workFormProvider( workState.work! ) );
     final color = AppTheme().getTheme().colorScheme;
+
+    void showErrorSnackbar( BuildContext context ) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: workForm.image.value.isEmpty 
+          ? Text('${workForm.image.errorMessage}')
+          : const Text('')
+        )
+      );
+    }
     
     return GestureDetector(
       onTap: () => FocusScope.of( context ).unfocus(),
@@ -77,7 +88,7 @@ class OurWorkEditPage extends ConsumerWidget{
               workFormProvider( workState.work! ).notifier
             ).onFormSubmit()
             .then((value) {
-              if ( !value ) return;
+              if ( !value ) return showErrorSnackbar(context);
               showSnackbar(context);
               context.pop();
             });
@@ -107,7 +118,7 @@ class _WorkDetailBodyPage extends ConsumerWidget {
         SizedBox(
           height: 250,
           width: 550,
-          child: CustomImageGallery(image: workForm.image),
+          child: CustomImageGallery(image: workForm.image.value),
         ),
 
         const SizedBox( height: 20 ),

@@ -145,6 +145,9 @@ class _ReservationFormBody extends ConsumerWidget {
               isBottomField: true,
               isTopField: true,
               label: "Rut",
+              initialValue: authState.authStatus == AuthStatus.authenticated
+                ? authState.userData!.rut
+                : state.rut.value,
               hint: "Rut",
               onChanged: (value) {
                 ref.read( reservationFormProvider.notifier ).onRutChange(value);

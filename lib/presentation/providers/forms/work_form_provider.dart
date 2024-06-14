@@ -30,7 +30,7 @@ class WorkFormNotifier extends StateNotifier<WorkFormState>{
       id: work.id,
       name: Name.dirty( work.name ),
       description: Description.dirty(work.description),
-      image: work.image
+      image: WorkImagen.dirty(work.image)
     ) 
   );
 
@@ -40,6 +40,7 @@ class WorkFormNotifier extends StateNotifier<WorkFormState>{
       isFormValid: Formz.validate([ 
         Name.dirty(value),
         Description.dirty(state.description.value),
+        WorkImagen.dirty(state.image.value),
       ])
     );
   }
@@ -50,13 +51,19 @@ class WorkFormNotifier extends StateNotifier<WorkFormState>{
       isFormValid: Formz.validate([ 
         Name.dirty(state.name.value),
         Description.dirty(value),
+        WorkImagen.dirty(state.image.value),
       ])
     );
   }
 
   updateWorkImage( String value ) {
     state = state.copyWith(
-      image: value 
+      image: WorkImagen.dirty(value),
+      isFormValid: Formz.validate([ 
+        Name.dirty(state.name.value),
+        Description.dirty(state.description.value),
+        WorkImagen.dirty(value),
+      ]) 
     );
   }
   
@@ -65,6 +72,7 @@ class WorkFormNotifier extends StateNotifier<WorkFormState>{
       isFormValid: Formz.validate([ 
         Name.dirty(state.name.value),
         Description.dirty(state.description.value),
+        WorkImagen.dirty(state.image.value),
       ])
     );
   }
@@ -78,7 +86,7 @@ class WorkFormNotifier extends StateNotifier<WorkFormState>{
       'id': ( state.id == 'new' ) ? null : state.id,
       'name': state.name.value,
       'description': state.description.value,
-      'image': state.image
+      'image': state.image.value,
     };
     try {
       return await onSubmitCallback!(serviceSimilar);
@@ -94,14 +102,14 @@ class WorkFormState{
   final String? id;
   final Name name;
   final Description description;
-  final String image;
+  final WorkImagen image;
   
   WorkFormState({
     required this.id,
     this.isFormValid  = false,
     this.name         = const Name.pure(),
     this.description  = const Description.pure(),
-    this.image        = '',
+    required this.image,  
   });
 
   WorkFormState copyWith({
@@ -109,7 +117,7 @@ class WorkFormState{
     String? id,
     Name? name,
     Description? description,
-    String? image,
+    WorkImagen? image,
   }) => WorkFormState(
     id: id ?? this.id,
     isFormValid: isFormValid ?? this.isFormValid,

@@ -25,14 +25,12 @@ class RealizedWorkDatasourceImpl extends RealizedWorkDatasource {
     )
   );
 
- Future<String> _uploadFile( String path ) async {
+  Future<String> _uploadFile( String path ) async {
     try {
       // Leer el archivo de imagen como bytes
       final fileBytes = File(path).readAsBytesSync();
-
       // Codificar los bytes a Base64
       final base64Image = base64Encode(fileBytes);
-
       // Devolver la cadena Base64 de la imagen
       return base64Image;
     } catch (e) {
@@ -41,41 +39,32 @@ class RealizedWorkDatasourceImpl extends RealizedWorkDatasource {
   }
 
   Future<String> _uploadPhoto( String photo ) async {
-    
     // final photosToUpload = photos.where((element) => element.contains('/') ).toList();
     // final photosToIgnore = photos.where((element) => !element.contains('/') ).toList();
-
     String photoToConvert;
-    // String photoToIgnore;
     String newImage = "";
-
     if  ( !photo.startsWith('https') ) {
       photoToConvert = photo;
       newImage = await _uploadFile( photoToConvert );
-
     } 
     else if ( photo.startsWith('https') ) {
       newImage = photo;
     }
-    
     return newImage;
   }
 
   @override
   Future<Works> createUpdateWorks(Map<String, dynamic> worksSimilar) async {
-    
     try {
-      
       final String? workId = worksSimilar['id'];
       final String method = (workId == null) ? 'POST' : 'PUT';
       final String url = (workId == null) ? '/example' : '/example/$workId';
-      // final String url = (serviceId == null) ? '/crear-servicio' : '/actualizar-servicio/$serviceId';
-
       worksSimilar.remove('id');
-      worksSimilar['image'] = await _uploadPhoto( worksSimilar['image'] );
+      if ( worksSimilar['image'] != "" ) {
+        worksSimilar['image'] = await _uploadPhoto( worksSimilar['image'] );
+      }
 
       Works work = Works( id: '0', name: 'No encontrado', description: 'No encontrado', image: "");
-
       final response = await dio.request(
         url,
         data: worksSimilar,
@@ -84,18 +73,14 @@ class RealizedWorkDatasourceImpl extends RealizedWorkDatasource {
         )
       );
       final data = response.data;
-
       if ( data is Map<String, dynamic> && data.containsKey('data') ){
         var workData = data['data'];
-
         if ( workData is Map<String, dynamic> ){
           final work = RealizedWorksMapper.jsonToEntity(workData);
           return work;
         }
       }
-
       return work;
-
     } catch (e) {
       throw Exception(e);
     }
