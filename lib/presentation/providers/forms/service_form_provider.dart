@@ -3,7 +3,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 
-import '../../../config/config.dart';
 import '../../../domain/domain.dart';
 import '../../presentation_container.dart';
 
@@ -98,6 +97,7 @@ class ServiceFormNotifier extends StateNotifier<ServiceFormState>{
       images: [ ...state.images, value ]
     );
   }
+
   _tochedEverything(){
     state = state.copyWith(
       isFormValid: Formz.validate([ 
@@ -121,9 +121,7 @@ class ServiceFormNotifier extends StateNotifier<ServiceFormState>{
       'minPrice': state.minPrice.value,
       'maxPrice': state.maxPrice.value,
       'isActive': state.isActive,
-      'images': state.images.map(
-        (image) => image.replaceAll( '${Enviroment.baseUrl}/service-rest//', '')
-      ).toList(),
+      'images': state.images
     };
     try {
       return await onSubmitCallback!(serviceSimilar);

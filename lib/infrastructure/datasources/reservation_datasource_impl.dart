@@ -8,16 +8,17 @@ import '../../domain/domain.dart';
 class ReservationDatasourceImpl extends ReservationDatasource {
 
   late final Dio dio;
-  // final String accessToken;
+  final String accessToken;
 
-  ReservationDatasourceImpl(
-    // required this.accessToken
-  ) : dio = Dio(
+  ReservationDatasourceImpl({
+
+    required this.accessToken
+  }) : dio = Dio(
     BaseOptions(
       baseUrl: Enviroment.baseUrl,
       headers: {
         'x-api-key': 'ZvHNth6qgZ6LNnwtXwJX75Jk8YlXEZxX2AZvOFSW',
-        // 'Authorization': 'Bearer $accessToken'
+        'Authorization': 'Bearer $accessToken'
       }
     )
   );
@@ -49,9 +50,12 @@ class ReservationDatasourceImpl extends ReservationDatasource {
   }
 
   @override
-  Future<void> deleteReservation(String id) {
-    // TODO: implement deleteReservation
-    throw UnimplementedError();
+  Future<void> deleteReservation(String id) async {
+    try {
+      await dio.delete('/reservation/$id');
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override

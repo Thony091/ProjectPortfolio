@@ -9,16 +9,16 @@ import '../../domain/domain.dart';
 class MessageDatasourceImpl extends MessageDatasource{
 
   late final Dio dio;
-  // final String accessToken;
+  final String accessToken;
 
-  MessageDatasourceImpl(
-    // required this.accessToken
-  ) : dio = Dio(
+  MessageDatasourceImpl({
+    required this.accessToken
+  }) : dio = Dio(
     BaseOptions(
       baseUrl: Enviroment.baseUrl,
       headers: {
         'x-api-key': 'ZvHNth6qgZ6LNnwtXwJX75Jk8YlXEZxX2AZvOFSW',
-        // 'Authorization': 'Bearer $accessToken'
+        'Authorization': 'Bearer $accessToken'
       }
     )
   );
@@ -83,7 +83,6 @@ class MessageDatasourceImpl extends MessageDatasource{
 
   @override
   Future<List<Message>> getMessagesByPage() async {
-    
     try {
       final response = await dio.get('/message');
       final List<Message> messages = [];

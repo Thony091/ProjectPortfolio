@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portafolio_project/infrastructure/infrastructure.dart';
 
 import '../../domain/domain.dart';
+import '../presentation_container.dart';
 
 
 final reservationProvider = StateNotifierProvider<ReservationNotifier, ReservartionState>((ref) {
 
-  final reservationRepository = ReservationRepositoryImpl();
+  final reservationRepository = ReservationRepositoryImpl( ReservationDatasourceImpl(accessToken: ref.watch( authProvider ).token) );
 
   return ReservationNotifier(
     reservationRepository: reservationRepository
@@ -70,6 +71,17 @@ class ReservationNotifier extends StateNotifier<ReservartionState>{
         error: 'Error al crear la reserva'
       );
 
+    }
+  }
+
+  Future<void> deleteReservation( String id ) async {
+    try {
+      await reservationRepository.deleteReservation(id);
+      state = state.copyWith(
+        reservations: state.reservations.where((element) => element.id != id).toList()
+      );
+    } catch (e) {
+      throw Exception(e);
     }
   }
 

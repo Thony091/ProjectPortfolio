@@ -153,118 +153,92 @@ class _ImageViewer extends StatelessWidget {
     }
 
     return ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.white,
-                blurRadius: 5,
-                offset: Offset(0, 3)
-              ),
-            ]
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FadeInImage(
-                fit: BoxFit.cover,
-                height: 200,
-                width: size.width * 0.5,
-                fadeOutDuration: const Duration(milliseconds: 100),
-                fadeInDuration: const Duration(milliseconds: 200),
-                image: NetworkImage( images.first ),
-                placeholder: const AssetImage('assets/loaders/loader2.gif'),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Marquee(
-                    //   text: title,
-                    //   style: const TextStyle(
-                    //     fontSize: 16,
-                    //     fontWeight: FontWeight.bold,
-                    //   ),
-                    //   blankSpace: 20,
-                    //   velocity: 50,
-                    // ),
-                    SizedBox(
-                      height: 20,
-                      child: Marquee(
-                        text: title,
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        scrollAxis: Axis.horizontal,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        blankSpace: title.length.toDouble() * 3,
-                        velocity: 30.0,
-                        pauseAfterRound: const Duration(seconds: 4),
-                        startPadding: 1,
-                        accelerationDuration: const Duration(seconds: 2),
-                        accelerationCurve: Curves.linear,
-                        decelerationDuration: const Duration(milliseconds: 500),
-                        decelerationCurve: Curves.easeOut,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-
-                    SizedBox(
-                      height: 40,
-                      child: Marquee(
-                        text: description,
-                        style: const TextStyle(
-                            fontSize: 14,
-                        ),
-                        scrollAxis: Axis.vertical,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        startPadding: 1,
-                        blankSpace: 50,
-                        velocity: 5.0,
-
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-
-                    SizedBox(
-                      height: 15,
-                      child: Marquee(
-                        text: 'Desde: \$${Formats.formatPriceNumber(minPrice).toString()} - ${Formats.formatPriceNumber(maxPrice).toString()} ',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                        ),
-                        pauseAfterRound: const Duration(seconds: 3),
-                        velocity: 20,
-                        blankSpace: 50,
-                        startPadding: 35,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10)
-            ],
-          ),
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.white,
+              blurRadius: 5,
+              offset: Offset(0, 3)
+            ),
+          ]
         ),
-      );
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FadeInImage(
+              fit: BoxFit.cover,
+              height: 200,
+              width: size.width * 0.5,
+              fadeOutDuration: const Duration(milliseconds: 100),
+              fadeInDuration: const Duration(milliseconds: 200),
+              image: NetworkImage( images.first ),
+              placeholder: const AssetImage('assets/loaders/loader2.gif'),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-
-    // return ClipRRect(
-    //   borderRadius: BorderRadius.circular(5),
-    //   child: FadeInImage(
-    //     fit: BoxFit.cover,
-    //     height: 250,
-    //     width: size.width * 0.93,
-    //     fadeOutDuration: const Duration(milliseconds: 100),
-    //     fadeInDuration: const Duration(milliseconds: 200),
-    //     image: NetworkImage( images.first ),
-    //     placeholder: const AssetImage('assets/loaders/loader2.gif'),
-    //   ),
-    // );
-
+                  SizedBox(
+                    height: 20,
+                    child: Marquee(
+                      text: title,
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      scrollAxis: Axis.horizontal,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      blankSpace: title.length.toDouble() * 3,
+                      velocity: 30.0,
+                      pauseAfterRound: const Duration(seconds: 4),
+                      startPadding: 1,
+                      accelerationDuration: const Duration(seconds: 2),
+                      accelerationCurve: Curves.linear,
+                      decelerationDuration: const Duration(milliseconds: 500),
+                      decelerationCurve: Curves.easeOut,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 40,
+                    child: Marquee(
+                      text: description,
+                      style: const TextStyle(
+                          fontSize: 14,
+                      ),
+                      scrollAxis: Axis.vertical,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      startPadding: 1,
+                      blankSpace: 50,
+                      velocity: 5.0,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 15,
+                    child: Marquee(
+                      text: 'Desde: \$${Formats.formatPriceNumber(minPrice).toString()} - ${Formats.formatPriceNumber(maxPrice).toString()} ',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold
+                      ),
+                      pauseAfterRound: const Duration(seconds: 3),
+                      velocity: 20,
+                      blankSpace: 50,
+                      startPadding: 35,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10)
+          ],
+        ),
+      ),
+    );
   }
 }

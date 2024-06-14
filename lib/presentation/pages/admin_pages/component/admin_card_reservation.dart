@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../domain/domain.dart';
+import '../../../presentation_container.dart';
 import '../../../shared/shared.dart';
 
-class ReservationsCardService extends StatelessWidget {
+class ReservationsCardService extends ConsumerWidget {
 
   final Reservation reservation;
   final Function()? onTapdEdit;
@@ -16,21 +19,66 @@ class ReservationsCardService extends StatelessWidget {
     this.onTapDelete,
   });
 
+  void showSnackbar( BuildContext context ) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Reservación Eliminado')
+      )
+    );
+  }
+
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        _CardViewer( 
-          name: reservation.name,
-          rut: reservation.rut,
-          email: reservation.email,
-          serviceName: reservation.serviceName,
-          reservationDate: reservation.reservationDate,
-          reservationTime: reservation.reservationTime,
-          onTapdEdit: onTapdEdit,
-          onTapDelete: onTapDelete,
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Dismissible(
+      key: Key(reservation.id),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        color: Colors.redAccent,
+        child: const Align(
+          child:  Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Icon(Icons.delete, color: Colors.white),
+          ),
         ),
-      ],
+      ),
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.endToStart) {
+                    showDialog(
+            context: context, 
+            builder: (context){
+            
+              return PopUpPreguntaWidget(
+                pregunta: '¿Estas seguro de eliminar la reserva?',
+                // confirmar: () {},
+                confirmar: () => ref.read(reservationProvider.notifier)
+                  .deleteReservation(reservation.id)
+                  .then((value) { 
+                    showSnackbar(context);
+                    context.pop();
+                  }),
+                cancelar: () => context.pop()
+              );
+            }
+          );
+        }
+        return Future.value(false);
+      
+      },
+      
+      child: Row(
+        children: [
+          _CardViewer( 
+            name: reservation.name,
+            rut: reservation.rut,
+            email: reservation.email,
+            serviceName: reservation.serviceName,
+            reservationDate: reservation.reservationDate,
+            reservationTime: reservation.reservationTime,
+            onTapdEdit: onTapdEdit,
+            onTapDelete: onTapDelete,
+          ),
+        ],
+      ),
     );
   }
 }

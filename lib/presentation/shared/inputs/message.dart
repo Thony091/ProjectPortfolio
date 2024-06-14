@@ -22,7 +22,7 @@ class Messages extends FormzInput<String, MessagesError> {
     if ( isValid || isPure ) return null;
 
     if ( displayError == MessagesError.empty ) return 'El campo es requerido';
-    if ( displayError == MessagesError.format ) return 'El mensaje no cumple con el formato requerido';
+    // if ( displayError == MessagesError.format ) return 'El mensaje no cumple con el formato requerido';
     if ( displayError == MessagesError.length ) return 'El mensaje no puede superar los 350 caracteres';
 
     return null;
@@ -33,7 +33,7 @@ class Messages extends FormzInput<String, MessagesError> {
   MessagesError? validator(String value) {
     
     if ( value.isEmpty || value.trim().isEmpty ) return MessagesError.empty;
-    if ( !messageRegExp.hasMatch(value)) return MessagesError.format;
+    // if ( !messageRegExp.hasMatch(value)) return MessagesError.format;
     if ( value.length >= 350 ) return MessagesError.length;
 
     return null;

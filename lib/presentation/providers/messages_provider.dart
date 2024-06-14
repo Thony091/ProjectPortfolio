@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/domain.dart';
 import '../../infrastructure/infrastructure.dart';
+import '../presentation_container.dart';
 
 final messagesProvider = StateNotifierProvider<MessagesNotifier, MessagesState>((ref) {
 
-  final messageRepository = MessageRepositoryImpl();
+  final messageRepository = MessageRepositoryImpl( MessageDatasourceImpl(accessToken: ref.watch( authProvider ).token) );
 
   return MessagesNotifier(
     messageRepository: messageRepository,

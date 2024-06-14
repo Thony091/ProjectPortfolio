@@ -28,96 +28,36 @@ class ServicesDatasourceImpl extends ServicesDatasource {
   Future<String> _uploadFile( String path ) async {
 
     try {
-    // Leer el archivo de imagen como bytes
-    final fileBytes = File(path).readAsBytesSync();
+      // Leer el archivo de imagen como bytes
+      final fileBytes = File(path).readAsBytesSync();
 
-    // Codificar los bytes a Base64
-    final base64Image = base64Encode(fileBytes);
+      // Codificar los bytes a Base64
+      final base64Image = base64Encode(fileBytes);
 
-    // Devolver la cadena Base64 de la imagen
-    return base64Image;
-  } catch (e) {
-    throw Exception('Error al convertir la imagen a Base64: $e');
-  }
-    // try {
-
-    //   final fileName = path.split('/').last;
-    //   final FormData data = FormData.fromMap({
-    //     'file': MultipartFile.fromFileSync(path, filename: fileName)
-    //   });
-
-    //   final respose = await dio.post('/files/product', data: data );
-
-    //   return respose.data['image'];
-
-    // } catch (e) {
-    //   throw Exception();
-    // }
+      // Devolver la cadena Base64 de la imagen
+      return base64Image;
+    } catch (e) {
+      throw Exception('Error al convertir la imagen a Base64: $e');
+    }
 
   }
-
-  static const base64Prefix = 'data:image/';
-
-  Future<String> imagePathToBase64(String imagePath) async {
-  final data = await File(imagePath).readAsBytes();
-  return base64Encode(data);
-}
 
   Future<List<String>> _uploadPhotos( List<String> photos ) async {
 
-  // // Filtra las imágenes que son cadenas base64 y las que no
-  // final photosToUpload = photos.whereType<String>().where((photo) => photo.startsWith(base64Prefix)).toList();
-  // final photosToIgnore = photos.whereType<String>().where((photo) => !photo.startsWith(base64Prefix)).toList();
-
-  // // Convierte las rutas de imágenes a base64 si es necesario
-  // final convertedPaths = await Future.wait(photosToUpload.map((photo) => imagePathToBase64(photo)));
-
-  // // Crea una serie de Futures de carga de imágenes
-  // final List<Future<String>> uploadJobs = convertedPaths.map(_uploadFileFromBase64).toList();
-
-  // try {
-  //   // Espera a que todas las operaciones de carga se completen
-  //   final newImages = await Future.wait(uploadJobs);
-  //   return [...photosToIgnore,...newImages];
-  // } catch (e) {
-  //   print("Error uploading images: $e");
-  //   return photosToIgnore;
-  // }
-
-  final photosToConvert = photos.where((element) => element.contains('/')).toList();
-  final photosToIgnore = photos.where((element) =>!element.contains('/')).toList();
-
-  // Crear una serie de Futures de conversión de imágenes a Base64
-  final List<Future<String>> conversionJobs = photosToConvert.map((photoPath) => _uploadFile(photoPath)).toList();
-
-  // Esperar a que todas las conversiones se completen
-  final convertedImages = await Future.wait(conversionJobs);
-
-  // Devolver las imágenes ignoradas seguidas de las imágenes convertidas a Base64
-  return [...photosToIgnore,...convertedImages];
-
-    
     // final photosToUpload = photos.where((element) => element.contains('/') ).toList();
     // final photosToIgnore = photos.where((element) => !element.contains('/') ).toList();
+    final photosToConvert = photos.where((element) => !element.startsWith('https')).toList();
+    final photosToIgnore = photos.where((element) => element.startsWith('https')).toList();
 
-    // //Todo: crear una serie de Futures de carga de imágenes
-    // final List<Future<String>> uploadJob = photosToUpload.map(_uploadFile).toList();
+    // Crear una serie de Futures de conversión de imágenes a Base64
+    final List<Future<String>> conversionJobs = photosToConvert.map((photoPath) => _uploadFile(photoPath)).toList();
 
-    // final newImages = await Future.wait(uploadJob);
-    
-    // return [...photosToIgnore, ...newImages ];
-  }
-  Future<String> _uploadFileFromBase64(String base64Image) async {
-    // Implementación ficticia de la carga de una imagen desde base64
-    // Deberías reemplazar esto con tu propia lógica de carga de imágenes
-    try {
-      // Simula la carga de una imagen desde base64
-      await Future.delayed(Duration(seconds: 1)); // Simula tiempo de carga
-      return "path/to/uploaded/image"; // Retorna el path de la imagen cargada
-    } catch (e) {
-      print("Error uploading file from base64: $e");
-      throw e; // Lanza la excepción para que pueda ser capturada por el manejo de errores superior
-    }
+    // Esperar a que todas las conversiones se completen
+    final convertedImages = await Future.wait(conversionJobs);
+
+    // Devolver las imágenes ignoradas seguidas de las imágenes convertidas a Base64
+    return [...photosToIgnore,...convertedImages];
+
   }
 
   @override

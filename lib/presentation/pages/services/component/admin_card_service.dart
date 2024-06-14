@@ -1,11 +1,15 @@
+// ignore_for_file: prefer_final_fields, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/config.dart';
 import '../../../../domain/domain.dart';
+import '../../../providers/providers.dart';
 import '../../../shared/shared.dart';
 
-class AdminCardService extends StatefulWidget {
+class AdminCardService extends ConsumerStatefulWidget {
 
   final Services service;
   final Function()? onTapdEdit;
@@ -19,12 +23,11 @@ class AdminCardService extends StatefulWidget {
   });
 
   @override
-  State<AdminCardService> createState() => _AdminCardServiceState();
+  _AdminCardServiceState createState() => _AdminCardServiceState();
 }
 
-class _AdminCardServiceState extends State<AdminCardService> {
+class _AdminCardServiceState extends ConsumerState<AdminCardService> {
 
-  //TODO revisar el uso de Dismissible aqui
   bool _isDismissed = false;
   bool isVisible = true;
   @override
@@ -59,20 +62,30 @@ class _AdminCardServiceState extends State<AdminCardService> {
         if (direction == DismissDirection.startToEnd) {
           // Acción cuando se desliza de izquierda a derecha (editar)
           widget.onTapdEdit?.call();
-          context.push('/service-edit/${widget.service.id}');
-          // No confirmar el deslizamiento para no eliminar la tarjeta
+          await Future.delayed(const Duration(milliseconds: 300)); // Espera que la animación termine
           return false;
         } else if (direction == DismissDirection.endToStart) {
           // Acción cuando se desliza de derecha a izquierda (eliminar)
           // final shouldDelete = await widget.onTapDelete?.call() ?? false;
-          final shouldDelete = await _showConfirmationDialog(context);
-          if (shouldDelete) {
-            widget.onTapDelete?.call();
-            setState(() {
-              _isDismissed = true;
-            });
-          }
-          return shouldDelete;
+          // final shouldDelete = await _showConfirmationDialog(context);
+          // if (shouldDelete) {
+          //   widget.onTapDelete?.call();
+          //   setState(() {
+          //     _isDismissed = true;
+          //   });
+          // }
+          // return shouldDelete;
+          showDialog(
+            context: context, 
+            builder: (context){
+              return PopUpPreguntaWidget(
+                pregunta: '¿Estas seguro de eliminar el servicio?',
+                // confirmar: () {},
+                confirmar: () => ref.read(servicesProvider.notifier).deleteService(widget.service.id).then((value) => context.pop()), 
+                cancelar: () => context.pop()
+              );
+            }
+          );
         }
         return false;
       },
@@ -96,25 +109,25 @@ class _AdminCardServiceState extends State<AdminCardService> {
   }
 }
 
-Future<bool> _showConfirmationDialog(BuildContext context) async {
-    return await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Confirmar eliminación'),
-        content: Text('¿Estás seguro de que deseas eliminar este servicio?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text('Cancelar'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text('Eliminar'),
-          ),
-        ],
-      ),
-    ) ?? false;
-  }
+  // Future<bool> _showConfirmationDialog(BuildContext context) async {
+  //   return await showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       title: const Text('Confirmar eliminación'),
+  //       content: const Text('¿Estás seguro de que deseas eliminar este servicio?'),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () => Navigator.of(context).pop(false),
+  //           child: const Text('Cancelar'),
+  //         ),
+  //         TextButton(
+  //           onPressed: () => Navigator.of(context).pop(true),
+  //           child: const Text('Eliminar'),
+  //         ),
+  //       ],
+  //     ),
+  //   ) ?? false;
+  // }
 
 
 class _ImageViewer extends StatelessWidget {
@@ -150,7 +163,7 @@ class _ImageViewer extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
             boxShadow: const [
               BoxShadow(
-                color: Color.fromARGB(255, 202, 238, 209),
+                color: Color.fromARGB(255, 214, 244, 220),
                 blurRadius: 5,
                 offset: Offset(0, 3)
               ),
@@ -232,108 +245,91 @@ class _ImageViewer extends StatelessWidget {
     }
 
     return ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Container(width: size.width * 0.93,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.white,
-                blurRadius: 5,
-                offset: Offset(0, 3)
-              ),
-            ]
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(right: 5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-            
-                FadeInImage(
-                  fit: BoxFit.cover,
-                  height: 110,
-                  width: size.width * 0.23,
-                  fadeOutDuration: const Duration(milliseconds: 100),
-                  fadeInDuration: const Duration(milliseconds: 200),
-                  image: NetworkImage( images.first ),
-                  placeholder: const AssetImage('assets/loaders/loader2.gif'),
-                ),
-                Container(
-                  width: size.width * 0.50,
-                  padding: const EdgeInsets.only( left: 5, top: 5),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-            
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox( height: 10 ),
-                      Text(
-                        maxLines: 3,
-                        description,
-                        style: const TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                      const SizedBox( height: 10 ),
-                      Text(
-                        'Desde: \$${minPrice.toStringAsFixed(2)} - ${maxPrice.toStringAsFixed(2)} ',
-                        style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold
-                        ),
-                        textAlign: TextAlign.end,
-                      ),
-                    ],
-                  ),
-                ),
-
-                Row( children:
-                  [
-
-                    const SizedBox( width: 10 ),
-                    CustomIconButton(
-                      onTap: onTapdEdit ?? () {}, 
-                      icon: Icons.edit,
-                      size: 22,
-                      color: Colors.blueGrey,
-                    ),
-                    const SizedBox( width: 10 ),
-                    CustomIconButton(
-                      onTap: onTapDelete ?? () {}, 
-                      icon: Icons.delete,
-                      size: 22,
-                      color: Colors.redAccent,
-                    ),
-
-                  ]
-                ),
-              ],
+      borderRadius: BorderRadius.circular(10),
+      child: Container(width: size.width * 0.93,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromARGB(255, 214, 244, 220),
+              blurRadius: 5,
+              offset: Offset(0, 3)
             ),
+          ]
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 5),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+          
+              FadeInImage(
+                fit: BoxFit.cover,
+                height: 110,
+                width: size.width * 0.23,
+                fadeOutDuration: const Duration(milliseconds: 100),
+                fadeInDuration: const Duration(milliseconds: 200),
+                image: NetworkImage( images.first ),
+                placeholder: const AssetImage('assets/loaders/loader2.gif'),
+              ),
+              Container(
+                width: size.width * 0.50,
+                padding: const EdgeInsets.only( left: 5, top: 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+          
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox( height: 10 ),
+                    Text(
+                      maxLines: 3,
+                      description,
+                      style: const TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+                    const SizedBox( height: 10 ),
+                    Text(
+                      'Desde: \$${minPrice.toStringAsFixed(2)} - ${maxPrice.toStringAsFixed(2)} ',
+                      style: const TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ],
+                ),
+              ),
+              Row( children:
+                [
+                  const SizedBox( width: 10 ),
+                  CustomIconButton(
+                    onTap: onTapdEdit ?? () {}, 
+                    icon: Icons.edit,
+                    size: 22,
+                    color: Colors.blueGrey,
+                  ),
+                  const SizedBox( width: 10 ),
+                  CustomIconButton(
+                    onTap: onTapDelete ?? () {}, 
+                    icon: Icons.delete,
+                    size: 22,
+                    color: Colors.redAccent,
+                  ),
+                ]
+              ),
+            ],
           ),
         ),
-      );
-
-    // return ClipRRect(
-    //   borderRadius: BorderRadius.circular(5),
-    //   child: FadeInImage(
-    //     fit: BoxFit.cover,
-    //     height: 250,
-    //     width: size.width * 0.33,
-    //     fadeOutDuration: const Duration(milliseconds: 100),
-    //     fadeInDuration: const Duration(milliseconds: 200),
-    //     image: NetworkImage( images.first ),
-    //     placeholder: const AssetImage('assets/loaders/loader2.gif'),
-    //   ),
-    // );
-
+      ),
+    );
   }
 }

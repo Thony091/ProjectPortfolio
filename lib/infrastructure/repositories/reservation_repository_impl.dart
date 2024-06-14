@@ -1,13 +1,10 @@
 import '../../domain/domain.dart';
-import '../infrastructure.dart';
 
 class ReservationRepositoryImpl extends ReservationRepository {
 
   final ReservationDatasource reservationDatasource;
 
-  ReservationRepositoryImpl({
-    ReservationDatasource? reservationDatasource
-  }) : reservationDatasource = reservationDatasource ?? ReservationDatasourceImpl();
+  ReservationRepositoryImpl(this.reservationDatasource);
   
   @override
   Future<Reservation> createUpdateReservation( String name, String rut, String email, String reservationDate, String reservationTime, String serviceName ) {

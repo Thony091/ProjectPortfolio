@@ -26,47 +26,39 @@ class RealizedWorkDatasourceImpl extends RealizedWorkDatasource {
   );
 
  Future<String> _uploadFile( String path ) async {
-
     try {
-    // Leer el archivo de imagen como bytes
-    final fileBytes = File(path).readAsBytesSync();
+      // Leer el archivo de imagen como bytes
+      final fileBytes = File(path).readAsBytesSync();
 
-    // Codificar los bytes a Base64
-    final base64Image = base64Encode(fileBytes);
+      // Codificar los bytes a Base64
+      final base64Image = base64Encode(fileBytes);
 
-    // Devolver la cadena Base64 de la imagen
-    return base64Image;
-  } catch (e) {
-    throw Exception('Error al convertir la imagen a Base64: $e');
-  }
-    // try {
-
-    //   final fileName = path.split('/').last;
-    //   final FormData data = FormData.fromMap({
-    //     'file': MultipartFile.fromFileSync(path, filename: fileName)
-    //   });
-
-    //   final respose = await dio.post('/files/product', data: data );
-
-    //   return respose.data['image'];
-
-    // } catch (e) {
-    //   throw Exception();
-    // }
-
+      // Devolver la cadena Base64 de la imagen
+      return base64Image;
+    } catch (e) {
+      throw Exception('Error al convertir la imagen a Base64: $e');
+    }
   }
 
-  Future<List<String>> _uploadPhotos( List<String> photos ) async {
+  Future<String> _uploadPhoto( String photo ) async {
     
-    final photosToUpload = photos.where((element) => element.contains('/') ).toList();
-    final photosToIgnore = photos.where((element) => !element.contains('/') ).toList();
+    // final photosToUpload = photos.where((element) => element.contains('/') ).toList();
+    // final photosToIgnore = photos.where((element) => !element.contains('/') ).toList();
 
-    //Todo: crear una serie de Futures de carga de imágenes
-    final List<Future<String>> uploadJob = photosToUpload.map(_uploadFile).toList();
+    String photoToConvert;
+    // String photoToIgnore;
+    String newImage = "";
 
-    final newImages = await Future.wait(uploadJob);
+    if  ( !photo.startsWith('https') ) {
+      photoToConvert = photo;
+      newImage = await _uploadFile( photoToConvert );
+
+    } 
+    else if ( photo.startsWith('https') ) {
+      newImage = photo;
+    }
     
-    return [...photosToIgnore, ...newImages ];
+    return newImage;
   }
 
   @override
@@ -80,7 +72,7 @@ class RealizedWorkDatasourceImpl extends RealizedWorkDatasource {
       // final String url = (serviceId == null) ? '/crear-servicio' : '/actualizar-servicio/$serviceId';
 
       worksSimilar.remove('id');
-      worksSimilar['image'] = await _uploadFile( worksSimilar['image'] );
+      worksSimilar['image'] = await _uploadPhoto( worksSimilar['image'] );
 
       Works work = Works( id: '0', name: 'No encontrado', description: 'No encontrado', image: "");
 

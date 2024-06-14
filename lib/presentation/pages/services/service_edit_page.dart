@@ -76,7 +76,8 @@ class ServiceEditPage extends ConsumerWidget{
             .then((value) {
               if ( !value ) return;
               showSnackbar(context);
-              context.pop();
+              // context.pop();
+              context.pushReplacement('/');
             });
           },
         )
@@ -146,14 +147,15 @@ class _ServiceInformation extends ConsumerWidget {
                   const Text('Generales'),
                   const SizedBox(height: 15 ),
                   CustomProductField(
+                    color: const Color.fromARGB(255, 246, 244, 244),
                     isTopField: true,
                     label: 'Nombre',
                     initialValue: serviceForm.name.value,
                     onChanged: ref.read( serviceFormProvider( service ).notifier ).onNameChange,
                     errorMessage: serviceForm.name.errorMessage,
                   ),
-                  CustomProductField( 
-                    isTopField: true,
+                  CustomProductField(
+                    color: const Color.fromARGB(255, 246, 244, 244),
                     label: 'Precio Minimo',
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     // initialValue: serviceForm.minPrice.value.toString(),
@@ -163,6 +165,7 @@ class _ServiceInformation extends ConsumerWidget {
                     errorMessage: serviceForm.minPrice.errorMessage,
                   ),
                   CustomProductField( 
+                    color: const Color.fromARGB(255, 246, 244, 244),
                     isBottomField: true,
                     label: 'Precio Maximo',
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -176,6 +179,9 @@ class _ServiceInformation extends ConsumerWidget {
                   const SizedBox(height: 15 ),
               
                   CustomProductField(
+                    isTopField: true,
+                    isBottomField: true,
+                    color: const Color.fromARGB(255, 246, 244, 244),
                     maxLines: 6,
                     label: 'Descripción',
                     keyboardType: TextInputType.multiline,
@@ -200,7 +206,6 @@ class _ServiceInformation extends ConsumerWidget {
                   ),
 
                   CustomProductField( 
-                    isTopField: true,
                     label: 'Precio Minimo',
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     initialValue: serviceForm.minPrice.value.toString(),
@@ -220,6 +225,9 @@ class _ServiceInformation extends ConsumerWidget {
                   const SizedBox(height: 15 ),
                   
                   CustomProductField(
+                    isTopField: true,
+                    isBottomField: true,
+                    color: const Color.fromARGB(255, 223, 222, 222),
                     maxLines: 6,
                     label: 'Descripción',
                     keyboardType: TextInputType.multiline,

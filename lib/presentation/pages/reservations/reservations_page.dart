@@ -10,14 +10,14 @@ import '../../presentation_container.dart';
 
 //*TODO Revisar la implementación de la página de reservas*****
 
-class ReservationsPage extends StatelessWidget {
+class ReservationsPage extends ConsumerWidget {
 
   static const name = 'ReservationsPage';
   
   const ReservationsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     // final scaffoldKey = GlobalKey<ScaffoldState>();
     final color = AppTheme().getTheme().colorScheme;
@@ -30,7 +30,7 @@ class ReservationsPage extends StatelessWidget {
       body: const BackgroundImageWidget(
         opacity: 0.1,
         child: Center(
-          child: _ReservationFormBody(),
+          child:  _ReservationFormBody(),
         ),
       ),
       // drawer: SideMenu(scaffoldKey: scaffoldKey),
@@ -69,8 +69,7 @@ class _ReservationFormBody extends ConsumerWidget {
   }
 
   Future<void> _selectTime( BuildContext context, WidgetRef ref ) async {
-    // final state = ref.read(reservationFormProvider);
-    // final List<String> timeOptions = state.timeOptions;
+
     final List<String> timeOptions = [];
     for (int hour = 9; hour <= 18; hour++) {
       timeOptions.add('$hour:00');
@@ -100,7 +99,6 @@ class _ReservationFormBody extends ConsumerWidget {
     if (pickedTime != null) {
       ref.read(reservationFormProvider.notifier).onReservationTime(pickedTime);
     }
-
   }
 
 
@@ -111,6 +109,7 @@ class _ReservationFormBody extends ConsumerWidget {
     final opciones = servicios.services.map((e) => e.name).toList();
     final size = MediaQuery.of(context).size;
     final state = ref.watch(reservationFormProvider);
+    final authState = ref.watch(authProvider);
 
     return SingleChildScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag ,
@@ -132,6 +131,9 @@ class _ReservationFormBody extends ConsumerWidget {
               isBottomField: true,
               isTopField: true,
               label: "Name",
+              initialValue: authState.authStatus == AuthStatus.authenticated
+                ? authState.userData!.nombre
+                : state.name.value,
               hint: "Nombre Completo",
               onChanged: (value) {
                 ref.read( reservationFormProvider.notifier ).onNameChange(value);
@@ -153,6 +155,9 @@ class _ReservationFormBody extends ConsumerWidget {
             CustomProductField(
               isBottomField: true,
               isTopField: true,
+              initialValue: authState.authStatus == AuthStatus.authenticated
+                ? authState.userData!.email
+                : state.email.value,
               label: "Correo Electrónico",
               hint: "Correo Electrónico",
               onChanged: (value) {

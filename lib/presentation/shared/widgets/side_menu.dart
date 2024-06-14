@@ -125,15 +125,26 @@ class SideMenuState extends ConsumerState<SideMenu> {
               size: 15,
               color: Colors.black54,
             ),
-            title: const Text(
-              'Servicios',
-              style: TextStyle(
-                color: Colors.black54,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w400,
-                fontSize: 18
-              ),
-            ),
+            title: authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin
+              ? const Text(
+                  'Gest. de Servicios',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18
+                  ),
+                )
+              : const Text(
+                  'Servicios',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18
+                  ),
+                ),
+            
             onTap: () {
               context.push('/services');
               // context.push('/services');
@@ -153,15 +164,25 @@ class SideMenuState extends ConsumerState<SideMenu> {
               size: 15,
               color: Colors.black54,
             ),
-            title: const Text(
-              'Agenda tu hora',
-              style: TextStyle(
-                color: Colors.black54,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w400,
-                fontSize: 18
-              ),
-            ),
+            title: authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin
+              ? const Text(
+                  'Gest. de Reservas',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18
+                  ),
+                )
+              : const Text(
+                  'Agenda tu hora',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18
+                  ),
+                ),
             onTap: () { ( authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin )
               ? context.push('/reservas-config')
               : context.push('/reservations');
@@ -180,19 +201,57 @@ class SideMenuState extends ConsumerState<SideMenu> {
               size: 15,
               color: Colors.black54,
             ),
-            title: const Text(
-              'Nuestros trabajos',
-              style: TextStyle(
-                color: Colors.black54,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w400,
-                fontSize: 18
-              ),
-            ),
+            title: authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin
+              ? const Text(
+                  'Gest. de Trabajos',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18
+                  ),
+                )
+              : const Text( 
+                  'Nuestros trabajos',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18
+                  ),
+                ),
+            
             onTap: () {
               context.push('/our-works');
             },
           ),
+
+          if ( authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin )
+          //* Mensajes
+            ListTile(
+              leading: const Icon(
+                size: 33,
+                Icons.message_outlined,
+                color: Color(0xff4981be),
+              ),
+              trailing: const Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 15,
+                color: Colors.black54,
+              ),
+              title: const Text(
+                'Gest. de Mensajes',
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18
+                ),
+              ),
+              onTap: () {
+                context.push('/messages');
+              },
+            ),
 
           // //* Products
           // ListTile(

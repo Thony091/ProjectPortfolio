@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -18,6 +19,7 @@ class OurWorksPage extends ConsumerWidget {
     final color = AppTheme().getTheme().colorScheme;
     final authState   = ref.watch( authProvider );
     final scaffoldKey = GlobalKey<ScaffoldState>();
+    final workState = ref.watch( worksProvider );
 
     return Scaffold(
       appBar: AppBar(
@@ -32,10 +34,34 @@ class OurWorksPage extends ConsumerWidget {
       body:  BackgroundImageWidget(
         opacity: 0.1, 
         child: ( authState.authStatus != AuthStatus.authenticated)
-          ? const _OurWorksBodyPage()
+          ? workState.works.isEmpty 
+            ? FadeInRight(
+                child: const Center(
+                  child: 
+                    Text('No hay Trabajos en este momento', 
+                    style: TextStyle(fontSize: 17))
+                )
+              )
+            : const _OurWorksBodyPage()
           : ( authState.userData!.isAdmin )
-            ? const _OurWorksAdminBodyPage()
-            : const _OurWorksBodyPage(),
+            ? workState.works.isEmpty 
+              ? FadeInRight(
+                  child: const Center(
+                    child: 
+                      Text('No hay Trabajos en este momento', 
+                      style: TextStyle(fontSize: 17))
+                  )
+                )
+              : const _OurWorksAdminBodyPage()
+            : workState.works.isEmpty 
+              ? FadeInRight(
+                  child: const Center(
+                    child: 
+                      Text('No hay Trabajos en este momento', 
+                      style: TextStyle(fontSize: 17))
+                  )
+                )
+              : const _OurWorksBodyPage(),
       ),
       floatingActionButton: ( authState.authStatus != AuthStatus.authenticated)
         ? null 
@@ -77,10 +103,7 @@ class _OurWorksBodyPage extends ConsumerWidget {
           final work = worksState.works[index];
           return GestureDetector(
             onTap: (){},
-            child: WorkUserCard( 
-              work: work 
-              
-            )
+            child: FadeInRight(child: WorkUserCard( work: work ))
           );
         },
       ),
@@ -114,22 +137,24 @@ class _OurWorksAdminBodyPageState extends ConsumerState {
           return Column(
             children:
               [
-                WorkCard( 
-                  work: work,
-                  onTapdEdit: () => context.push('/work-edit/${work.id}'),
-                  onTapDelete: () {
-                    showDialog(
-                      context: context, 
-                      builder: (context){
-                        return PopUpPreguntaWidget(
-                          pregunta: '¿Estas seguro de eliminar el Trabajo?', 
-                          // confirmar: () {},
-                          confirmar: () => ref.read( worksProvider.notifier ).deleteWork(work.id).then((value) => context.pop()), 
-                          cancelar: () => context.pop()
-                        );
-                      }
-                    );
-                  } 
+                FadeInRight(
+                  child: WorkCard( 
+                    work: work,
+                    onTapdEdit: () => context.push('/work-edit/${work.id}'),
+                    onTapDelete: () {
+                      showDialog(
+                        context: context, 
+                        builder: (context){
+                          return PopUpPreguntaWidget(
+                            pregunta: '¿Estas seguro de eliminar el Trabajo?', 
+                            // confirmar: () {},
+                            confirmar: () => ref.read( worksProvider.notifier ).deleteWork(work.id).then((value) => context.pop()), 
+                            cancelar: () => context.pop()
+                          );
+                        }
+                      );
+                    } 
+                  ),
                 ),
                 const SizedBox(height: 10),
               ] 

@@ -12,7 +12,6 @@ class EditUserProfilePage extends StatelessWidget {
   static const name = 'EditUserProfilePage';
 
   const EditUserProfilePage({super.key});
-  // final String uid;
 
   @override
   Widget build(BuildContext context) {

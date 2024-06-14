@@ -7,5 +7,6 @@ class Enviroment {
   }
 
   static String baseUrl = dotenv.env['API_URL'] ?? 'No configurado el API_URL';
+  static String imageBaseUrl = dotenv.env['IMAGE_URL'] ?? 'No configurado el IMAGE_URL';
 
 }

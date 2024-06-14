@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -71,13 +73,21 @@ class _MessageResponseInfo extends ConsumerWidget {
     final messageForm = ref.watch( messageFormProvider.notifier );
     final stateMessage = ref.watch( messageFormProvider );
 
-    void sendReplyEmail() async {
+      void showSnackbar( BuildContext context ) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Mensaje Enviado!')
+      )
+    );
+  }
+
+    Future<bool> sendReplyEmail() async {
       final email = message.email;
       final response = stateMessage.reply.value;
 
       if (email.isEmpty || response.isEmpty) {
         print('Email or response is empty');
-        return;
+        return false;
       }
 
       final mailtoLink = Mailto(
@@ -90,30 +100,13 @@ class _MessageResponseInfo extends ConsumerWidget {
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri);
         print('Email launched!');
+        // showSnackbar(context);
         context.pop();
+        return true;
       } else {
         throw 'Could not launch $uri';
       }
     }
-
-  // void sendEmail() async {
-  //   // Configura el cliente SMTP
-  //   final smtpServer = gmail("tony.0091","Lucian.091"); // Usa Gmail como ejemplo
-
-  //   // Define el mensaje
-  //   final message = mailer.Message()
-  //   ..from = const mailer.Address("soporte@detailing.com", 'Tu Aplicación')
-  //   ..recipients.add(stateMessage.email.toString()) // 'to' es la dirección de correo electrónico del destinatario
-  //   ..subject = 'Respuesta a tu mensaje'
-  //   ..text = stateMessage.reply.toString();
-
-  //   try {
-  //     final sendReport = await mailer.send(message, smtpServer);
-  //     print('Mensaje enviado: $sendReport');
-  //   } on mailer.MailerException catch (e) {
-  //     print('Error al enviar el correo: ${e.message}');
-  //   }
-  // }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -177,7 +170,8 @@ class _MessageResponseInfo extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: () => sendReplyEmail(),
+                onPressed: () => sendReplyEmail().then((value) => showSnackbar(context)
+                ),
                 child: const Text('Enviar Mensaje'),
               ),
             ],

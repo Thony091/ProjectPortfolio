@@ -106,17 +106,79 @@ class _ImageViewer extends StatelessWidget {
     }
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(5),
-      child: FadeInImage(
-        fit: BoxFit.cover,
-        height: 250,
-        width: size.width * 0.93,
-        fadeOutDuration: const Duration(milliseconds: 100),
-        fadeInDuration: const Duration(milliseconds: 200),
-        image: NetworkImage( image ),
-        placeholder: const AssetImage('assets/loaders/loader2.gif'),
-      ),
-    );
+        borderRadius: BorderRadius.circular(5),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.white,
+                blurRadius: 5,
+                offset: Offset(0, 3)
+              ),
+            ]
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FadeInImage(
+                fit: BoxFit.cover,
+                height: 250,
+                width: size.width * 0.93,
+                fadeOutDuration: const Duration(milliseconds: 100),
+                fadeInDuration: const Duration(milliseconds: 200),
+                image: NetworkImage( image ),
+                placeholder: const AssetImage('assets/loaders/loader2.gif'),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox( height: 5,),
+                    SizedBox(
+                      height: 70,
+                      child: Marquee(
+                        scrollAxis: Axis.vertical,
+                        velocity: 5,
+                        blankSpace: 20
+                        ,
+                        text: description,
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                        
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10)
+            ],
+          ),
+        ),
+      );
+
+    // return ClipRRect(
+    //   borderRadius: BorderRadius.circular(5),
+    //   child: FadeInImage(
+    //     fit: BoxFit.cover,
+    //     height: 250,
+    //     width: size.width * 0.93,
+    //     fadeOutDuration: const Duration(milliseconds: 100),
+    //     fadeInDuration: const Duration(milliseconds: 200),
+    //     image: NetworkImage( image ),
+    //     placeholder: const AssetImage('assets/loaders/loader2.gif'),
+    //   ),
+    // );
 
   }
 }

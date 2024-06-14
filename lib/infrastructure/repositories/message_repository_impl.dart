@@ -1,13 +1,10 @@
 import '../../domain/domain.dart';
-import '../infrastructure.dart';
 
 class MessageRepositoryImpl extends MessageRepository {
   
   final MessageDatasource messageDatasource;
 
-  MessageRepositoryImpl( {
-    MessageDatasource? messageDatasource
-  } ): messageDatasource = messageDatasource ?? MessageDatasourceImpl();
+  MessageRepositoryImpl(this.messageDatasource);
   
   @override
   Future<Message> createUpdateMessage( String name, String email, String message) {

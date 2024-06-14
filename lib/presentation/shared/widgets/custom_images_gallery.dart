@@ -34,13 +34,16 @@ class CustomImagesGallery extends StatelessWidget {
             imageProvider = FileImage( File(image) );
           }
 
-          return ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            child: FadeInImage(
-              placeholder: const AssetImage('assets/loaders/loader2.gif'),
-              image: imageProvider,
-              fit: BoxFit.cover,
-            )
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 1.0),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              child: FadeInImage(
+                placeholder: const AssetImage('assets/loaders/loader2.gif'),
+                image: imageProvider,
+                fit: BoxFit.cover,
+              )
+            ),
           );
       }).toList(),
     );

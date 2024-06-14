@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -18,6 +19,7 @@ class ServicesPage extends ConsumerWidget {
 
     final color = AppTheme().getTheme().colorScheme;
     final authState = ref.watch(authProvider);
+    final servicesState = ref.watch(servicesProvider);
     
     return Scaffold(
       appBar: AppBar(
@@ -32,10 +34,34 @@ class ServicesPage extends ConsumerWidget {
       body: BackgroundImageWidget(
         opacity: 0.1,
         child: ( authState.authStatus != AuthStatus.authenticated )
-          ? const _ServiceBodyPage()
+          ? servicesState.services.isEmpty 
+           ? FadeInRight(
+                child: const Center(
+                  child: 
+                    Text('No hay Servicios en este momento', 
+                    style: TextStyle(fontSize: 17))
+                )
+              )
+            : const _ServiceBodyPage()
           : ( !authState.userData!.isAdmin )
-            ? const _ServiceBodyPage()
-            : const _ServiceAdminBodyPage()
+            ? servicesState.services.isEmpty 
+                ? FadeInRight(
+                    child: const Center(
+                      child: 
+                        Text('No hay Servicios en este momento', 
+                        style: TextStyle(fontSize: 17))
+                    )
+                  )
+              : const _ServiceBodyPage()
+            : servicesState.services.isEmpty 
+              ? FadeInRight(
+                  child: const Center(
+                    child: 
+                      Text('No hay Servicios en este momento', 
+                      style: TextStyle(fontSize: 17))
+                  )
+                )
+              : const _ServiceAdminBodyPage()
         ),
       floatingActionButton: ( authState.authStatus != AuthStatus.authenticated)
         ? null 
@@ -88,7 +114,7 @@ class _ServiceBodyPageState extends ConsumerState {
           final service = servicesState.services[index];
           return GestureDetector(
             onTap: () => context.push('/service/${service.id}'),
-            child: ServiceCard( service: service ),
+            child: FadeInRight(child: ServiceCard( service: service )),
           );
         },
       ),
@@ -120,22 +146,24 @@ class _ServiceAdminBodyPageState extends ConsumerState {
           return Column(
             children:
               [
-                AdminCardService( 
-                  service: service,
-                  onTapdEdit: () => context.push('/service-edit/${service.id}'),
-                  onTapDelete: () {
-                    showDialog(
-                      context: context, 
-                      builder: (context){
-                        return PopUpPreguntaWidget(
-                          pregunta: '¿Estas seguro de eliminar el servicio?',
-                          // confirmar: () {},
-                          confirmar: () => ref.read(servicesProvider.notifier).deleteService(service.id).then((value) => context.pop()), 
-                          cancelar: () => context.pop()
-                        );
-                      }
-                    );
-                  } 
+                FadeInRight(
+                  child: AdminCardService( 
+                    service: service,
+                    onTapdEdit: () => context.push('/service-edit/${service.id}'),
+                    onTapDelete: () {
+                      showDialog(
+                        context: context, 
+                        builder: (context){
+                          return PopUpPreguntaWidget(
+                            pregunta: '¿Estas seguro de eliminar el servicio?',
+                            // confirmar: () {},
+                            confirmar: () => ref.read(servicesProvider.notifier).deleteService(service.id).then((value) => context.pop()), 
+                            cancelar: () => context.pop()
+                          );
+                        }
+                      );
+                    } 
+                  ),
                 ),
                 const SizedBox(height: 10),
               ] 

@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'dart:async';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -226,107 +227,52 @@ class _HomeUserBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
       
               children: [
-                SizedBox(
-                  width: size.width * 0.42,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(2),
-                        topRight: Radius.circular(2),
-                        bottomRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 5,
-                          offset: Offset(0, 2),
+                FadeInRight(
+                  child: SizedBox(
+                    width: size.width * 0.42,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(2),
+                          topRight: Radius.circular(2),
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'assets/images/brillos/RD1.jpeg',
-                          height: 150,
-                          width: 300,
-                        ),
-                        // const SizedBox(height: 3,),
-                        Image.asset(
-                          'assets/images/brillos/RD5.jpeg',
-                          height: 150,
-                          width: 300,
-                        ),
-                        // const SizedBox(height: 3,),
-                        Image.asset(
-                          'assets/images/brillos/RD4.jpeg',
-                          height: 150,
-                          width: 300,
-                        ),
-                        // const SizedBox(height: 3,),
-                        const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: Text( 
-                            
-                            textColumn1,
-                            maxLines: 15,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            textAlign: TextAlign.start,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 5,
+                            offset: Offset(0, 2),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: size.width * 0.42,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(2),
-                        topRight: Radius.circular(2),
-                        bottomRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
+                        ],
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 5,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'assets/images/brillos/JWC2.jpeg',
-                          height: 150,
-                          width: 300,
-                        ),
-                        // const SizedBox(height: 1,),
-                        Image.asset(
-                          'assets/images/brillos/JWC3.jpeg',
-                          height: 150,
-                          width: 300,
-                        ),
-                        // const SizedBox(height: 1,),
-                        Image.asset(
-                          'assets/images/brillos/JWC4.jpeg',
-                          height: 150,
-                          width: 300,
-                        ),
-                        // const SizedBox(height: 1,),
-                        const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'assets/images/brillos/RD1.jpeg',
+                            height: 150,
+                            width: 300,
+                          ),
+                          // const SizedBox(height: 3,),
+                          Image.asset(
+                            'assets/images/brillos/RD5.jpeg',
+                            height: 150,
+                            width: 300,
+                          ),
+                          // const SizedBox(height: 3,),
+                          Image.asset(
+                            'assets/images/brillos/RD4.jpeg',
+                            height: 150,
+                            width: 300,
+                          ),
+                          // const SizedBox(height: 3,),
+                          const Padding(
+                            padding: EdgeInsets.all(5.0),
                             child: Text( 
-                              textColumn2,
-                              maxLines: 13,
+                              
+                              textColumn1,
+                              maxLines: 15,
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
@@ -334,8 +280,67 @@ class _HomeUserBody extends StatelessWidget {
                               textAlign: TextAlign.start,
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                FadeInRight(
+                  child: SizedBox(
+                    width: size.width * 0.42,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(2),
+                          topRight: Radius.circular(2),
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
                         ),
-                      ],
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 5,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'assets/images/brillos/JWC2.jpeg',
+                            height: 150,
+                            width: 300,
+                          ),
+                          // const SizedBox(height: 1,),
+                          Image.asset(
+                            'assets/images/brillos/JWC3.jpeg',
+                            height: 150,
+                            width: 300,
+                          ),
+                          // const SizedBox(height: 1,),
+                          Image.asset(
+                            'assets/images/brillos/JWC4.jpeg',
+                            height: 150,
+                            width: 300,
+                          ),
+                          // const SizedBox(height: 1,),
+                          const Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: SingleChildScrollView(
+                              child: Text( 
+                                textColumn2,
+                                maxLines: 13,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -343,49 +348,51 @@ class _HomeUserBody extends StatelessWidget {
             ),
             const SizedBox( height: 20,),
       
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5),
-                  bottomRight: Radius.circular(5),
-                  bottomLeft: Radius.circular(5),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 5,
-                    offset: Offset(0, 2),
+            FadeInRight(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    topRight: Radius.circular(5),
+                    bottomRight: Radius.circular(5),
+                    bottomLeft: Radius.circular(5),
                   ),
-                ],
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(12),
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('¿Que es Detailing?',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox( height: 10,),
-                    Text( detailingDescription,
-                      maxLines: 10,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      textAlign: TextAlign.justify,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 5,
+                      offset: Offset(0, 2),
                     ),
                   ],
-                )
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('¿Que es Detailing?',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox( height: 10,),
+                      Text( detailingDescription,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.justify,
+                      ),
+                    ],
+                  )
+                ),
               ),
             ),
             const SizedBox(
@@ -415,91 +422,100 @@ class _ContactUsForm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final messageForm = ref.watch( messageFormProvider );
+    final authState = ref.watch( authProvider );
 
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 240, 236, 236),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
-          bottomRight: Radius.circular(10),
-          bottomLeft: Radius.circular(10),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 5,
-            offset: Offset(0, 2),
+    return FadeInRight(
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 240, 236, 236),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8),
+            topRight: Radius.circular(8),
+            bottomRight: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
           ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Form(
-          child: Column(
-            children: [
-              const Text( 'Contacto',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox( height: 7),
-              CustomProductField(
-                isBottomField: true,
-                isTopField: true,
-                label: 'Nombre',
-                // obscureText: true,
-                onChanged: ref.read( messageFormProvider.notifier ).onNameChange,
-                errorMessage: messageForm.isFormPosted
-                ? messageForm.name.errorMessage
-                : null,
-              ),
-              const SizedBox( height: 15,),
-              CustomProductField(
-                isBottomField: true,
-                isTopField: true,
-                label: 'Correo Electrónico',
-                // obscureText: true,
-                onChanged: ref.read( messageFormProvider.notifier ).onEmailChange,
-                errorMessage: messageForm.isFormPosted
-                ? messageForm.email.errorMessage
-                : null,
-              ),
-              const SizedBox( height: 15,),
-              CustomProductField(
-                isBottomField: true,
-                isTopField: true,
-                label: 'Mensaje',
-                hint: 'Escribe tu Mensaje',
-                maxLines: 4,
-                keyboardType: TextInputType.multiline,  
-                // obscureText: true,
-                onChanged: ref.read( messageFormProvider.notifier ).onMessageChange,
-                errorMessage: messageForm.isFormPosted
-                  ? messageForm.message.errorMessage
-                  : null,
-              ),
-              const SizedBox( height: 15,),
-              ElevatedButton(
-                onPressed: (){ messageForm.isPosting
-                  ? null
-                  : ref.read( messageFormProvider.notifier ).postMessage().then((value) {
-                      if( messageForm.isValid && value == true ) {
-                        context.push('/');
-                        showDialog(
-                          context: context, 
-                          builder: (context) => const PopUpMensajeFinalWidget(text: 'Mensaje Enviado Exitosamente!'),
-                        );
-                      }
-                    });
-                },
-                child: const Text('Enviar'),
-              ),
-            ],
-          )
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 5,
+              offset: Offset(0, 2),
+            ),
+          ],
         ),
-      )
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            child: Column(
+              children: [
+                const Text( 'Contacto',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox( height: 7),
+                CustomProductField(
+                  isBottomField: true,
+                  isTopField: true,
+                  label: 'Nombre',
+                  initialValue: authState.authStatus == AuthStatus.authenticated
+                    ? authState.userData!.nombre
+                    : '',
+                  // obscureText: true,
+                  onChanged: ref.read( messageFormProvider.notifier ).onNameChange,
+                  errorMessage: messageForm.isFormPosted
+                  ? messageForm.name.errorMessage
+                  : null,
+                ),
+                const SizedBox( height: 15,),
+                CustomProductField(
+                  isBottomField: true,
+                  isTopField: true,
+                  initialValue: authState.authStatus == AuthStatus.authenticated
+                    ? authState.userData!.email
+                    : '',
+                  label: 'Correo Electrónico',
+                  // obscureText: true,
+                  onChanged: ref.read( messageFormProvider.notifier ).onEmailChange,
+                  errorMessage: messageForm.isFormPosted
+                  ? messageForm.email.errorMessage
+                  : null,
+                ),
+                const SizedBox( height: 15,),
+                CustomProductField(
+                  isBottomField: true,
+                  isTopField: true,
+                  label: 'Mensaje',
+                  hint: 'Escribe tu Mensaje',
+                  maxLines: 4,
+                  keyboardType: TextInputType.multiline,  
+                  // obscureText: true,
+                  onChanged: ref.read( messageFormProvider.notifier ).onMessageChange,
+                  errorMessage: messageForm.isFormPosted
+                    ? messageForm.message.errorMessage
+                    : null,
+                ),
+                const SizedBox( height: 15,),
+                ElevatedButton(
+                  onPressed: (){ messageForm.isPosting
+                    ? null
+                    : ref.read( messageFormProvider.notifier ).postMessage().then((value) {
+                        if( messageForm.isValid && value == true ) {
+                          context.push('/');
+                          showDialog(
+                            context: context, 
+                            builder: (context) => const PopUpMensajeFinalWidget(text: 'Mensaje Enviado Exitosamente!'),
+                          );
+                        }
+                      });
+                  },
+                  child: const Text('Enviar'),
+                ),
+              ],
+            )
+          ),
+        )
+      ),
     );
   }
 }
@@ -523,37 +539,40 @@ class _Map extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
-        myLocationButtonEnabled: true,
-        compassEnabled: true,
-        mapToolbarEnabled: true,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-        markers: {
-          const Marker(
-            markerId: MarkerId('ARDetailin'),
-            position: LatLng(-33.530395, -70.649066),
-            infoWindow: InfoWindow(
-              title: 'ARDetailin',
-              snippet: 'Taller de Detallado Automotriz',
+    return FadeInRight(
+      
+      child: Scaffold(
+        body: GoogleMap(
+          mapType: MapType.normal,
+          initialCameraPosition: _kGooglePlex,
+          myLocationButtonEnabled: true,
+          compassEnabled: true,
+          mapToolbarEnabled: true,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+          },
+          markers: {
+            const Marker(
+              markerId: MarkerId('ARDetailin'),
+              position: LatLng(-33.530395, -70.649066),
+              infoWindow: InfoWindow(
+                title: 'ARDetailin',
+                snippet: 'Taller de Detallado Automotriz',
+              ),
             ),
-          ),
-        }
-      ),
-      floatingActionButton: SizedBox(
-        width: 135,
-        height: 40,
-        child: FloatingActionButton.extended(
-          onPressed: _goToARDetailin,
-          label: const Text('To WorkShop!'),
-          icon: const Icon(Icons.car_repair_outlined),
+          }
         ),
+        floatingActionButton: SizedBox(
+          width: 135,
+          height: 40,
+          child: FloatingActionButton.extended(
+            onPressed: _goToARDetailin,
+            label: const Text('To WorkShop!'),
+            icon: const Icon(Icons.car_repair_outlined),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 
