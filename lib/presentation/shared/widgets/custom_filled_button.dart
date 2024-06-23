@@ -37,6 +37,8 @@ class CustomFilledButton extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
   /// El ancho del separador del icono.
   final double iconSeparatorWidth;
+  /// El gradiente del botón.
+  final Gradient? gradient;
 
   /// Construye un [CustomFilledButton] con los parámetros proporcionados.
   const CustomFilledButton({
@@ -58,6 +60,7 @@ class CustomFilledButton extends StatelessWidget {
     this.textColor = Colors.white,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.iconSeparatorWidth = 0.0,
+    this.gradient,
   });
 
   @override
@@ -77,6 +80,7 @@ class CustomFilledButton extends StatelessWidget {
             topLeft: radius,
             topRight: radius,
           ),
+          gradient: gradient,
           boxShadow: [
             BoxShadow(
               color: shadowColor,

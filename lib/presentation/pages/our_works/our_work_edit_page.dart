@@ -30,6 +30,15 @@ class OurWorkEditPage extends ConsumerWidget{
   Widget build(BuildContext context, WidgetRef ref) {
 
     final workState = ref.watch( workProvider( workId ) );
+    if (workState.work == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Cargando...'),
+        ),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
     final workForm = ref.watch( workFormProvider( workState.work! ) );
     final color = AppTheme().getTheme().colorScheme;
 

@@ -64,7 +64,12 @@ class ServiceEditPage extends ConsumerWidget{
         ),
         body: serviceState.isLoading
           ? const FullScreenLoader()
-          : BackgroundImageWidget(opacity: 0.1, child: _ServiceDetailBodyPage( service: serviceState.service! )),
+          : BackgroundImageWidget(
+              opacity: 0.1, 
+              child: _ServiceDetailBodyPage( 
+                service: serviceState.service! 
+              )
+            ),
         floatingActionButton: FloatingActionButton.extended(
           label: const Text( 'Guardar' ),
           icon: const Icon( Icons.save_outlined, ),
