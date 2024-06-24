@@ -33,17 +33,8 @@ class OurWorksPage extends ConsumerWidget {
       ),
       body:  BackgroundImageWidget(
         opacity: 0.1, 
-        child: ( authState.authStatus != AuthStatus.authenticated)
-          ? workState.works.isEmpty 
-            ? FadeInRight(
-                child: const Center(
-                  child: 
-                    Text('No hay Trabajos en este momento', 
-                    style: TextStyle(fontSize: 17))
-                )
-              )
-            : const _OurWorksBodyPage()
-          : ( authState.userData!.isAdmin )
+        child: 
+          ( authState.authStatus != AuthStatus.authenticated)
             ? workState.works.isEmpty 
               ? FadeInRight(
                   child: const Center(
@@ -52,16 +43,26 @@ class OurWorksPage extends ConsumerWidget {
                       style: TextStyle(fontSize: 17))
                   )
                 )
-              : const _OurWorksAdminBodyPage()
-            : workState.works.isEmpty 
-              ? FadeInRight(
-                  child: const Center(
-                    child: 
-                      Text('No hay Trabajos en este momento', 
-                      style: TextStyle(fontSize: 17))
+              : const _OurWorksBodyPage()
+            : ( authState.userData!.isAdmin )
+              ? workState.works.isEmpty 
+                ? FadeInRight(
+                    child: const Center(
+                      child: 
+                        Text('No hay Trabajos en este momento', 
+                        style: TextStyle(fontSize: 17))
+                    )
                   )
-                )
-              : const _OurWorksBodyPage(),
+                : const _OurWorksAdminBodyPage()
+              : workState.works.isEmpty 
+                ? FadeInRight(
+                    child: const Center(
+                      child: 
+                        Text('No hay Trabajos en este momento', 
+                        style: TextStyle(fontSize: 17))
+                    )
+                  )
+                : const _OurWorksBodyPage(),
       ),
       floatingActionButton: ( authState.authStatus != AuthStatus.authenticated)
         ? null 
@@ -144,6 +145,7 @@ class _OurWorksAdminBodyPageState extends ConsumerState {
           return Column(
             children:
               [
+                const SizedBox(height: 10),
                 FadeInRight(
                   child: WorkCard( 
                     work: work,
@@ -168,7 +170,7 @@ class _OurWorksAdminBodyPageState extends ConsumerState {
                     } 
                   ),
                 ),
-                const SizedBox(height: 10),
+                // const SizedBox(height: 10),
               ] 
           );
         },

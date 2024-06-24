@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../../config/config.dart';
 import '../../providers/providers.dart';
 import '../../shared/shared.dart';
+import '../../shared/widgets/custom_product_field.dart';
 
 class LoginPage extends StatelessWidget {
 
@@ -19,14 +23,49 @@ class LoginPage extends StatelessWidget {
     // final size    = MediaQuery.of(context).size;
     
     return  Scaffold(
-      
-      appBar: AppBar(
-        title: const Text('Login'),
-        backgroundColor: color.primary,
+
+      appBar: CustomAppBar(
+        title: "Login",
+        styleText: const TextStyle(
+          color: Colors.white, 
+          fontSize: 20, 
+          fontWeight: FontWeight.w500,
+          shadows: [
+            Shadow(
+              offset: Offset(1.0, 3.0),
+              blurRadius: 3.0,
+              color: Colors.black54
+            )
+          ]
+        ),
+        startColor: color.primary, 
+        endColor: Colors.black87,
+        customIcon: Icons.arrow_back_rounded,
+        iconSize: 25,
+        iconColor: Colors.black,
+        onIconPressed: () => context.pop(),
+        // bottomRadius: const Radius.circular(10),
       ),
-      body: const BackgroundImageWidget(
+      
+      // appBar: AppBar(
+      //   title: const Text('Login'),
+      //   backgroundColor: color.primary,
+      //   // backgroundColor: color.primary,
+      // ),
+
+      body:  BackgroundImageWidget(
+        startColor: Colors.black87,
+        endColor: Colors.white60,
         opacity: 0.1,
-        child: _LoginForm()
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Column(
+            children: [
+              const SizedBox( height: 75 ),
+              FadeInUp(child: const _LoginForm()),
+            ],
+          ),
+        )
       ),
     );
   }
@@ -55,86 +94,138 @@ class _LoginForm extends ConsumerWidget {
     final size = MediaQuery.of(context).size;
     // final textStyles = Theme.of(context).textTheme;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      child: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              const SizedBox( height: 50 ),
-          
-              Image.asset(
-                'assets/icons/AR_2.png',
-                width: 230, 
-                height: 230, 
-                fit: BoxFit.contain,
-              ),
-          
-              const SizedBox( height: 40 ),
-          
-              CustomTextFormField(
-                label: 'Correo',
-                keyboardType: TextInputType.emailAddress,
-                onChanged: ref.read(loginFormProvider.notifier).onEmailChange,
-                errorMessage: loginForm.isFormPosted 
-                ? loginForm.email.errorMessage
-                : null,
-              ),
-              const SizedBox( height: 30 ),
-          
-              CustomTextFormField(
-                label: 'Contraseña',
-                obscureText: true,
-                onChanged: ref.read(loginFormProvider.notifier).onPasswordChanged,
-                errorMessage: loginForm.isFormPosted
-                ? loginForm.password.errorMessage
-                : null,
-              ),
-              
-              const SizedBox( height: 30 ),
-          
-              CustomFilledButton(
-                height: 60,
-                width: size.width * 0.72,
-                radius: const Radius.circular(25),
-                shadowColor: Colors.white,
-                spreadRadius: 4,
-                blurRadius: 3,
-                icon: Icons.person_2_rounded,
-                iconSeparatorWidth: 50,
-                text: 'Ingresar',
-                fontSize: 22,
-                buttonColor: Colors.blueAccent.shade400,
-                mainAxisAlignment: MainAxisAlignment.start,
-                onPressed: loginForm.isPosting
-                  ? null
-                  : ref.read(loginFormProvider.notifier).onFormSubmit
-                  // if ( loginForm.isPosting ) context.push('/')
-                
-              ),
-          
-              // const Spacer(  ),
-              const SizedBox( height: 20),
-          
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    '¿No tienes cuenta?',
-                    style: TextStyle(fontSize: 13),
+    return Stack(
+      children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Stack(
+            children:[
+             Column(
+              children: [
+                const SizedBox( height: 50 ),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  height: size.height * 0.6,
+                  width: size.width,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 234, 234, 234),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      const BoxShadow(
+                        color: Colors.black54,
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
                   ),
-                  TextButton(
-                    onPressed: () => context.push('/register'), 
-                    child: const Text('Crea una aquí')
+                  child : Column(
+                    children: [
+                      const SizedBox( height: 60 ),
+                      
+                      CustomProductField(
+                        isBottomField: true,
+                        isTopField: true,
+                        label: 'Correo',
+                        keyboardType: TextInputType.emailAddress,
+                        onChanged: ref.read(loginFormProvider.notifier).onEmailChange,
+                        errorMessage: loginForm.isFormPosted 
+                        ? loginForm.email.errorMessage
+                        : null,
+                      ),
+                      const SizedBox( height: 30 ),
+                  
+                      CustomProductField(
+                        isBottomField: true,
+                        isTopField: true,
+                        label: 'Contraseña',
+                        obscureText: true,
+                        onChanged: ref.read(loginFormProvider.notifier).onPasswordChanged,
+                        errorMessage: loginForm.isFormPosted
+                        ? loginForm.password.errorMessage
+                        : null,
+                      ),
+                      
+                      const SizedBox( height: 30 ),
+                  
+                      CustomFilledButton(
+                        height: 60,
+                        width: size.width * 0.7,
+                        radius: const Radius.circular(100),
+                        shadowColor: const Color.fromARGB(255, 255, 255, 255),
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        offsetY: 3,
+                        icon: Icons.person_2_rounded,
+                        iconSeparatorWidth: 50,
+                        text: 'Ingresar',
+                        fontSize: 22,
+                        buttonColor: Colors.blueAccent.shade400,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        onPressed: loginForm.isPosting
+                          ? null
+                          : ref.read(loginFormProvider.notifier).onFormSubmit
+                      ),
+                      const SizedBox( height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            '¿No tienes cuenta?',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          TextButton(
+                            onPressed: () => context.push('/register'), 
+                            child: const Text('Crea una aquí',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.blueAccent,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
                   )
-                ],
+                ),  
+              ],
+            ),
+
+            Center(
+              heightFactor: .55,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Color.fromARGB(255, 225, 191, 37),
+                    width: 2,
+                  ),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(100),
+                  boxShadow: [
+                    const BoxShadow(
+                      color: Colors.black54,
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Image.asset(
+                  'assets/icons/AR_2.png',
+                  width: 130, 
+                  height: 130, 
+                  fit: BoxFit.contain,
+                ),
               ),
-            ],
+            ),
+            ]
           ),
         ),
       ),
+      ]
     );
   }
 }

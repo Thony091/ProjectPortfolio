@@ -11,3 +11,5 @@ export 'image_gallery.dart';
 export 'custom_icon_button.dart';
 export 'pop_up_pregunta_widget.dart';
 export 'custom_image_gallery.dart';
+export 'custom_appbar.dart';
+export 'custom_text.dart';

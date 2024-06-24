@@ -30,6 +30,8 @@ class CustomTextFormField extends StatelessWidget {
 
   final int maxLines;
 
+  final Radius borderRadius;
+
   /// Construye un [CustomTextFormField] con los parámetros proporcionados.
   const CustomTextFormField({
     super.key, 
@@ -43,6 +45,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onChanged, 
     this.validator, 
     this.maxLines = 1,
+    this.borderRadius = const Radius.circular(0),
 
   });
 
@@ -56,12 +59,10 @@ class CustomTextFormField extends StatelessWidget {
       borderRadius: BorderRadius.circular(40)
     );
 
-    const borderRadius = Radius.circular(15);
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: const BorderRadius.only(topLeft: borderRadius, bottomLeft: borderRadius, bottomRight: borderRadius ),
+        borderRadius:  BorderRadius.only(topLeft: borderRadius, bottomLeft: borderRadius, bottomRight: borderRadius ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),

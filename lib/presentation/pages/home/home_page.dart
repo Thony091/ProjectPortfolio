@@ -66,108 +66,110 @@ class _HomeBodyPage extends ConsumerWidget {
       return  _HomeUserBody(size: size, textColumn1: textColumn1, textColumn2: textColumn2, detailingDescription: detailingDescription);
     }
     else if ( authStatusProvider.authStatus == AuthStatus.authenticated && authStateProvider.isAdmin == true ) {
-      return  SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all( 20 ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-          
-                const SizedBox(height: 20,),
-                const Text('Home Admin Page', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black87)),
-                const SizedBox(height: 30,),
-              
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                    CustomFilledButton(
-                      height: 60,
-                      width: 270,
-                      padding: const EdgeInsets.only(top: 3, bottom: 3,),
-                      fontSize: 14,
-                      radius: const Radius.circular(40),
-                      spreadRadius: 2,
-                      blurRadius: 4,
-                      text: ' Gest. de Trabajos realizados',
-                      textColor: Colors.black54,
-                      buttonColor: const Color.fromARGB(255, 20, 140, 238).withOpacity(0.9),
-                      shadowColor: Colors.black45,
-                      onPressed: () => context.push('/our-works'),
-                      icon: Icons.workspace_premium_outlined,
-                    ),
-                    const SizedBox(height: 25,),
-                    CustomFilledButton(
-                      height: 60,
-                      width: 270,
-                      padding: const EdgeInsets.only(top: 3, bottom: 3,),
-                      fontSize: 14,
-                      radius: const Radius.circular(40),
-                      spreadRadius: 2,
-                      blurRadius: 4,
-                      text: ' Gest. de Servicios',
-                      textColor: Colors.black54,
-                      buttonColor: const Color.fromARGB(255, 20, 140, 238).withOpacity(0.9),
-                      shadowColor: Colors.black45,
-                      onPressed: () => context.push('/services'),
-                      icon: Icons.car_repair_outlined,
-                    ),
-                    const SizedBox(height: 25,),
-                    CustomFilledButton(
-                      height: 60,
-                      width: 270,
-                      padding: const EdgeInsets.only(top: 3, bottom: 3,),
-                      fontSize: 14,
-                      radius: const Radius.circular(40),
-                      spreadRadius: 2,
-                      blurRadius: 4,
-                      text: ' Gest. de Mensajeria',
-                      textColor: Colors.black54,
-                      buttonColor: const Color.fromARGB(255, 20, 140, 238).withOpacity(0.9),
-                      shadowColor: Colors.black45,
-                      onPressed: () => context.push('/messages'),
-                      icon: Icons.message_outlined,
-                    ),
-                    const SizedBox(height: 25,),
-                    CustomFilledButton(
-                      height: 60,
-                      width: 270,
-                      padding: const EdgeInsets.only(top: 3, bottom: 3,),
-                      fontSize: 14,
-                      radius: const Radius.circular(40),
-                      spreadRadius: 2,
-                      blurRadius: 4,
-                      text: ' Gest. de Reservas',
-                      textColor: Colors.black54,
-                      buttonColor: const Color.fromARGB(255, 20, 140, 238).withOpacity(0.9),
-                      shadowColor: Colors.black45,
-                      onPressed: () => context.push('/reservas-config'),
-                      icon: Icons.message_outlined,
-                    ),
-                    const SizedBox(height: 20,),
-                    // CustomFilledButton(
-                    //   height: 60,
-                    //   width: 270,
-                    //   padding: const EdgeInsets.only(top: 3, bottom: 3,),
-                    //   fontSize: 14,
-                    //   radius: const Radius.circular(40),
-                    //   spreadRadius: 2,
-                    //   blurRadius: 4,
-                    //   text: 'Gest. de Productos(Desarrollo)',
-                    //   textColor: Colors.white60,
-                    //   buttonColor: Colors.black45,
-                    //   shadowColor: Colors.black45,
-                    //   onPressed: () {},
-                    //   icon: Icons.production_quantity_limits_outlined,
-                    // ),
-                    // const SizedBox(height: 20,),
-
-                  ],
-                ),
-              ],
+      return  FadeInUp(
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all( 20 ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+            
+                  const SizedBox(height: 20,),
+                  const Text('Home Admin Page', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black87)),
+                  const SizedBox(height: 30,),
+                
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+        
+                      CustomFilledButton(
+                        height: 60,
+                        width: 270,
+                        padding: const EdgeInsets.only(top: 3, bottom: 3,),
+                        fontSize: 14,
+                        radius: const Radius.circular(40),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        text: ' Gest. de Trabajos realizados',
+                        textColor: Colors.black54,
+                        buttonColor: const Color.fromARGB(255, 20, 140, 238).withOpacity(0.9),
+                        shadowColor: Colors.black45,
+                        onPressed: () => context.push('/our-works'),
+                        icon: Icons.workspace_premium_outlined,
+                      ),
+                      const SizedBox(height: 25,),
+                      CustomFilledButton(
+                        height: 60,
+                        width: 270,
+                        padding: const EdgeInsets.only(top: 3, bottom: 3,),
+                        fontSize: 14,
+                        radius: const Radius.circular(40),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        text: ' Gest. de Servicios',
+                        textColor: Colors.black54,
+                        buttonColor: const Color.fromARGB(255, 20, 140, 238).withOpacity(0.9),
+                        shadowColor: Colors.black45,
+                        onPressed: () => context.push('/services'),
+                        icon: Icons.car_repair_outlined,
+                      ),
+                      const SizedBox(height: 25,),
+                      CustomFilledButton(
+                        height: 60,
+                        width: 270,
+                        padding: const EdgeInsets.only(top: 3, bottom: 3,),
+                        fontSize: 14,
+                        radius: const Radius.circular(40),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        text: ' Gest. de Mensajeria',
+                        textColor: Colors.black54,
+                        buttonColor: const Color.fromARGB(255, 20, 140, 238).withOpacity(0.9),
+                        shadowColor: Colors.black45,
+                        onPressed: () => context.push('/messages'),
+                        icon: Icons.message_outlined,
+                      ),
+                      const SizedBox(height: 25,),
+                      CustomFilledButton(
+                        height: 60,
+                        width: 270,
+                        padding: const EdgeInsets.only(top: 3, bottom: 3,),
+                        fontSize: 14,
+                        radius: const Radius.circular(40),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        text: ' Gest. de Reservas',
+                        textColor: Colors.black54,
+                        buttonColor: const Color.fromARGB(255, 20, 140, 238).withOpacity(0.9),
+                        shadowColor: Colors.black45,
+                        onPressed: () => context.push('/reservas-config'),
+                        icon: Icons.message_outlined,
+                      ),
+                      const SizedBox(height: 20,),
+                      // CustomFilledButton(
+                      //   height: 60,
+                      //   width: 270,
+                      //   padding: const EdgeInsets.only(top: 3, bottom: 3,),
+                      //   fontSize: 14,
+                      //   radius: const Radius.circular(40),
+                      //   spreadRadius: 2,
+                      //   blurRadius: 4,
+                      //   text: 'Gest. de Productos(Desarrollo)',
+                      //   textColor: Colors.white60,
+                      //   buttonColor: Colors.black45,
+                      //   shadowColor: Colors.black45,
+                      //   onPressed: () {},
+                      //   icon: Icons.production_quantity_limits_outlined,
+                      // ),
+                      // const SizedBox(height: 20,),
+        
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -215,19 +217,32 @@ class _HomeUserBody extends StatelessWidget {
           children: [
           
             const SizedBox(height: 10,),
-      
-            const Text('Expertos en brillo',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+
+            FadeInDown(
+              child: const CustomTextWithEffect(
+                text: 'Expertos en brillo', 
+                textStyle: TextStyle( 
+                  fontSize: 20, 
+                  fontWeight: FontWeight.bold, 
+                  // color: Colors.black
+                )
               ),
             ),
+
+            // const Text('Expertos en brillo',
+            //   style: TextStyle(
+            //     fontSize: 20,
+            //     fontWeight: FontWeight.bold,
+            //     decoration: TextDecoration.lineThrough,
+            //     color: Colors.white54
+            //   ),
+            // ),
             const SizedBox(height: 20,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
       
               children: [
-                FadeInRight(
+                FadeInLeft(
                   child: SizedBox(
                     width: size.width * 0.42,
                     child: Container(
@@ -407,7 +422,7 @@ class _HomeUserBody extends StatelessWidget {
       
             const SizedBox( height: 20,),
       
-            const _ContactUsForm(),
+            FadeInUp(child: const _ContactUsForm()),
           ],
         ),
       ),

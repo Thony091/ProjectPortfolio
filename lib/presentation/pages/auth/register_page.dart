@@ -1,9 +1,10 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../config/config.dart';
 import '../../presentation_container.dart';
+import '../../shared/widgets/custom_product_field.dart';
 
 class RegisterPage extends StatelessWidget {
 
@@ -23,9 +24,28 @@ class RegisterPage extends StatelessWidget {
           title: const Text('Crear cuenta'),
           backgroundColor: color.primary,
         ),
-        body:  const BackgroundImageWidget(
+        body: BackgroundImageWidget(
           opacity: 0.1,
-          child: _RegisterForm()
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Column(
+              children: [
+                const SizedBox( height: 15 ),
+                FadeInDown(
+                  child: const CustomTextWithEffect(
+                    text: "Ingresar Datos", 
+                    textStyle: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold
+                    )
+                  ),
+                ),
+                FadeInUp(
+                  child: const _RegisterForm(),
+                ),
+              ],
+            ),
+          )
         ),
       ),
     );
@@ -46,7 +66,7 @@ class _RegisterForm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final registerForm = ref.watch(( registerFormProvider ));
-    final textStyles = Theme.of(context).textTheme;
+    // final textStyles = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
 
     ref.listen(authProvider, (previous, next) { 
@@ -55,125 +75,153 @@ class _RegisterForm extends ConsumerWidget {
     });
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Stack(
           children: [
-            const SizedBox( height: 30 ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text('Ingresar Datos',
-                  style: 
-                    textStyles.titleLarge,
+                const SizedBox( height: 20 ),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  height: size.height * 0.95,
+                  width: size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox( height: 20 ),
+                      CustomProductField(
+                        isBottomField: true,
+                        isTopField: true,
+                        label: 'Nombre(*) ',
+                        keyboardType: TextInputType.name,
+                        onChanged: ref.read( registerFormProvider.notifier ).onNameChange,
+                        errorMessage: registerForm.isFormPosted
+                          ? registerForm.name.errorMessage
+                          : null,
+                      ),
+                      const SizedBox( height: 20 ),
+                      CustomProductField(
+                        isBottomField: true,
+                        isTopField: true,
+                        label: 'Rut(*)',
+                        keyboardType: TextInputType.text,
+                        onChanged: ref.read( registerFormProvider.notifier ).onRutChange,
+                        errorMessage: registerForm.isFormPosted
+                          ? registerForm.rut.errorMessage
+                          : null,
+                      ),
+                      const SizedBox( height: 20 ),
+                      CustomProductField(
+                        isBottomField: true,
+                        isTopField: true,
+                        label: 'Fecha de Nacimiento',
+                        keyboardType: TextInputType.text,
+                        onChanged: ref.read( registerFormProvider.notifier ).onBirthayChange,
+                        errorMessage: registerForm.isFormPosted
+                          ? registerForm.birthday.errorMessage
+                          : null,
+                      ),
+                      const SizedBox( height: 20 ),
+                  
+                      CustomProductField(
+                        isBottomField: true,
+                        isTopField: true,
+                        label: 'Correo(*)',
+                        keyboardType: TextInputType.emailAddress,
+                        onChanged: ref.read( registerFormProvider.notifier ).onEmailChange,
+                        errorMessage: registerForm.isFormPosted
+                          ? registerForm.email.errorMessage
+                          : null,
+                      ),
+                      const SizedBox( height: 20 ),
+                      CustomProductField(
+                        isBottomField: true,
+                        isTopField: true,
+                        label: 'Numero de Telefono(*)',
+                        keyboardType: TextInputType.emailAddress,
+                        onChanged: ref.read( registerFormProvider.notifier ).onPhoneChange,
+                        errorMessage: registerForm.isFormPosted
+                          ? registerForm.phone.errorMessage
+                          : null,
+                      ),
+                      const SizedBox( height: 20 ),
+                      CustomProductField(
+                        isBottomField: true,
+                        isTopField: true,
+                        label: 'Contraseña(*)',
+                        obscureText: true,
+                        onChanged: ref.read( registerFormProvider.notifier ).onPasswordChanged,
+                        errorMessage: registerForm.isFormPosted
+                          ? registerForm.password.errorMessage
+                          : null,
+                      ),
+                      const SizedBox( height: 25 ),
+                      CustomFilledButton(
+                        height: 60,
+                        width: size.width * 0.70,
+                        radius: const Radius.circular(25),
+                        shadowColor: Colors.white,
+                        spreadRadius: 4,
+                        blurRadius: 3,
+                        icon: Icons.person_add,
+                        text: 'Crear',
+                        iconSeparatorWidth: 65,
+                        fontSize: 22,
+                        buttonColor: Colors.blueAccent.shade400,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        onPressed: (){ registerForm.isPosting
+                          ? null
+                          : ref.read( registerFormProvider.notifier ).onFormSubmit().then((value) {
+                              if( registerForm.isValid && value == true ) {
+                                context.push('/login');
+                                showDialog(
+                                  context: context, 
+                                  builder: (context) => const PopUpMensajeFinalWidget(text: 'Se ha Registrado Exitosamente!'),
+                                );
+                              }
+                          });
+                        }, 
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('¿Ya tienes cuenta?'),
+                          TextButton(
+                            onPressed: (){
+                              context.push('/login');
+                            }, 
+                            child: const Text(
+                              'Ingresa aquí',
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
+                const SizedBox( height:  15 ),
               ],
             ),
-            const SizedBox( height: 20 ),
-        
-            CustomTextFormField(
-              label: 'Nombre(*) ',
-              keyboardType: TextInputType.name,
-              onChanged: ref.read( registerFormProvider.notifier ).onNameChange,
-              errorMessage: registerForm.isFormPosted
-                ? registerForm.name.errorMessage
-                : null,
-            ),
-            const SizedBox( height: 20 ),
-        
-            CustomTextFormField(
-              label: 'Rut(*)',
-              keyboardType: TextInputType.text,
-              onChanged: ref.read( registerFormProvider.notifier ).onRutChange,
-              errorMessage: registerForm.isFormPosted
-                ? registerForm.rut.errorMessage
-                : null,
-            ),
-            const SizedBox( height: 20 ),
-            
-            CustomTextFormField(
-              label: 'Fecha de Nacimiento',
-              keyboardType: TextInputType.text,
-              onChanged: ref.read( registerFormProvider.notifier ).onBirthayChange,
-              errorMessage: registerForm.isFormPosted
-                ? registerForm.birthday.errorMessage
-                : null,
-            ),
-            const SizedBox( height: 20 ),
-        
-            CustomTextFormField(
-              label: 'Correo(*)',
-              keyboardType: TextInputType.emailAddress,
-              onChanged: ref.read( registerFormProvider.notifier ).onEmailChange,
-              errorMessage: registerForm.isFormPosted
-                ? registerForm.email.errorMessage
-                : null,
-            ),
-            const SizedBox( height: 20 ),
-        
-            CustomTextFormField(
-              label: 'Numero de Telefono(*)',
-              keyboardType: TextInputType.emailAddress,
-              onChanged: ref.read( registerFormProvider.notifier ).onPhoneChange,
-              errorMessage: registerForm.isFormPosted
-                ? registerForm.phone.errorMessage
-                : null,
-            ),
-            const SizedBox( height: 20 ),
-        
-            CustomTextFormField(
-              label: 'Contraseña(*)',
-              obscureText: true,
-              onChanged: ref.read( registerFormProvider.notifier ).onPasswordChanged,
-              errorMessage: registerForm.isFormPosted
-                ? registerForm.password.errorMessage
-                : null,
-            ),
-            const SizedBox( height: 30 ),        
-            CustomFilledButton(
-              height: 60,
-              width: size.width * 0.70,
-              radius: const Radius.circular(25),
-              shadowColor: Colors.white,
-              spreadRadius: 4,
-              blurRadius: 3,
-              icon: Icons.person_add,
-              text: 'Crear',
-              iconSeparatorWidth: 65,
-              fontSize: 22,
-              buttonColor: Colors.blueAccent.shade400,
-              mainAxisAlignment: MainAxisAlignment.start,
-              onPressed: (){ registerForm.isPosting
-                ? null
-                : ref.read( registerFormProvider.notifier ).onFormSubmit().then((value) {
-                    if( registerForm.isValid && value == true ) {
-                      context.push('/login');
-                      showDialog(
-                        context: context, 
-                        builder: (context) => const PopUpMensajeFinalWidget(text: 'Se ha Registrado Exitosamente!'),
-                      );
-                    }
-                });
-              }, 
-            ),
-        
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('¿Ya tienes cuenta?'),
-                TextButton(
-                  onPressed: (){
-                    context.push('/login');
-                  }, 
-                  child: const Text('Ingresa aquí')
-                )
-              ],
-            ),
-            const SizedBox( height: 20)
-          ],
+          ]
         ),
       ),
     );

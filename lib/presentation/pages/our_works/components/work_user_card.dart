@@ -16,13 +16,14 @@ class WorkUserCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 15),
         _ImageViewer( 
           image: work.image,
           title: work.name,
           description: work.description,
         ),
         // Text( work.name, textAlign: TextAlign.center, ),
-        const SizedBox(height: 20)
+        const SizedBox(height: 5)
       ],
     );
   }
@@ -47,10 +48,10 @@ class _ImageViewer extends StatelessWidget {
     
     if ( image.isEmpty ) {
       return ClipRRect(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(10),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: const [
               BoxShadow(
                 color: Colors.white,
@@ -106,10 +107,10 @@ class _ImageViewer extends StatelessWidget {
     }
 
     return ClipRRect(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(10),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: const [
               BoxShadow(
                 color: Colors.white,
@@ -124,7 +125,7 @@ class _ImageViewer extends StatelessWidget {
               FadeInImage(
                 fit: BoxFit.cover,
                 height: 250,
-                width: size.width * 0.93,
+                width: size.width * 0.95,
                 fadeOutDuration: const Duration(milliseconds: 100),
                 fadeInDuration: const Duration(milliseconds: 200),
                 image: NetworkImage( image ),
