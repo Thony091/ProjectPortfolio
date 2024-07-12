@@ -43,6 +43,13 @@ final goRouterProvider = Provider( (ref) {
           builder: (context, state) => const RegisterPage(),
         ),
 
+        //* Reset Password
+        GoRoute(
+          path: '/reset-password',
+          name: ResetPasswordPage.name,
+          builder: (context, state) => const ResetPasswordPage(),
+        ),
+
         //* Pago
         GoRoute(
           path: '/pago',
@@ -194,7 +201,7 @@ final goRouterProvider = Provider( (ref) {
       if ( isGoingTo == '/splash' && authStatus == AuthStatus.checking ) return null;
 
       if ( authStatus == AuthStatus.notAuthenticated ) {
-        if ( isGoingTo == '/login' || isGoingTo == '/register' || isGoingTo == '/services' || isGoingTo == '/service/:id' || isGoingTo == '/our-works' || isGoingTo == '/reservations' ) return null;
+        if ( isGoingTo == '/login' || isGoingTo == '/register' || isGoingTo == '/reset-password' || isGoingTo == '/services' || isGoingTo == '/service/:id' || isGoingTo == '/our-works' || isGoingTo == '/reservations' ) return null;
 
         return '/';
       }

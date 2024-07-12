@@ -107,7 +107,7 @@ class _LoginForm extends ConsumerWidget {
                 const SizedBox( height: 50 ),
                 Container(
                   padding: const EdgeInsets.all(12),
-                  height: size.height * 0.6,
+                  height: size.height * 0.65,
                   width: size.width,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 234, 234, 234),
@@ -147,8 +147,26 @@ class _LoginForm extends ConsumerWidget {
                         ? loginForm.password.errorMessage
                         : null,
                       ),
+
+                      const SizedBox(height: 5),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () => context.push('/reset-password'), 
+                            child: const Text('¿Olvidaste tu contraseña?',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.blueAccent,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                       
-                      const SizedBox( height: 30 ),
+                      const SizedBox( height: 10 ),
                   
                       CustomFilledButton(
                         height: 60,
@@ -168,7 +186,10 @@ class _LoginForm extends ConsumerWidget {
                           ? null
                           : ref.read(loginFormProvider.notifier).onFormSubmit
                       ),
-                      const SizedBox( height: 20),
+                      const SizedBox( height: 10),
+
+
+                      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -199,7 +220,7 @@ class _LoginForm extends ConsumerWidget {
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Color.fromARGB(255, 225, 191, 37),
+                    color: const Color.fromARGB(255, 225, 191, 37),
                     width: 2,
                   ),
                   color: Colors.white,

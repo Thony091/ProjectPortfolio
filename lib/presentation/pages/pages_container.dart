@@ -20,3 +20,4 @@ export 'check_auth_status_screen.dart';
 export 'services/services_container.dart';
 export 'message/message_container.dart';
 export 'profile/profile_container.dart';
+export 'auth/recovery_password_page.dart';

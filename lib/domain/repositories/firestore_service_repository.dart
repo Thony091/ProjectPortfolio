@@ -5,4 +5,6 @@ abstract class FirestoreServiceRepository {
   Future updateDataToFirestore(Map<String, dynamic> data, String collectionName, String docName);
 
   Future getUserDataFromFirestore(String collectionName, String docName);
+
+  Future resetPasswordByEmail(String email);
 }

@@ -101,7 +101,6 @@ class _ServiceDetailBodyPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final serviceForm = ref.watch( serviceFormProvider( service ) );
-    final textStyles = Theme.of(context).textTheme;
 
     return ListView(
       children: [
@@ -116,7 +115,25 @@ class _ServiceDetailBodyPage extends ConsumerWidget {
 
         const SizedBox( height: 20 ),
 
-        Center( child: Text( serviceForm.name.value, style: textStyles.titleSmall )),
+        Center( 
+          child: Text( 
+            service.name, 
+            style: TextStyle(
+              fontSize: 17,
+              fontStyle: FontStyle.italic,
+              textBaseline: TextBaseline.alphabetic,
+              color: Colors.amber.shade100,
+              shadows: const [ 
+                Shadow(
+                  color: Colors.black, 
+                  offset: Offset(0, 1), 
+                  blurRadius: 1
+                )
+              ]
+              
+            ),   
+          )
+        ),
 
         const SizedBox( height: 20 ),
 
@@ -149,12 +166,34 @@ class _ServiceInformation extends ConsumerWidget {
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Generales'),
+                  Text(
+                    'Generales' ,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.amber.shade100,
+                      shadows: const [ 
+                        Shadow(
+                          color: Colors.black, 
+                          offset: Offset(0, 1), 
+                          blurRadius: 1
+                        )
+                      ]
+                    ), 
+                  ),
                   const SizedBox(height: 15 ),
                   CustomProductField(
                     color: const Color.fromARGB(255, 246, 244, 244),
                     isTopField: true,
                     label: 'Nombre',
+                    textSize: 16,
+                    textWeight: FontWeight.bold,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129), 
+                        offset: Offset(0, 0), 
+                        blurRadius: 2
+                      )
+                    ],
                     initialValue: serviceForm.name.value,
                     onChanged: ref.read( serviceFormProvider( service ).notifier ).onNameChange,
                     errorMessage: serviceForm.name.errorMessage,
@@ -162,6 +201,14 @@ class _ServiceInformation extends ConsumerWidget {
                   CustomProductField(
                     color: const Color.fromARGB(255, 246, 244, 244),
                     label: 'Precio Minimo',
+                    textSize: 16,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129), 
+                        offset: Offset(0, 0), 
+                        blurRadius: 2
+                      )
+                    ],
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     // initialValue: serviceForm.minPrice.value.toString(),
                     hint: serviceForm.minPrice.value.toString(),
@@ -173,6 +220,14 @@ class _ServiceInformation extends ConsumerWidget {
                     color: const Color.fromARGB(255, 246, 244, 244),
                     isBottomField: true,
                     label: 'Precio Maximo',
+                    textSize: 16,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129), 
+                        offset: Offset(0, 0), 
+                        blurRadius: 2
+                      )
+                    ],
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     // initialValue: serviceForm.maxPrice.value.toString(),
                     hint: serviceForm.maxPrice.value.toString(),
@@ -189,6 +244,14 @@ class _ServiceInformation extends ConsumerWidget {
                     color: const Color.fromARGB(255, 246, 244, 244),
                     maxLines: 6,
                     label: 'Descripción',
+                    textSize: 16,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129), 
+                        offset: Offset(0, 0), 
+                        blurRadius: 2
+                      )
+                    ],
                     keyboardType: TextInputType.multiline,
                     initialValue: serviceForm.description.value,
                     onChanged: ref.read( serviceFormProvider( service ).notifier ).onDescriptionChange,
@@ -202,16 +265,32 @@ class _ServiceInformation extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Generales'),
-                  const SizedBox(height: 15 ),
+                  const SizedBox(height: 20 ),
                   CustomProductField(
                     isTopField: true,
                     label: 'Nombre',
+                    textSize: 16,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129), 
+                        offset: Offset(0, 0), 
+                        blurRadius: 2
+                      )
+                    ],
                     initialValue: serviceForm.name.value,
                     onChanged: ref.read( serviceFormProvider( service ).notifier ).onNameChange,
                   ),
 
                   CustomProductField( 
                     label: 'Precio Minimo',
+                    textSize: 16,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129), 
+                        offset: Offset(0, 0), 
+                        blurRadius: 2
+                      )
+                    ],
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     initialValue: serviceForm.minPrice.value.toString(),
                     onChanged: (value) => ref.read( serviceFormProvider( service ).notifier )
@@ -221,6 +300,14 @@ class _ServiceInformation extends ConsumerWidget {
                   CustomProductField( 
                     isBottomField: true,
                     label: 'Precio Maximo',
+                    textSize: 16,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129),
+                        offset: Offset(0, 0),
+                        blurRadius: 2
+                      )
+                    ],
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     initialValue: serviceForm.maxPrice.value.toString(),
                     onChanged: (value) => ref.read( serviceFormProvider( service ).notifier )
@@ -235,6 +322,14 @@ class _ServiceInformation extends ConsumerWidget {
                     color: const Color.fromARGB(255, 223, 222, 222),
                     maxLines: 6,
                     label: 'Descripción',
+                    textSize: 16,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129), 
+                        offset: Offset(0, 0), 
+                        blurRadius: 2
+                      )
+                    ],
                     keyboardType: TextInputType.multiline,
                     initialValue: serviceForm.description.value,
                     onChanged: ref.read( serviceFormProvider( service ).notifier ).onDescriptionChange,

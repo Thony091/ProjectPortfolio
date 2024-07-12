@@ -18,6 +18,11 @@ class CustomProductField extends StatelessWidget {
   final String? Function(String?)? validator;
   final bool readOnly;
   final Color color;
+  final Color textColor;
+  final List<Shadow>? textShadows;
+  final double? textSize;
+  final FontWeight? textWeight;
+
 
   const CustomProductField({
     super.key, 
@@ -36,6 +41,10 @@ class CustomProductField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.color = Colors.white,
+    this.textColor = Colors.black,
+    this.textShadows,
+    this.textSize,
+    this.textWeight,
   });
 
   @override
@@ -88,7 +97,17 @@ class CustomProductField extends StatelessWidget {
           errorBorder: border.copyWith( borderSide: const BorderSide( color: Colors.transparent )),
           focusedErrorBorder: border.copyWith( borderSide: const BorderSide( color: Colors.transparent )),
           isDense: true,
-          label: label != null ? Text(label!) : null,
+          label: label != null 
+                  ? Text( 
+                    label!, 
+                    style: TextStyle( 
+                      color: textColor, 
+                      shadows: textShadows, 
+                      fontWeight: textWeight, 
+                      fontSize: textSize 
+                    ), 
+                  )
+                  : null,
           hintText: hint,
           errorText: errorMessage,
           focusColor: colors.primary,

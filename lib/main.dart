@@ -7,10 +7,11 @@ import 'config/config.dart';
 
 void main() async {
   
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Enviroment.initEnvironment();
   
-  WidgetsFlutterBinding.ensureInitialized();
-  await Future.delayed(const Duration(milliseconds: 100), () => HttpOverrides.global = new MyHttpOverrides());
+  await Future.delayed(const Duration(milliseconds: 4000), () => HttpOverrides.global = new MyHttpOverrides());
   
   /// Initialize Firebase
   await FirebaseService.init();

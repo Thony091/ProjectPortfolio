@@ -39,4 +39,12 @@ class FirebaseAuthService {
     }
   }
 
+  static Future<void> resetPasswordByEmail(String email) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      print('Error en el envio de correo: $e');
+    }
+  }
+
 }

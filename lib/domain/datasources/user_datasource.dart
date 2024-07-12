@@ -16,5 +16,6 @@ abstract class UserDatasource {
 
   Future<User> checkAuthStatus(String token);
 
-
+  Future<void> resetPasswordByEmail(String email);
+  
 }

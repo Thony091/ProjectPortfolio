@@ -43,4 +43,9 @@ class UserRepositoryImpl implements UserRepository {
   Future<User> updateUser(Map<String, dynamic> userSimilar, String uid) async {
     return await datasource.updateUser(userSimilar, uid);
   }
+  
+  @override
+  Future<void> resetPasswordByEmail(String email) {
+    return datasource.resetPasswordByEmail(email);
+  }
 }

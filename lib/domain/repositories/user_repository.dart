@@ -16,5 +16,6 @@ abstract class UserRepository {
 
   Future<User> checkAuthStatus(String token);
 
-
+  Future<void> resetPasswordByEmail(String email);
+  
 }

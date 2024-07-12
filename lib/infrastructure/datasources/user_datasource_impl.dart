@@ -91,5 +91,14 @@ class UserDatasourceImpl extends UserDatasource {
     }
 
   }
+  
+  @override
+  Future<void> resetPasswordByEmail(String email) async {
+    try {
+      await FirebaseAuthService.auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      throw CustomError("Errrrror: ${e.toString()}");
+    }
+  }
 
 }

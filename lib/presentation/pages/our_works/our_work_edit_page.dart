@@ -118,7 +118,6 @@ class _WorkDetailBodyPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final workForm = ref.watch( workFormProvider( work ) );
-    final textStyles = Theme.of(context).textTheme;
 
     return ListView(
       children: [
@@ -132,7 +131,25 @@ class _WorkDetailBodyPage extends ConsumerWidget {
 
         const SizedBox( height: 20 ),
 
-        Center( child: Text( workForm.name.value, style: textStyles.titleSmall )),
+        Center( 
+          child: Text( 
+            workForm.name.value, 
+            style: TextStyle(
+              fontSize: 17,
+              fontStyle: FontStyle.italic,
+              textBaseline: TextBaseline.alphabetic,
+              color: Colors.amber.shade100,
+              shadows: const [ 
+                Shadow(
+                  color: Colors.black, 
+                  offset: Offset(0, 1), 
+                  blurRadius: 1
+                )
+              ]
+              
+            ),   
+          )
+        ),
 
         const SizedBox( height: 20 ),
 
@@ -161,11 +178,33 @@ class _WorkInformation extends ConsumerWidget {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Generales'),
+              Text(
+                'Generales' ,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber.shade100,
+                  shadows: const [ 
+                    Shadow(
+                      color: Colors.black, 
+                      offset: Offset(0, 1), 
+                      blurRadius: 1
+                    )
+                  ]
+                ), 
+              ),
               const SizedBox(height: 15 ),
               CustomProductField(
                 isTopField: true,
+                isBottomField: true,
                 label: 'Nombre',
+                textSize: 16,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129), 
+                        offset: Offset(0, 0), 
+                        blurRadius: 2
+                      )
+                    ],
                 hint: 'Nombre del trabajo',
                 initialValue: workForm.name.value,
                 onChanged: ref.read( workFormProvider( work ).notifier ).onNameChange,
@@ -175,8 +214,18 @@ class _WorkInformation extends ConsumerWidget {
               const SizedBox(height: 15 ),
 
               CustomProductField(
+                isTopField: true,
+                isBottomField: true,
                 maxLines: 6,
                 label: 'Descripción',
+                textSize: 16,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129), 
+                        offset: Offset(0, 0), 
+                        blurRadius: 2
+                      )
+                    ],
                 keyboardType: TextInputType.multiline,
                 hint: 'Descripción del trabajo',
                 initialValue: workForm.description.value,
@@ -189,11 +238,33 @@ class _WorkInformation extends ConsumerWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Generales'),
+              Text(
+                'Generales' ,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber.shade100,
+                  shadows: const [ 
+                    Shadow(
+                      color: Colors.black, 
+                      offset: Offset(0, 1), 
+                      blurRadius: 1
+                    )
+                  ]
+                ), 
+              ),
               const SizedBox(height: 15 ),
               CustomProductField(
                 isTopField: true,
+                isBottomField: true,
                 label: 'Nombre',
+                textSize: 16,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129), 
+                        offset: Offset(0, 0), 
+                        blurRadius: 2
+                      )
+                    ],
                 hint: 'Nombre del trabajo',
                 onChanged: ref.read( workFormProvider( work ).notifier ).onNameChange,
                 errorMessage: workForm.name.errorMessage,
@@ -203,7 +274,17 @@ class _WorkInformation extends ConsumerWidget {
 
               CustomProductField(
                 maxLines: 6,
+                isTopField: true,
+                isBottomField: true,
                 label: 'Descripción',
+                textSize: 16,
+                    textShadows: const [
+                      Shadow(
+                        color: Color.fromARGB(255, 247, 211, 129), 
+                        offset: Offset(0, 0), 
+                        blurRadius: 2
+                      )
+                    ],
                 keyboardType: TextInputType.multiline,
                 hint: 'Descripción del trabajo',
                 onChanged: ref.read( workFormProvider( work ).notifier ).onDescriptionChange,

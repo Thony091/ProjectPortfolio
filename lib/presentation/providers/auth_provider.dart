@@ -167,6 +167,15 @@ class AuthNotifier extends StateNotifier<AuthState>{
 
   }
 
+  Future<void> resetPasswordByEmail( String email ) async {
+    try {
+      await authRepository.resetPasswordByEmail(email);
+    } catch (e) {
+      logOut(e.toString());
+    }
+  }
+
+  /// Método para actualizar el usuario.
   Future<void> updateUser( Map<String, dynamic> userSimilar,  ) async {
 
     final userData = await keyValueStorageService.getValue('userData');

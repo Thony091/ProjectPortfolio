@@ -58,4 +58,10 @@ class FirestoreService extends FirestoreServiceRepository {
       throw Exception(e.toString());
     }
   }
+  
+  @override
+  Future resetPasswordByEmail(String email) {
+    // TODO: implement resetPasswordByEmail
+    throw UnimplementedError();
+  }
 }
