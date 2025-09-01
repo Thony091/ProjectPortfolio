@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:portafolio_project/presentation/shared/widgets/custom_product_field.dart';
 
-
 import '../../../config/config.dart';
 import '../../presentation_container.dart';
 
@@ -23,35 +22,39 @@ class ReservationsPage extends ConsumerWidget {
     // final scaffoldKey = GlobalKey<ScaffoldState>();
     final color = AppTheme().getTheme().colorScheme;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Reservations Page"),
-        backgroundColor: color.primary,
-      ),
-      body: BackgroundImageWidget(
-        opacity: 0.1,
-        child: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          child: Column(
-            children: [
-              const SizedBox(height: 30.0),
-              FadeInDown(
-                child: const CustomTextWithEffect(
-                  text: "Haz tu Reserva", 
-                  textStyle: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold
-                  )
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Reservations Page"),
+          backgroundColor: color.primary,
+        ),
+        body: BackgroundImageWidget(
+          opacity: 0.1,
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Column(
+              children: [
+                const SizedBox(height: 30.0),
+                FadeInDown(
+                  child: const CustomTextWithEffect(
+                    text: "Haz tu Reserva", 
+                    textStyle: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold
+                    )
+                  ),
                 ),
-              ),
-              Center(
-                child:  FadeInUp(child: const _ReservationFormBody()),
-              ),
-            ],
+                Center(
+                  child:  FadeInUp(
+                    child: const _ReservationFormBody()
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
+        // drawer: SideMenu(scaffoldKey: scaffoldKey),
       ),
-      // drawer: SideMenu(scaffoldKey: scaffoldKey),
     );
   }
 }
@@ -59,7 +62,6 @@ class ReservationsPage extends ConsumerWidget {
 class _ReservationFormBody extends ConsumerWidget {
 
   const _ReservationFormBody();
-
 
   Future<void> _selectDate( BuildContext context, WidgetRef ref ) async {
     DateTime now = DateTime.now();
@@ -143,7 +145,7 @@ class _ReservationFormBody extends ConsumerWidget {
                 const SizedBox(height: 20.0),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  height: size.height * 0.85,
+                  // height: size.height * 0.85,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 223, 223, 223),
                     borderRadius: BorderRadius.circular(30.0),
@@ -158,10 +160,8 @@ class _ReservationFormBody extends ConsumerWidget {
                     ],
                   ),
                   child: Column(
-                    
                     children: [
                       const SizedBox(height: 20),
-                      
                       CustomProductField(
                         isBottomField: true,
                         isTopField: true,
@@ -217,8 +217,8 @@ class _ReservationFormBody extends ConsumerWidget {
                           child: DropdownButton<String>(
                             hint: const Text('Elije una opción'),
                             value: state.serviceName.isNotEmpty
-                                ? state.serviceName
-                                : null,
+                              ? state.serviceName
+                              : null,
                             items: opciones.map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -226,18 +226,19 @@ class _ReservationFormBody extends ConsumerWidget {
                               );
                             }).toList(),
                             onChanged: (value) {
-                              ref
-                                  .read(reservationFormProvider.notifier)
-                                  .onServiceNameChange(value!);
+                              ref.read(reservationFormProvider.notifier)
+                                .onServiceNameChange(value!);
                             },
                           ),
                         ),
                       ), 
                       const SizedBox(height: 10.0),
+
                       if ( state.serviceName.isNotEmpty )
                         CustomProductField(
                           isBottomField: true,
                           isTopField: true,
+                          readOnly: true,
                           label: state.date.value.isNotEmpty ? state.date.value : "Fecha de Reserva",
                           // initialValue: state.date.value,
                           hint: state.date.value.isNotEmpty ? state.date.value : "Fecha de Reserva",
@@ -253,35 +254,32 @@ class _ReservationFormBody extends ConsumerWidget {
                               );
                             }
                           },
-                          readOnly: true,
                         ),
-                  
-                        const SizedBox(height: 10.0),
-                        if ( state.date.value.isNotEmpty)
-                          CustomProductField(
-                            isBottomField: true,
-                            isTopField: true,
-                            label: "Hora",
-                            // initialValue: state.time.value.isNotEmpty ? state.time.value : "Hora de Reserva",
-                            hint: state.time.value.isNotEmpty ? state.time.value : "",
-                            onTap: () {
-                              if (state.date.value.isNotEmpty) {
-                                _selectTime(context, ref);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Primero selecciona una fecha'))
-                                );
-                              }
-                            },
-                            onChanged: (value) {
-                              ref.read( reservationFormProvider.notifier ).onReservationTime(value);
-                            },
-                            readOnly: true,
-                          ),
-                        
                       const SizedBox(height: 10.0),
-                      
-                      const SizedBox(height: 20.0),
+
+                      if ( state.serviceName.isNotEmpty && state.date.value.isNotEmpty )
+                        CustomProductField(
+                          isBottomField: true,
+                          isTopField: true,
+                          readOnly: true,
+                          label: "Hora",
+                          // initialValue: state.time.value.isNotEmpty ? state.time.value : "Hora de Reserva",
+                          hint: state.time.value.isNotEmpty ? state.time.value : "",
+                          onTap: () {
+                            if (state.date.value.isNotEmpty) {
+                              _selectTime(context, ref);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Primero selecciona una fecha'))
+                              );
+                            }
+                          },
+                          onChanged: (value) {
+                            ref.read( reservationFormProvider.notifier ).onReservationTime(value);
+                          },
+                        ),
+                        
+                      const SizedBox(height: 25.0),
                       CustomFilledButton(
                         height: 65.0,
                         width: size.width * 0.8,
@@ -333,6 +331,7 @@ class _ReservationFormBody extends ConsumerWidget {
                         },
                       ),
                       const SizedBox(height: 20.0),
+                      
                       if (state.isPosting)
                         const CircularProgressIndicator(),
                       const SizedBox(height: 20.0),

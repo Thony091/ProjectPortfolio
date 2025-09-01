@@ -86,14 +86,14 @@ class _RegisterForm extends ConsumerWidget {
                 const SizedBox( height: 20 ),
                 Container(
                   padding: const EdgeInsets.all(12),
-                  height: size.height * 0.95,
+                  // height: size.height * 0.95,
                   width: size.width,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.8),
+                    color: Colors.white.withValues( alpha: 0.8 ),
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.5),
+                        color: Colors.black.withValues( alpha: 0.5 ),
                         spreadRadius: 5,
                         blurRadius: 7,
                         offset: const Offset(0, 3),
@@ -183,18 +183,21 @@ class _RegisterForm extends ConsumerWidget {
                         fontSize: 22,
                         buttonColor: Colors.blueAccent.shade400,
                         mainAxisAlignment: MainAxisAlignment.start,
-                        onPressed: (){ registerForm.isPosting
+                        onPressed: registerForm.isPosting
                           ? null
-                          : ref.read( registerFormProvider.notifier ).onFormSubmit().then((value) {
-                              if( registerForm.isValid && value == true ) {
-                                context.push('/login');
-                                showDialog(
-                                  context: context, 
-                                  builder: (context) => const PopUpMensajeFinalWidget(text: 'Se ha Registrado Exitosamente!'),
-                                );
-                              }
-                          });
-                        }, 
+                          : () async {
+                            final bool value = await ref.read( registerFormProvider.notifier ).onFormSubmit();
+                            if ( !context.mounted ) return;
+                            if ( registerForm.isValid && value == true ) {
+                              showDialog(
+                                context: context, 
+                                builder: (context) => const PopUpMensajeFinalWidget( text: 'Se ha Registrado Exitosamente!' ),
+                              );
+                              await Future.delayed( const Duration( milliseconds: 1500 ) );
+                              if ( !context.mounted ) return;
+                              context.push('/login');
+                            }
+                          } 
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -67,7 +67,7 @@ class WorkCard extends ConsumerWidget {
               return PopUpPreguntaWidget(
                 pregunta: '¿Estas seguro de eliminar el trabajo?',
                 // confirmar: () {},
-                confirmar: () => ref.read(worksProvider.notifier)
+                confirmar: () async => ref.read(worksProvider.notifier)
                   .deleteWork(work.id)
                   .then((value) {
                     showDeleteSnackbar( context );

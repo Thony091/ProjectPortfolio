@@ -1,11 +1,8 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../config/config.dart';
 import '../../providers/providers.dart';
 import '../../shared/shared.dart';
 import '../../shared/widgets/custom_product_field.dart';
@@ -18,42 +15,40 @@ class ResetPasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final color = AppTheme().getTheme().colorScheme;
     
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: "Reset Password",
-        styleText: const TextStyle(
-          color: Colors.white, 
-          fontSize: 20, 
-          fontWeight: FontWeight.w500,
-          shadows: [
-            Shadow(
-              offset: Offset(1.0, 3.0),
-              blurRadius: 3.0,
-              color: Colors.black54
-            )
-          ]
+    return SafeArea(
+      child: Scaffold(
+        appBar: CustomAppBar(
+          title: "Recuperar contraseña",
+          styleText: const TextStyle(
+            color: Colors.white, 
+            fontSize: 20, 
+            fontWeight: FontWeight.w500,
+            shadows: [
+              Shadow(
+                offset: Offset(1.0, 3.0),
+                blurRadius: 3.0,
+                color: Colors.black54
+              )
+            ]
+          ),
+          customIcon: Icons.arrow_back_rounded,
+          iconSize: 25,
+          iconColor: Colors.black,
+          onIconPressed: () => context.pop(),
         ),
-        startColor: color.primary, 
-        endColor: Colors.black87,
-        customIcon: Icons.arrow_back_rounded,
-        iconSize: 25,
-        iconColor: Colors.black,
-        onIconPressed: () => context.pop(),
-      ),
-      body: BackgroundImageWidget(
-        startColor: Colors.black87,
-        endColor: Colors.white60,
-        opacity: 0.1,
-        child: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          child: Column(
-            children: [
-              const SizedBox( height: 75 ),
-              FadeInUp(child: const _ForgotPasswordForm()),
-            ],
+        body: BackgroundImageWidget(
+          startColor: Colors.black87,
+          endColor: Colors.white60,
+          opacity: 0.1,
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Column(
+              children: [
+                const SizedBox( height: 75 ),
+                FadeInUp(child: const _ForgotPasswordForm()),
+              ],
+            ),
           ),
         ),
       ),
@@ -75,7 +70,6 @@ class _ForgotPasswordForm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final forgotPasswordForm = ref.watch( resetPasswordFormProvider );
-
     final size = MediaQuery.of(context).size;
 
     return Padding(
@@ -92,8 +86,8 @@ class _ForgotPasswordForm extends ConsumerWidget {
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 234, 234, 234),
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  const BoxShadow(
+                boxShadow: const [
+                  BoxShadow(
                     color: Colors.black54,
                     spreadRadius: 1,
                     blurRadius: 7,
@@ -129,18 +123,21 @@ class _ForgotPasswordForm extends ConsumerWidget {
                     fontSize: 22,
                     buttonColor: Colors.blueAccent.shade400,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    onPressed: () {forgotPasswordForm.isPosting
+                    onPressed: forgotPasswordForm.isPosting
                       ? null
-                      : ref.read( resetPasswordFormProvider.notifier ).onFormSubmit().then((value) {
-                              if(  value ) {
-                                showDialog(
-                                  context: context, 
-                                  builder: (context) => const PopUpMensajeFinalWidget(text: 'Se ha enviado un mesaje a su correo.'), 
-                                );
-                                context.push('/login');
-                              }
-                          });
-                    },
+                      : () async {
+                        final bool value = await ref.read( resetPasswordFormProvider.notifier ).onFormSubmit();
+                        if( !context.mounted ) return;
+                        if( value ) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => const PopUpMensajeFinalWidget(text: 'Se ha enviado un mesaje a su correo.'),
+                          );
+                          await Future.delayed( const Duration( milliseconds: 1500 ) );
+                          if ( !context.mounted ) return;
+                          context.push('/login');
+                        }
+                      }
                   ),
                 ],
               ),

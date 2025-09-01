@@ -21,7 +21,6 @@ class SideMenu extends ConsumerStatefulWidget {
 
 class SideMenuState extends ConsumerState<SideMenu> {
 
-
   int navDrawerIndex = 0;
   final color = AppTheme().getTheme().colorScheme;
   final bool inicioSesion = false;
@@ -29,8 +28,9 @@ class SideMenuState extends ConsumerState<SideMenu> {
   @override
   Widget build(BuildContext context) {
     
-    final authStatus = ref.watch( authProvider ).authStatus;
     final authStateProvider = ref.watch( authProvider );
+    final authStatus        = ref.watch( authProvider ).authStatus;
+    final text              = AppTheme().getTheme().textTheme;
     
     return NavigationDrawer(
       selectedIndex: navDrawerIndex,
@@ -43,21 +43,23 @@ class SideMenuState extends ConsumerState<SideMenu> {
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: color.primary,
+              gradient: LinearGradient(
+                colors: AppTheme.goldGradientColors,
+                stops: AppTheme.goldGradientStops,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
             ),
             child: const Text(
-              'AR Detailing', 
+              'DriveTail', 
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black87,
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                
               )
               
             ),
           ),
-
-
 
           //* Iniciar Sesion
           if  ( authStatus != AuthStatus.authenticated ) 
@@ -72,18 +74,11 @@ class SideMenuState extends ConsumerState<SideMenu> {
                 size: 15,
                 color: Colors.black54,
               ),
-              title: const Text(
+              title: Text(
                 'Inicio Sesion',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18
-                ),
+                style: text.labelLarge,
               ),
-              onTap: () {
-                context.push('/login');
-              },
+              onTap: () => context.push('/login'),
             ),
 
           //* Home
@@ -98,20 +93,12 @@ class SideMenuState extends ConsumerState<SideMenu> {
                 size: 15,
                 color: Colors.black54,
               ),
-              title: const Text(
+              title: Text(
                 'Home',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18
-                ),
+                style: text.labelLarge,
               ),
-              onTap: () {
-                context.push('/');
-              },
+              onTap: () => context.push('/'),
             ),
-            
 
           //* Servicios
           ListTile(
@@ -126,29 +113,16 @@ class SideMenuState extends ConsumerState<SideMenu> {
               color: Colors.black54,
             ),
             title: authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin
-              ? const Text(
+              ? Text(
                   'Gest. de Servicios',
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18
-                  ),
+                  style: text.labelLarge,
                 )
-              : const Text(
+              : Text(
                   'Servicios',
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18
-                  ),
+                  style: text.labelLarge,
                 ),
-            
-            onTap: () {
-              context.push('/services');
-              // context.push('/services');
-            },
+            onTap: () => context.push('/services')
+              // context.push('/services');,
           ),
 
           //* Agenda tu hora
@@ -165,27 +139,18 @@ class SideMenuState extends ConsumerState<SideMenu> {
               color: Colors.black54,
             ),
             title: authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin
-              ? const Text(
+              ? Text(
                   'Gest. de Reservas',
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18
-                  ),
+                  style: text.labelLarge,
                 )
-              : const Text(
+              : Text(
                   'Agenda tu hora',
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18
-                  ),
+                  style: text.labelLarge,
                 ),
-            onTap: () { ( authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin )
-              ? context.push('/reservas-config')
-              : context.push('/reservations');
+            onTap: () { 
+              ( authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin )
+                ? context.push('/reservas-config')
+                : context.push('/reservations');
             },
           ),
 
@@ -202,28 +167,15 @@ class SideMenuState extends ConsumerState<SideMenu> {
               color: Colors.black54,
             ),
             title: authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin
-              ? const Text(
+              ? Text(
                   'Gest. de Trabajos',
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18
-                  ),
+                  style: text.labelLarge,
                 )
-              : const Text( 
+              : Text( 
                   'Nuestros trabajos',
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18
-                  ),
+                  style: text.labelLarge,
                 ),
-            
-            onTap: () {
-              context.push('/our-works');
-            },
+            onTap: () => context.push('/our-works'),
           ),
 
           if ( authStatus == AuthStatus.authenticated && authStateProvider.userData!.isAdmin )
@@ -239,18 +191,11 @@ class SideMenuState extends ConsumerState<SideMenu> {
                 size: 15,
                 color: Colors.black54,
               ),
-              title: const Text(
+              title: Text(
                 'Gest. de Mensajes',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18
-                ),
+                style: text.labelLarge,
               ),
-              onTap: () {
-                context.push('/messages');
-              },
+              onTap: () => context.push('/messages'),
             ),
 
           // //* Products
@@ -283,8 +228,8 @@ class SideMenuState extends ConsumerState<SideMenu> {
           if  ( authStatus == AuthStatus.authenticated )
              ListTile(
               leading: const Icon(
-                // ignore: deprecated_member_use
-                FontAwesomeIcons.signOut,
+                FontAwesomeIcons.arrowRightFromBracket,
+                // FontAwesomeIcons.signOut,
                 color: Color(0xff4981be),
               ),
               trailing: const Icon(
@@ -324,8 +269,8 @@ class SideMenuState extends ConsumerState<SideMenu> {
               //* Configuración
               TextButton.icon(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(const Color(0xfff2f2f2)),
-                  padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
+                  backgroundColor: WidgetStateProperty.all(const Color(0xfff2f2f2)),
+                  padding: WidgetStateProperty.all(const EdgeInsets.all(0)),
                 ),
                 icon: const Icon(
                   Icons.settings,
@@ -336,8 +281,27 @@ class SideMenuState extends ConsumerState<SideMenu> {
                   'Configuración',
                   style: TextStyle(color: Colors.red, fontSize: 15),
                 ),
+                onPressed: () async => context.push('/profile-user'),
+              ),
+
+              if ( authStatus != AuthStatus.authenticated )
+              //* REGISTRAR
+              TextButton.icon(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(const Color(0xfff2f2f2)),
+                  padding: WidgetStateProperty.all(const EdgeInsets.all(0)),
+                ),
+                icon: const Icon(
+                  Icons.person_add,
+                  size: 29, 
+                  color: Color(0xff4981be),
+                ),
+                label: const Text(
+                  'Registrar',
+                  style: TextStyle(color: Colors.red, fontSize: 15),
+                ),
                 onPressed: () async {
-                  context.push('/profile-user');
+                  context.push('/register');
                 },
               ),
 
@@ -353,7 +317,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
               //     color: Color(0xff4981be),
               //   ),
               //   label: const Text(
-              //     'Carro de Compra',
+              //     'Mi Carrito',
               //     style: TextStyle(color: Colors.red, fontSize: 15),
               //   ),
               //   onPressed: () async {
@@ -361,27 +325,6 @@ class SideMenuState extends ConsumerState<SideMenu> {
               //   },
               // ),
 
-
-              if ( authStatus != AuthStatus.authenticated )
-              //* REGISTRAR
-              TextButton.icon(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(const Color(0xfff2f2f2)),
-                  padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
-                ),
-                icon: const Icon(
-                  Icons.person_add,
-                  size: 29, 
-                  color: Color(0xff4981be),
-                ),
-                label: const Text(
-                  'Registrar',
-                  style: TextStyle(color: Colors.red, fontSize: 15),
-                ),
-                onPressed: () async {
-                  context.push('/register');
-                },
-              ),
             ]
           ),
         ],

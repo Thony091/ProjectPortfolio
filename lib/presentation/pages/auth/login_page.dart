@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../config/config.dart';
+// import '../../../config/config.dart';
 import '../../providers/providers.dart';
 import '../../shared/shared.dart';
 import '../../shared/widgets/custom_product_field.dart';
@@ -18,54 +18,44 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final color   = AppTheme().getTheme().colorScheme;
-    // final size    = MediaQuery.of(context).size;
     
-    return  Scaffold(
-
-      appBar: CustomAppBar(
-        title: "Login",
-        styleText: const TextStyle(
-          color: Colors.white, 
-          fontSize: 20, 
-          fontWeight: FontWeight.w500,
-          shadows: [
-            Shadow(
-              offset: Offset(1.0, 3.0),
-              blurRadius: 3.0,
-              color: Colors.black54
-            )
-          ]
-        ),
-        startColor: color.primary, 
-        endColor: Colors.black87,
-        customIcon: Icons.arrow_back_rounded,
-        iconSize: 25,
-        iconColor: Colors.black,
-        onIconPressed: () => context.pop(),
-        // bottomRadius: const Radius.circular(10),
-      ),
+    return  SafeArea(
+      child: Scaffold(
       
-      // appBar: AppBar(
-      //   title: const Text('Login'),
-      //   backgroundColor: color.primary,
-      //   // backgroundColor: color.primary,
-      // ),
-
-      body:  BackgroundImageWidget(
-        startColor: Colors.black87,
-        endColor: Colors.white60,
-        opacity: 0.1,
-        child: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          child: Column(
-            children: [
-              const SizedBox( height: 75 ),
-              FadeInUp(child: const _LoginForm()),
-            ],
+        appBar: CustomAppBar(
+          title: "Login",
+          styleText: const TextStyle(
+            color: Colors.white, 
+            fontSize: 20, 
+            fontWeight: FontWeight.w500,
+            shadows: [
+              Shadow(
+                offset: Offset(1.0, 3.0),
+                blurRadius: 3.0,
+                color: Colors.black54
+              )
+            ]
           ),
-        )
+          customIcon: Icons.arrow_back_rounded,
+          iconSize: 25,
+          iconColor: Colors.black,
+          onIconPressed: () => context.go('/'),
+        ),
+
+        body:  BackgroundImageWidget(
+          startColor: Colors.black87,
+          endColor: Colors.white60,
+          opacity: 0.1,
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Column(
+              children: [
+                const SizedBox( height: 75 ),
+                FadeInUp(child: const _LoginForm()),
+              ],
+            ),
+          )
+        ),
       ),
     );
   }
@@ -84,7 +74,7 @@ class _LoginForm extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final loginForm = ref.watch(( loginFormProvider )); //para obtener el valor del state
+    final loginForm = ref.watch(( loginFormProvider ));
 
     ref.listen(authProvider, (previous, next) { 
       if ( next.errorMessage.isEmpty )  return;
@@ -107,7 +97,7 @@ class _LoginForm extends ConsumerWidget {
                 const SizedBox( height: 50 ),
                 Container(
                   padding: const EdgeInsets.all(12),
-                  height: size.height * 0.65,
+                  // height: size.height * 0.65,
                   width: size.width,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 234, 234, 234),
@@ -147,7 +137,6 @@ class _LoginForm extends ConsumerWidget {
                         ? loginForm.password.errorMessage
                         : null,
                       ),
-
                       const SizedBox(height: 5),
 
                       Row(
@@ -186,10 +175,7 @@ class _LoginForm extends ConsumerWidget {
                           ? null
                           : ref.read(loginFormProvider.notifier).onFormSubmit
                       ),
-                      const SizedBox( height: 10),
-
-
-                      
+                      const SizedBox( height: 10 ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -209,6 +195,7 @@ class _LoginForm extends ConsumerWidget {
                           )
                         ],
                       ),
+                      const SizedBox( height: 10 ),
                     ],
                   )
                 ),  

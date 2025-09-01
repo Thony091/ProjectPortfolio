@@ -16,7 +16,6 @@ final reservationFormProvider = StateNotifierProvider.autoDispose<ReservationFor
 
 class ReservationFormNotifier extends StateNotifier<ReservationFormState>{
 
-
   final Function( String, String, String, String, String, String ) createReservationCallback;
 
   ReservationFormNotifier({
@@ -44,8 +43,8 @@ class ReservationFormNotifier extends StateNotifier<ReservationFormState>{
     state = state.copyWith(
       date: newDate,
       isValid: Formz.validate([newDate, state.date])
-  );
-}
+    );
+  }
 
   onReservationTime( String value) {
     final newTime = ReservationTime.dirty(value.toString());
@@ -53,8 +52,8 @@ class ReservationFormNotifier extends StateNotifier<ReservationFormState>{
     state = state.copyWith(
       time: newTime,
       isValid: Formz.validate([newTime, state.time])
-  );
-}
+    );
+  }
 
   onRutChange( String value ) {
     final newRut = Rut.dirty(value);
