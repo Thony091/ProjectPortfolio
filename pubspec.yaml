@@ -4,43 +4,43 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=3.2.6 <4.0.0'
+  sdk: ^3.8.0
 
 dependencies:
-  change_app_package_name: ^1.1.0
-  cloud_firestore: ^4.15.8
-  dio: ^5.4.3+1
-  firebase_auth: ^4.17.8
-  firebase_core: ^2.27.0
-  firebase_messaging: ^14.7.19
+  change_app_package_name: ^1.5.0
+  cloud_firestore: ^6.0.0
+  dio: ^5.9.0
+  firebase_auth: ^6.0.1
+  firebase_core: ^4.0.0
+  firebase_messaging: ^16.0.0
   flutter:
     sdk: flutter
-  flutter_calendar_carousel: ^2.4.2
-  flutter_dotenv: ^5.1.0
-  flutter_launcher_icons: ^0.13.1
-  flutter_local_notifications: ^17.1.1
-  flutter_native_splash: ^2.3.10
-  flutter_riverpod: ^2.5.1
+  flutter_calendar_carousel: ^2.5.4
+  flutter_dotenv: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+  flutter_local_notifications: ^19.4.0
+  flutter_native_splash: ^2.4.6
+  flutter_riverpod: ^2.6.1
   flutter_staggered_grid_view: ^0.7.0
-  font_awesome_flutter: ^10.7.0
-  formz: ^0.7.0
+  font_awesome_flutter: ^10.9.1
+  formz: ^0.8.0
   go_router: ^6.2.0
-  google_maps_flutter: ^2.5.3
+  google_maps_flutter: ^2.12.3
   lorem_ipsum: ^0.0.3
-  shared_preferences: ^2.2.3
-  flutter_svg: ^2.0.9 # help us to use SVG in our app
-  intl: ^0.18.1
-  image_picker: ^1.0.8
-  marquee: ^2.2.3
+  shared_preferences: ^2.5.3
+  flutter_svg: ^2.0.13
+  intl: ^0.20.2
+  image_picker: ^1.2.0
+  marquee: ^2.3.0
   mailto: ^2.0.0
-  url_launcher: ^6.3.0
-  mailer: ^6.1.0
-  animate_do: ^3.3.4
+  url_launcher: ^6.3.2
+  mailer: ^6.5.0
+  animate_do: ^4.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
 
 flutter_native_splash:
   color: "#252829"
